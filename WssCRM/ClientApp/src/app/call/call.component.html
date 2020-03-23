@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+  <div>
+    {{call.date}}
+  </div>
+  <div>
+    {{call.company}}
+  </div>
+  <div>
+    {{call.stage}}
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Пункт</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let p of call.points">
+        <td>{{p?.name}}</td>
+        <td><input type="checkbox" [(ngModel)]="p.value"/></td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</body>
+</html>

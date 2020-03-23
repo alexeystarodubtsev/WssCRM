@@ -1,0 +1,31 @@
+<h1>Звонки</h1>
+
+<select ng-model="selectCompany" ng-options="c.company for c in calls"></select>
+<table class="table table-striped" *ngIf="callslist; else changecall">
+
+  <thead>
+    <tr>
+      <th>Компания</th>
+      <th>Этап</th>
+      <th>Дата</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr *ngFor="let c of calls">
+      <td>{{c?.company}}</td>
+      <td>{{c?.stage}}</td>
+      <td>{{c?.date}}</td>
+      <td>
+        <button class="btn btn-sm btn-primary" (click)="editCall(c)">Изменить</button>
+        <button class="btn btn-sm btn-danger">Удалить</button>
+      </td>
+    </tr>
+  </tbody>
+
+</table>
+<ng-template #changecall>
+  <app-call [call]="call"></app-call>
+</ng-template>
+
