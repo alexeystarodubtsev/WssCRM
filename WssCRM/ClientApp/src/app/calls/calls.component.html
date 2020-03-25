@@ -1,6 +1,6 @@
 <h1>Звонки</h1>
 
-<select ng-model="selectCompany" ng-options="c.company for c in calls"></select>
+
 <table class="table table-striped" *ngIf="callslist; else changecall">
 
   <thead>
@@ -12,20 +12,30 @@
     </tr>
   </thead>
   <tbody>
-
-    <tr *ngFor="let c of calls">
-      <td>{{c?.company}}</td>
-      <td>{{c?.stage}}</td>
-      <td>{{c?.date}}</td>
+    <tr>
       <td>
-        <button class="btn btn-sm btn-primary" (click)="editCall(c)">Изменить</button>
-        <button class="btn btn-sm btn-danger">Удалить</button>
+        <select [(ngModel)]="curFlt.company" [value]="curFlt.company" >
+          <option *ngFor="let c of fltlist.companies" [value]="c">{{c}}</option>
+        </select>
       </td>
+      <td></td>
+      <td></td>
+      <td><button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button></td>
     </tr>
+      <tr *ngFor="let c of calls">
+        <td>{{c?.company}}</td>
+        <td>{{c?.stage}}</td>
+        <td>{{c?.date}}</td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="editCall(c)">Изменить</button>
+          <button class="btn btn-sm btn-danger">Удалить</button>
+        </td>
+      </tr>
   </tbody>
 
 </table>
 <ng-template #changecall>
+  <button class="btn btn-sm btn-primary" (click)="returnCalls()">Вернуться ко всем звонкам</button>
   <app-call [call]="call"></app-call>
 </ng-template>
 

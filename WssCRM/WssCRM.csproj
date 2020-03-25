@@ -34,7 +34,9 @@
     <None Remove="ClientApp\src\app\companies\companies.component.ts" />
     <None Remove="ClientApp\src\app\companies\data-service.ts" />
     <None Remove="ClientApp\src\app\Models\Call.ts" />
+    <None Remove="ClientApp\src\app\Models\ChoseFilter.ts" />
     <None Remove="ClientApp\src\app\Models\Company.ts" />
+    <None Remove="ClientApp\src\app\Models\Filter.ts" />
     <None Remove="ClientApp\src\app\Models\Point.ts" />
   </ItemGroup>
 
@@ -46,7 +48,9 @@
     <TypeScriptCompile Include="ClientApp\src\app\companies\companies.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\companies\data-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Call.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\ChoseFilter.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Company.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\Filter.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Point.ts" />
   </ItemGroup>
 

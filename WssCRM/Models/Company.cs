@@ -5,15 +5,13 @@ using System.Threading.Tasks;
 
 namespace WssCRM.Models
 {
-    public class Point
+    public class Company
     {
-        public int id { get; set; }
         public string Name { get; set; }
-        public bool Value { get; set; }
-        public Point(string name, bool val)
+        public int id { get; set; }
+        public Company(string name)
         {
             Name = name;
-            Value = val;
         }
     }
 }

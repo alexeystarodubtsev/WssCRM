@@ -1,2 +1,54 @@
-<h1>Компании</h1>
+<ng-container *ngIf="tableMode; else changecompany">
+  <h1>Компании</h1> <button type="button" class="btn btn-sm btn-success" (click)="newCompany()">Добавить</button>
 
+  <table class="table table-striped">
+
+    <thead>
+      <tr>
+        <th>Компания</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let c of companies">
+        <td>{{c?.name}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+
+  </table>
+</ng-container>
+<ng-template #changecompany>
+  <button class="btn btn-sm btn-primary" (click)="returnCompanies()">Вернуться ко всем компаниям</button>
+  <div class="col-md-3">
+    <h2>Новая компания</h2>
+    <input class="form-control" [(ngModel)]="curCompany.name" placeholder="Введите компанию" />
+  </div>
+  <div class="col-md-6">
+    <h3>
+      Менеджеры
+    </h3>
+    <button type="button" class="btn btn-sm btn-success" [attr.disabled]="!ModeNewManager ? null : ''" (click)="newManager()">Новый менеджер</button>
+    <table class="table table-striped">
+      <tbody>
+        <tr *ngIf="ModeNewManager">
+          <td>
+            <input class="form-control" [(ngModel)]="curmanager" placeholder="Введите ФИО" />
+          </td>
+          <td>
+            <button type="button" class="btn btn-sm btn-success" (click)="addManager()">Добавить</button>
+          </td>
+        </tr>
+        <tr *ngFor="let m of curCompany.managers">
+          <td>
+            {{m}}
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger">Удалить</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>

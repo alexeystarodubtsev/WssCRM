@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using WssCRM.Models;
 namespace WssCRM.Controllers
 {
     [Route("api/[controller]")]
@@ -12,10 +12,11 @@ namespace WssCRM.Controllers
     public class CompaniesController : ControllerBase
     {
         [HttpGet]
-        public string Get(int id)
+        public IEnumerable<Company> GetCompanies()
         {
-
-            return "company";
+            List<Company> Companies = new List<Company>();
+            Companies.Add(new Company("Company"));
+            return Companies;
         }
     }
 }
