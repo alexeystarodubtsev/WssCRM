@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -24,6 +24,15 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200516163911_initial.cs" />
+    <Compile Remove="Migrations\20200516163911_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200516165338_Stage.cs" />
+    <Compile Remove="Migrations\20200516165338_Stage.Designer.cs" />
+    <Compile Remove="Migrations\20200516170813_NewMigrationName.cs" />
+    <Compile Remove="Migrations\20200516170813_NewMigrationName.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +65,10 @@
     <TypeScriptCompile Include="ClientApp\src\app\Models\Point.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Stage.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\stage\stage.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
