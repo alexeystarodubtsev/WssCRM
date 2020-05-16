@@ -38,6 +38,8 @@
     <None Remove="ClientApp\src\app\Models\Company.ts" />
     <None Remove="ClientApp\src\app\Models\Filter.ts" />
     <None Remove="ClientApp\src\app\Models\Point.ts" />
+    <None Remove="ClientApp\src\app\Models\Stage.ts" />
+    <None Remove="ClientApp\src\app\stage\stage.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +54,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\Models\Company.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Filter.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Point.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\Stage.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\stage\stage.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

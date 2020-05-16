@@ -25,7 +25,11 @@
 
       <tr *ngFor="let p of call.points">
         <td>{{p?.name}}</td>
-        <td><input type="checkbox" [(ngModel)]="p.value"/></td>
+        <td><input type="number" [(ngModel)]="p.value" (change) ="updateTotalData()"/></td>
+      </tr>
+      <tr>
+        <td><b>Всего</b></td>
+        <td>{{callQuality}}</td>
       </tr>
     </tbody>
 

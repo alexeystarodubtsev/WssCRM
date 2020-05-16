@@ -13,42 +13,111 @@
 
       <tr *ngFor="let c of companies">
         <td>{{c?.name}}</td>
-        <td></td>
+        <td><button type="button" class="btn  btn-sm btn-primary" (click)="OpenCompany(c)">Открыть карточку</button></td>
       </tr>
     </tbody>
 
   </table>
 </ng-container>
 <ng-template #changecompany>
-  <button class="btn btn-sm btn-primary" (click)="returnCompanies()">Вернуться ко всем компаниям</button>
-  <div class="col-md-3">
-    <h2>Новая компания</h2>
-    <input class="form-control" [(ngModel)]="curCompany.name" placeholder="Введите компанию" />
-  </div>
-  <div class="col-md-6">
-    <h3>
-      Менеджеры
-    </h3>
-    <button type="button" class="btn btn-sm btn-success" [attr.disabled]="!ModeNewManager ? null : ''" (click)="newManager()">Новый менеджер</button>
-    <table class="table table-striped">
-      <tbody>
-        <tr *ngIf="ModeNewManager">
-          <td>
-            <input class="form-control" [(ngModel)]="curmanager" placeholder="Введите ФИО" />
-          </td>
-          <td>
-            <button type="button" class="btn btn-sm btn-success" (click)="addManager()">Добавить</button>
-          </td>
-        </tr>
-        <tr *ngFor="let m of curCompany.managers">
-          <td>
-            {{m}}
-          </td>
-          <td>
-            <button type="button" class="btn btn-danger">Удалить</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <ng-container *ngIf="!StageMode; else Stage">
+    <div class="col-sm-12" style="margin-top:20px">
+      <div class="col-sm-3" style="margin-top:20px">
+        <button class="btn btn-sm btn-primary" (click)="returnCompanies()">Вернуться ко всем компаниям</button>
+      </div>
+      <div class="col-sm-7" style="margin-top:20px">
+        <h2 style="text-align:center">{{caption}}</h2>
+      </div>
+    </div>
+
+
+    <div style="margin-top:20px">
+      <table class="table table-striped" style="margin-top:20px; width : 50%" >
+        <tbody>
+          <tr>
+            <td>
+              <b style="font:bold">Название компании</b>
+              
+            </td>
+            <td>
+              <input class="form-control" [(ngModel)]="curCompany.name" name = "companyName" placeholder="Введите название" (change)="editCaption()" #companyName="ngModel" required/>
+              <div [hidden]="companyName.valid || companyName.untouched" class="alert alert-danger">
+                Поле должно быть заполнено
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+
+      <table class="table table-striped" style="margin-top:40px; width : 50%">
+        <thead>
+          <tr>
+            <th>
+              <h3>Менеджеры</h3>
+            </th>
+            <th>
+              <button type="button" class="btn btn-sm btn-success" [attr.disabled]="!ModeNewManager ? null : ''" (click)="newManager()">Новый менеджер</button>
+            <th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="ModeNewManager">
+            <td>
+              <input class="form-control" [(ngModel)]="curmanager" placeholder="Введите ФИО" />
+            </td>
+            <td>
+              <button type="button" class="btn btn-sm btn-success" (click)="addManager()">Добавить</button>
+            </td>
+          </tr>
+          <tr *ngFor="let m of curCompany.managers">
+            <td>
+              {{m}}
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger">Удалить</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:20px; width : 50%">
+
+      <table class="table table-striped" style="margin-top:20px">
+        <thead>
+          <tr>
+            <th>
+              <h3>Этапы</h3>
+            </th>
+            <th>
+              <button type="button" class="btn btn-sm btn-success" (click)="newStage()">Добавить этап</button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of curCompany.stages">
+            <td>
+              {{s.name}}
+            </td>
+            <td>
+              <button type="button" class="btn  btn-sm btn-primary" (click)="editStage(s)">Редактировать</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div style="margin-top:20px; width : 50%; text-align :right">
+      <button type="button" class="btn  btn-sm btn-success" (click)="saveCompany()">Сохранить</button>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #Stage>
+  <button class="btn btn-sm btn-primary" (click)="returnToCompany()">Вернуться к компании</button>
+  <h3>
+    {{curCompany.name}}
+  </h3>
+  <app-stage [(stage)]="curStage"></app-stage>
 </ng-template>

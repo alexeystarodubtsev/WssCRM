@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CallsComponent } from './calls/calls.component'
 import { CompaniesComponent } from './companies/companies.component'
 import { CallComponent } from './call/call.component'
+import { StageComponent } from './stage/stage.component'
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CallComponent } from './call/call.component'
     FetchDataComponent,
     CallsComponent,
     CompaniesComponent,
-    CallComponent
+    CallComponent,
+    StageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

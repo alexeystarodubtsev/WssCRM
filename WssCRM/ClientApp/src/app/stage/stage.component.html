@@ -1,0 +1,50 @@
+<div class="col-sm-3" style="margin-top:20px">
+  <input class="form-control" [(ngModel)]="stage.name" placeholder="Введите название этапа" />
+</div>
+<div class="col-sm-12" style="margin-top:20px">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>
+          Название пункта
+        </th>
+        <th>
+          Максимальный балл
+        </th>
+        <th>
+
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of stage.points">
+        <ng-template [ngIf]="p.id != curPoint.id" [ngIfElse]="editPoint">
+          <td>
+            {{p.name}}
+          </td>
+          <td>
+            {{p.maxMark}}
+          </td>
+          <td>
+            <button type="button" class="btn btn-sm btn-primary" (click)="EditPoint(p)">Изменить</button>
+          </td>
+        </ng-template>
+      </tr>
+      
+    </tbody>
+    <tfoot>
+      <tr>
+        <th><span style="font:bold">Максимум баллов</span></th>
+        <th><span style="font:bold">{{MaxPoint}}</span></th>
+        <th>
+          <button type="button" class="btn btn-sm btn-success" (click)="newPoint()">Добавить пункт</button>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<ng-template #editPoint>
+  <td><input class="form-control" [(ngModel)]="curPoint.name" placeholder="Название пункта" /></td>
+  <td><input class="form-control" type="number" [(ngModel)]="curPoint.maxMark" /></td>
+  <td><button type="button" class="btn btn-sm btn-success" (click)="savePoint()">Сохранить</button></td>
+</ng-template>

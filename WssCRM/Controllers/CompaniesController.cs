@@ -18,5 +18,19 @@ namespace WssCRM.Controllers
             Companies.Add(new Company("Company"));
             return Companies;
         }
+        [HttpGet("{id}")]
+        public Company GetCompany(int id)
+        {
+            return new Company("Первая компания");
+        }
+        [HttpPost]
+        public IActionResult AddCompany(Company c)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(c);
+            }
+            return BadRequest(ModelState);
+        }
     }
 }

@@ -9,11 +9,26 @@ namespace WssCRM.Models
     {
         public int id { get; set; }
         public string Name { get; set; }
-        public bool Value { get; set; }
-        public Point(string name, bool val)
+        public int Value { get; set; }
+        public int maxMark { get; set; }
+        public Point(string name, int val)
         {
             Name = name;
             Value = val;
+        }
+        public Point(string name, int id, int maxMark)
+        {
+            Name = name;
+            this.maxMark = maxMark;
+        }
+        public Point(string name)
+        {
+            Name = name;
+            
+        }
+        public Point()
+        {
+
         }
     }
 }

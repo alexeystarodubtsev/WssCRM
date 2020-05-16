@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Company } from '../Models/Company';
 
 @Injectable()
 export class DataService {
@@ -10,6 +11,14 @@ export class DataService {
   }
   getCompanies() {
     return this.http.get(this.url);
+  }
+  getCompany(id: number) {
+    
+    return this.http.get(this.url + '/' + id);
+
+  }
+  postCompany(c: Company) {
+    return this.http.post(this.url, c);
   }
 
 }

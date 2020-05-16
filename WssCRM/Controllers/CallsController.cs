@@ -62,8 +62,8 @@ namespace WssCRM.Controllers
             call.Date = DateTime.Now.ToString("yyyy-MM-dd");
             call.Stage = "first";
             call.id = 2;
-            call.points.Add(new Point("Приветствие", false));
-            call.points.Add(new Point("Попрощался", true));
+            call.points.Add(new Point("Приветствие"));
+            call.points.Add(new Point("Попрощался"));
 
             return call;
         }
