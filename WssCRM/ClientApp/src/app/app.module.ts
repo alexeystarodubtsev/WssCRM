@@ -13,7 +13,7 @@ import { CallsComponent } from './calls/calls.component'
 import { CompaniesComponent } from './companies/companies.component'
 import { CallComponent } from './call/call.component'
 import { StageComponent } from './stage/stage.component'
-//import { MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { StageComponent } from './stage/stage.component'
     CompaniesComponent,
     CallComponent,
     StageComponent
-    //,MatSelectModule
+    ,MatSelectModule
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
