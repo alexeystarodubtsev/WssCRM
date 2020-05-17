@@ -3,6 +3,8 @@ export class Point {
     public name?: string,
     public value?: number,
     public id?: number,
-    public maxMark?: number
-  ) { }
+    public maxMark?: number,
+    public active?: boolean
+
+  ) { this.active = false; }
 }

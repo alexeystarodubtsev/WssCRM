@@ -1,5 +1,11 @@
+import { Company } from "./Company";
+import { ChoseFilter } from "./ChoseFilter";
+
 export class Filter {
   constructor(
-    public companies?: string [],
-  ) { }
+    public pointsFilter?: ChoseFilter[],
+  )
+  {
+    this.pointsFilter = [];
+  }
 }

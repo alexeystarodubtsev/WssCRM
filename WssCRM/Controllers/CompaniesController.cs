@@ -101,20 +101,22 @@ namespace WssCRM.Controllers
                     {
                         if (db.Stages.Contains(dbstage))
                         {
-                            //foreach (var dbpoint in dbstage.Points)
-                            //{
-                            //    if (db.AbstractPoints.Contains(dbpoint))
-                            //    {
-                            //        db.AbstractPoints.Update(dbpoint);
-                            //    }
-                            //    else
-                            //    {
-                            //        dbpoint.StageID = dbstage.Id;
-                            //        db.AbstractPoints.Add(dbpoint);
-                            //        //
-                            //    }
-                            //}
+                            foreach (var dbpoint in dbstage.Points)
+                            {
+                                if (db.AbstractPoints.Contains(dbpoint))
+                                {
+                                    db.AbstractPoints.Update(dbpoint);
+                                }
+                                else
+                                {
+                                    dbpoint.StageID = dbstage.Id;
+                                    dbpoint.Id = 0;
+                                    db.AbstractPoints.Add(dbpoint);
+                                    //
+                                }
+                            }
                             dbstage.CompanyID = dbcomp.Id;
+                            
                             db.Stages.Update(dbstage);
                             db.SaveChanges();
                         }

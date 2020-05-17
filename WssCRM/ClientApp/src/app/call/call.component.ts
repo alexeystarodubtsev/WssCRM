@@ -7,7 +7,7 @@ import { Call } from '../Models/Call';
   templateUrl: './call.component.html',
   providers: [DataService]
 })
-export class CallComponent implements OnInit {
+export class  CallComponent implements OnInit {
   
   @Input() call: Call = new Call();
   callQuality: number = 0;

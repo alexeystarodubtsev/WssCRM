@@ -18,7 +18,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let p of stage.points">
-        <ng-template [ngIf]="p.id != curPoint.id" [ngIfElse]="editPoint">
+        <ng-template [ngIf]="p.active != true" [ngIfElse]="editPoint">
           <td>
             {{p.name}}
           </td>

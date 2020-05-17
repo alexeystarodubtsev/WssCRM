@@ -40,9 +40,12 @@ export class CompaniesComponent implements OnInit {
   }
   saveCompany() {
     this.dataService.postCompany(this.curCompany)
-      .subscribe(data => this.loadCompanies());
+      .subscribe(data => {
+        this.loadCompanies();
+        this.tableMode = true;
+  });
     this.curCompany = null;
-    this.tableMode = true;
+    
   }
   newManager() {
     this.curmanager = "";
@@ -55,11 +58,11 @@ export class CompaniesComponent implements OnInit {
     this.ModeNewManager = false;
   }
   OpenCompany(c: Company) {
-    this.tableMode = false;
     console.log(c.id);
     this.dataService.getCompany(c.id)
       .subscribe((data: Company) => {
-      this.curCompany = data;
+        this.curCompany = data;
+        this.tableMode = false;
         this.editCaption();});
     
   }

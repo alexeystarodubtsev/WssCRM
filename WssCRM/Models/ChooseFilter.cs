@@ -7,6 +7,10 @@ namespace WssCRM.Models
 {
     public class ChooseFilter
     {
-        public string company { get; set; }
+        public Company Company { get; set; }
+        public ChooseFilter(Company company)
+        {
+            this.Company = company;
+        }
     }
 }

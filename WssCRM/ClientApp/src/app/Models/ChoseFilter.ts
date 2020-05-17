@@ -1,5 +1,7 @@
+import { Company } from "./Company";
+
 export class ChoseFilter {
   constructor(
-    public company?: string
+    public company?: Company
   ) { }
 }

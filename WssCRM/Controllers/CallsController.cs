@@ -11,46 +11,16 @@ namespace WssCRM.Controllers
     [ApiController]
     public class CallsController : ControllerBase
     {
+        private DBModels.ApplicationContext db;
+        public CallsController(DBModels.ApplicationContext context)
+        {
+            db = context;
+        }
         [HttpPost]
         public IEnumerable<Call> GetCalls(ChooseFilter f1)
         {
             List<Call> l = new List<Call>();
-            Call call = new Call();
-            call.Company = "company";
-            call.Date = DateTime.Now.ToString("yyyy-MM-dd");
-            call.Stage = "first";
-            call.id = 3;
-            if (call.Company == f1.company)
-            {
-                l.Add(call);
-            }
-            call = new Call();
-            call.Company = "company2";
-            call.Date = DateTime.Now.ToString("yyyy-MM-dd");
-            call.Stage = "second";
-            call.id = 4;
-            if (call.Company == f1.company)
-            {
-                l.Add(call);
-            }
-            call = new Call();
-            call.Company = "company2";
-            call.Date = DateTime.Now.ToString("yyyy-MM-dd");
-            call.Stage = "third";
-            call.id = 4;
-            if (call.Company == f1.company)
-            {
-                l.Add(call);
-            }
-            call = new Call();
-            call.Company = "company";
-            call.Date = DateTime.Now.ToString("yyyy-MM-dd");
-            call.Stage = "for";
-            call.id = 4;
-            if (call.Company == f1.company)
-            {
-                l.Add(call);
-            }
+            
             return l;
         }
         [HttpGet("{id}")]
@@ -70,11 +40,15 @@ namespace WssCRM.Controllers
         [HttpGet]
         public Filter GetFilter()
         {
-
+            
             Filter F1 = new Filter();
-            F1.companies.Add("company");
-            F1.companies.Add("company2");
-            F1.companies.Add("Все компании");
+            ChooseFilter posFilter;
+            foreach(var dbcomp in db.Companies)
+            {
+                posFilter = new ChooseFilter(new Company(dbcomp.name, dbcomp.Id));
+                F1.pointsFilter.Add(posFilter);
+            }
+            
             return F1;
         }
     }

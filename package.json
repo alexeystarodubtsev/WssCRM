@@ -1,0 +1,26 @@
+{
+  "name": "WssCRM",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@microsoft/rush-stack-compiler-3.3": "^0.5.11",
+    "express": "^4.17.1",
+    "typescript": "^3.9.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexeystarodubtsev/WssCRM.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexeystarodubtsev/WssCRM/issues"
+  },
+  "homepage": "https://github.com/alexeystarodubtsev/WssCRM#readme"
+}

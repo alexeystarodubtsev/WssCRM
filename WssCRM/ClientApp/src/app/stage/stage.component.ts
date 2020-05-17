@@ -11,16 +11,14 @@ export class StageComponent implements OnInit {
   @Input() stage: Stage;
   MaxPoint: number = 0;
   curPoint: Point = new Point();
-  curID: number = 0; //Поменять после бэка
 
   constructor() {  }
   ngOnInit() {
-
+    this.updateTotalData();
   }
   newPoint() {
     this.curPoint = new Point();
-    this.curID += 1;
-    this.curPoint.id = this.curID;
+    this.curPoint.active = true;
 
     this.stage.points.push(this.curPoint);
   }
@@ -30,9 +28,11 @@ export class StageComponent implements OnInit {
   }
   EditPoint(p: Point) {
     this.curPoint = p;
+    this.curPoint.active = true;
   }
   savePoint() {
-    this.curPoint = new Point();
+    this.curPoint.active = false;
+    this.curPoint = null;
     this.updateTotalData();
   }
 

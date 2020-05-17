@@ -14,17 +14,21 @@ export class CallsComponent implements OnInit{
   calls: Call[];
   call: Call = new Call();
   callslist: boolean = true;
-  fltlist: Filter;
+  fltlist: Filter = new Filter();
   curFlt: ChoseFilter;
   constructor(private dataService: DataService) { }
   ngOnInit() {
     this.loadFilter();// загрузка данных при старте компонента
-    this.curFlt = new ChoseFilter("company");
+
+    
   }
   loadFilter() {
     this.dataService.getFilter()
       .subscribe((data: Filter) => {
         this.fltlist = data;
+        this.curFlt = this.fltlist.pointsFilter[0];
+        
+
         }
       );
     
@@ -35,7 +39,7 @@ export class CallsComponent implements OnInit{
     
   }
   getCalls() {
-
+    console.log(this.curFlt);
     this.dataService.getCalls(this.curFlt)
       .subscribe((data: Call[]) => {
         this.calls = data;
