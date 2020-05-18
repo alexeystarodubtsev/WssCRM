@@ -14,15 +14,15 @@
   <tbody>
     <tr>
       <td>
-        <select [(ngModel)]="curFlt" [value]="curFlt" >
-          <option *ngFor="let c of fltlist.pointsFilter" [value]="c">{{c.company.name}}</option>
-        </select>
-        <!--<mat-select [(value)]="curFlt">
-          <mat-option *ngFor="let c of fltlist.pointsFilter"
-                      value="{{ c }}">
-            {{ c.name }}
-          </mat-option>
-        </mat-select>-->
+        <mat-form-field>
+          <mat-label>Выберите компанию</mat-label>
+          <mat-select [(value)]="curFlt">
+            <mat-option *ngFor="let c of fltlist.pointsFilter"
+                        [value]="c">
+              {{ c.company.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </td>
       <td></td>
       <td></td>

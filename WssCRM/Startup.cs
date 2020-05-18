@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using WssCRM.DBModels;
 
 namespace WssCRM
@@ -69,6 +70,8 @@ namespace WssCRM
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
+
+                    //spa.Options.StartupTimeout = TimeSpan.FromSeconds(120);
                 }
             });
         }

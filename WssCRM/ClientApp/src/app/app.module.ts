@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -12,9 +13,8 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CallsComponent } from './calls/calls.component'
 import { CompaniesComponent } from './companies/companies.component'
 import { CallComponent } from './call/call.component'
-import { StageComponent } from './stage/stage.component'
-import { MatSelectModule } from '@angular/material/select';
-
+import { StageComponent } from './stage/stage.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,12 +26,13 @@ import { MatSelectModule } from '@angular/material/select';
     CompaniesComponent,
     CallComponent,
     StageComponent
-    ,MatSelectModule
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    MatSelectModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
