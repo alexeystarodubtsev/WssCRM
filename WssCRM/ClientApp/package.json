@@ -30,6 +30,7 @@
     "core-js": "^3.6.5",
     "rxjs": "^6.5.5",
     "rxjs-compat": "^6.0.0-rc.0",
+    "webpack": "^4.43.0",
     "webpack-hot-dev-clients": "^2.0.2",
     "zone.js": "^0.10.3"
   },
