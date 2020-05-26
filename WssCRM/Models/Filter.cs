@@ -7,10 +7,10 @@ namespace WssCRM.Models
 {
     public class Filter
     {
-        public List <ChooseFilter> pointsFilter { get; set; }
+        public List <Company> Companies { get; set; }
         public Filter()
         {
-            pointsFilter = new List<ChooseFilter>();
+            Companies = new List<Company>();
         }
     }
 }

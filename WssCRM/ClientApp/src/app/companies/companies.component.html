@@ -72,7 +72,7 @@
         <tbody>
           <tr *ngIf="ModeNewManager">
             <td>
-              <input class="form-control" [(ngModel)]="curmanager" placeholder="Введите ФИО" />
+              <input class="form-control" [(ngModel)]="curmanager.name" placeholder="Введите ФИО" />
             </td>
             <td>
               <button type="button" class="btn btn-sm btn-success" (click)="addManager()">Добавить</button>
@@ -80,7 +80,7 @@
           </tr>
           <tr *ngFor="let m of curCompany.managers">
             <td>
-              {{m}}
+              {{m.name}}
             </td>
             <td>
               <button type="button" class="btn btn-danger">Удалить</button>

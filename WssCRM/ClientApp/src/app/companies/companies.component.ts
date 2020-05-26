@@ -3,6 +3,7 @@ import { DataService } from './data-service';
 import { Company } from '../Models/Company';
 import { Stage } from '../Models/Stage';
 import { error } from '@angular/compiler/src/util';
+import { Manager } from '../Models/Manager';
 
 @Component({
   selector: 'app-companies',
@@ -14,7 +15,7 @@ export class CompaniesComponent implements OnInit {
   companies: Company[];
   curCompany: Company;
   curStage: Stage;
-  curmanager: string = "";
+  curmanager: Manager = new Manager();
   ModeNewManager: boolean = false;
   tableMode: boolean = true;
   StageMode: boolean = false;
@@ -36,7 +37,6 @@ export class CompaniesComponent implements OnInit {
     this.tableMode = false;
     this.curCompany = new Company();
     this.companies.push(this.curCompany);
-    this.curCompany.managers.push("Игорь");
     this.caption = "Новая компания";
 
   }
@@ -67,7 +67,7 @@ export class CompaniesComponent implements OnInit {
     
   }
   newManager() {
-    this.curmanager = "";
+    this.curmanager = new Manager();
     this.ModeNewManager = true;
   }
   addManager() {

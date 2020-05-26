@@ -42,11 +42,19 @@ namespace WssCRM.Controllers
         {
             
             Filter F1 = new Filter();
-            ChooseFilter posFilter;
+            Company company1;
             foreach(var dbcomp in db.Companies)
             {
-                posFilter = new ChooseFilter(new Company(dbcomp.name, dbcomp.Id));
-                F1.pointsFilter.Add(posFilter);
+                company1 = new Company(dbcomp.name, dbcomp.Id);
+                foreach (var dbstage in db.Stages.Where(s => s.CompanyID == dbcomp.Id))
+                {
+                    company1.stages.Add(new Stage(dbstage.Name,dbstage.Id));
+                }
+                foreach (var dbman in db.Managers.Where(m=> m.CompanyID == dbcomp.Id))
+                {
+                    company1.managers.Add(new Manager(dbman.name, dbman.Id));
+                }
+                F1.Companies.Add(company1);
             }
             
             return F1;

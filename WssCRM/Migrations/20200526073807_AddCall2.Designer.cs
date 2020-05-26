@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WssCRM.DBModels;
 
 namespace WssCRM.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200526073807_AddCall2")]
+    partial class AddCall2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,15 +31,15 @@ namespace WssCRM.Migrations
 
                     b.Property<int>("maxMark");
 
-                    b.Property<string>("name")
-                        .IsRequired();
+                    b.Property<string>("name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("StageID");
 
                     b.HasIndex("name", "StageID")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[name] IS NOT NULL");
 
                     b.ToTable("AbstractPoints");
                 });
@@ -50,18 +52,13 @@ namespace WssCRM.Migrations
 
                     b.Property<string>("ClientLink");
 
-                    b.Property<string>("ClientName")
-                        .IsRequired();
+                    b.Property<string>("ClientName");
 
-                    b.Property<string>("ClientState")
-                        .IsRequired();
+                    b.Property<string>("ClientState");
 
-                    b.Property<string>("Correction")
-                        .IsRequired();
+                    b.Property<string>("Correction");
 
                     b.Property<DateTime>("Date");
-
-                    b.Property<int>("ManagerID");
 
                     b.Property<int>("StageID");
 
@@ -80,36 +77,15 @@ namespace WssCRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("name")
-                        .IsUnique();
-
-                    b.ToTable("Companies");
-                });
-
-            modelBuilder.Entity("WssCRM.DBModels.Manager", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanyID");
-
                     b.Property<string>("name");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyID");
-
-                    b.HasIndex("name", "CompanyID")
+                    b.HasIndex("name")
                         .IsUnique()
                         .HasFilter("[name] IS NOT NULL");
 
-                    b.ToTable("Managers");
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("WssCRM.DBModels.Point", b =>
@@ -139,15 +115,15 @@ namespace WssCRM.Migrations
 
                     b.Property<int>("CompanyID");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyID");
 
                     b.HasIndex("Name", "CompanyID")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Stages");
                 });
@@ -165,14 +141,6 @@ namespace WssCRM.Migrations
                     b.HasOne("WssCRM.DBModels.Stage")
                         .WithMany("Calls")
                         .HasForeignKey("StageID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WssCRM.DBModels.Manager", b =>
-                {
-                    b.HasOne("WssCRM.DBModels.Company")
-                        .WithMany("Managers")
-                        .HasForeignKey("CompanyID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

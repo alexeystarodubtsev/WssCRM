@@ -5,16 +5,11 @@ using System.Threading.Tasks;
 
 namespace WssCRM.Models
 {
-    public class Stage
+    public class Manager
     {
-        public string name;
-        public int id;
-        public List<Point> points = new List<Point>();
-        public Stage()
-        {
-
-        }
-        public Stage(string name, int id)
+        public string name { get; set; }
+        public int id { get; set; }
+        public Manager(string name, int id)
         {
             this.name = name;
             this.id = id;

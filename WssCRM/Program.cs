@@ -20,5 +20,6 @@ namespace WssCRM
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
+        // ng build --prod --aot=false --build-optimizer=false
     }
 }

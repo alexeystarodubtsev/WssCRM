@@ -1,11 +1,12 @@
 import { Company } from "./Company";
 import { ChoseFilter } from "./ChoseFilter";
+import { Stage } from "./Stage";
 
 export class Filter {
   constructor(
-    public pointsFilter?: ChoseFilter[],
+    public Companies?: Company[]
   )
   {
-    this.pointsFilter = [];
+    this.Companies = [];
   }
 }

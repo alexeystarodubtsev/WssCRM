@@ -11,8 +11,9 @@ namespace WssCRM.DBModels
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         public string name { get; set; }
         public ICollection <Stage> Stages { get; set; }
-
+        public ICollection<Manager> Managers { get; set; }
     }
 }

@@ -46,6 +46,7 @@
     <None Remove="ClientApp\src\app\Models\ChoseFilter.ts" />
     <None Remove="ClientApp\src\app\Models\Company.ts" />
     <None Remove="ClientApp\src\app\Models\Filter.ts" />
+    <None Remove="ClientApp\src\app\Models\Manager.ts" />
     <None Remove="ClientApp\src\app\Models\Point.ts" />
     <None Remove="ClientApp\src\app\Models\Stage.ts" />
     <None Remove="ClientApp\src\app\stage\stage.component.ts" />
@@ -62,6 +63,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\Models\ChoseFilter.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Company.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Filter.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\Manager.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Point.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Stage.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\stage\stage.component.ts" />

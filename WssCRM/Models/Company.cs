@@ -10,7 +10,7 @@ namespace WssCRM.Models
         public string Name { get; set; }
         public int id { get; set; }
         public List<Stage> stages = new List<Stage>();
-        public List<string> managers = new List<string>();
+        public List<Manager> managers = new List<Manager>();
         public Company(string name, int id)
         {
             Name = name;

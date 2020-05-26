@@ -41,7 +41,7 @@ export class CallsComponent implements OnInit{
   call: Call = new Call();
   callslist: boolean = true;
   fltlist: Filter = new Filter();
-  curFlt: ChoseFilter;
+  curFlt: ChoseFilter = new ChoseFilter();
   DateBegin = new FormControl(moment());
   DateEnd = new FormControl(moment());
   //choseDate: Date; [(ngModel)]="choseDate"
@@ -54,10 +54,11 @@ export class CallsComponent implements OnInit{
   loadFilter() {
     this.dataService.getFilter()
       .subscribe((data: Filter) => {
+        this.curFlt = new ChoseFilter();
         this.fltlist = data;
-        this.curFlt = this.fltlist.pointsFilter[0];
+        this.curFlt.company = this.fltlist.Companies[0];
+        console.log(this.fltlist);
         
-
         }
       );
     
