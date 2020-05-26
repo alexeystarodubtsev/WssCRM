@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from './data-service';
 import { Company } from '../Models/Company';
 import { Stage } from '../Models/Stage';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-companies',
@@ -18,7 +19,8 @@ export class CompaniesComponent implements OnInit {
   tableMode: boolean = true;
   StageMode: boolean = false;
   caption: string;
-
+  errors: string[] = [];
+  hasErrors: boolean = false;
   constructor(private dataService: DataService) { }
   ngOnInit() {
     this.loadCompanies();    // загрузка данных при старте компонента  
@@ -43,8 +45,25 @@ export class CompaniesComponent implements OnInit {
       .subscribe(data => {
         this.loadCompanies();
         this.tableMode = true;
-  });
-    this.curCompany = null;
+        this.curCompany = null;
+      }, err => {
+        this.hasErrors = true;
+        if (err.status === 400) {
+          // handle validation error
+          console.log(err.error);
+          let validationErrorDictionary = err.error;
+          
+          for (var fieldName in validationErrorDictionary) {
+            if (validationErrorDictionary.hasOwnProperty(fieldName)) {
+              this.errors.push(validationErrorDictionary[fieldName].join());
+              
+            }
+          }
+        } else {
+          this.errors.push("something went wrong!");
+        }
+      });
+    
     
   }
   newManager() {

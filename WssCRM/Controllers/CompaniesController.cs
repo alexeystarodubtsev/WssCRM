@@ -114,18 +114,36 @@ namespace WssCRM.Controllers
                                     db.AbstractPoints.Add(dbpoint);
                                     //
                                 }
+                                try
+                                {
+                                    db.SaveChanges();
+                                }
+                                catch (DbUpdateException)
+                                {
+                                    ModelState.AddModelError("key", "Имя пункта должно быть уникальным");
+                                    return BadRequest(ModelState);
+                                }
                             }
                             dbstage.CompanyID = dbcomp.Id;
                             
                             db.Stages.Update(dbstage);
-                            db.SaveChanges();
+                            
                         }
                         else
                         {
                             //dbstage.CompanyID = dbcomp.Id;
                             db.Stages.Add(dbstage);
                             
-                            
+                        }
+                        try
+                        {
+                            db.SaveChanges();
+                        }
+                        catch (DbUpdateException)
+                        {
+                            ModelState.AddModelError("key", "Имя пункта должно быть уникально в пределах одного этапа, " +
+                                "имя этапа должно быть уникально в пределах одной компании");
+                            return BadRequest(ModelState);
                         }
                     }
                     db.Companies.Update(dbcomp);
@@ -136,9 +154,19 @@ namespace WssCRM.Controllers
                     db.Companies.Add(dbcomp);
                     
                 }
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("key","Имя компании, пунктов, этапов должно быть уникальным");
+                    
+                    return BadRequest(ModelState);
+                }
                 return Ok(clientComp);
             }
+            ModelState.AddModelError("other", "Что-то пошло не так, обратитесь к разработчикам");
             return BadRequest(ModelState);
         }
     }

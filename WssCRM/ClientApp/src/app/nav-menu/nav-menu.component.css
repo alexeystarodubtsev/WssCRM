@@ -1,5 +1,5 @@
-li .glyphicon {
-    margin-right: 10px;
+li .fa {
+  margin-right: 5px;
 }
 
 /* Highlighting rules for nav menu items */
@@ -19,7 +19,7 @@ li.link-active a:focus {
     z-index: 1;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 568px) { /*768*/
     /* On small screens, convert the nav menu to a vertical sidebar */
     .main-nav {
         height: 100%;

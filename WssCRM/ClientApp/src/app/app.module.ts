@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -15,6 +18,7 @@ import { CompaniesComponent } from './companies/companies.component'
 import { CallComponent } from './call/call.component'
 import { StageComponent } from './stage/stage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +37,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     MatSelectModule,
     BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatFormFieldModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -42,7 +51,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'call', component: CallComponent }
     ])
   ],
-  providers: [],
+  providers: [MatDatepickerModule,
+    MatNativeDateModule,
+    MatNativeDateModule,
+    MatInputModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

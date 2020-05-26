@@ -1,6 +1,26 @@
 <h1>Звонки</h1>
 
+<mat-form-field>
+  <mat-label>Выберите компанию</mat-label>
+  <mat-select [(value)]="curFlt">
+    <mat-option *ngFor="let c of fltlist.pointsFilter"
+                [value]="c">
+      {{ c.company.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
+<mat-form-field color="accent">
+  <input matInput [max] = "DateEnd" [matDatepicker]="myDatepicker" placeholder="Выберите дату начала" [readonly]="true" [(ngModel)] ="DateBegin">
+  <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+  <mat-datepicker #myDatepicker></mat-datepicker>
+</mat-form-field>
+<mat-form-field color="accent">
+  <input matInput [min]="DateBegin" [matDatepicker]="myDatepicker2" placeholder="Выберите дату окончания" [readonly]="true" [(ngModel)]="DateEnd">
+  <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+  <mat-datepicker #myDatepicker2></mat-datepicker>
+</mat-form-field>
+<button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
 <table class="table table-striped" *ngIf="callslist; else changecall">
 
   <thead>
@@ -12,22 +32,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>
-        <mat-form-field>
-          <mat-label>Выберите компанию</mat-label>
-          <mat-select [(value)]="curFlt">
-            <mat-option *ngFor="let c of fltlist.pointsFilter"
-                        [value]="c">
-              {{ c.company.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </td>
-      <td></td>
-      <td></td>
-      <td><button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button></td>
-    </tr>
+    
       <tr *ngFor="let c of calls">
         <td>{{c?.company}}</td>
         <td>{{c?.stage}}</td>

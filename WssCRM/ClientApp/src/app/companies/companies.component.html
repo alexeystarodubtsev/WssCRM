@@ -30,17 +30,24 @@
       </div>
     </div>
 
-
+    <div class="alert alert-danger" role="alert" *ngIf="hasErrors">
+      <ul>
+        <li *ngFor="let error of errors">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
+    
     <div style="margin-top:20px">
-      <table class="table table-striped" style="margin-top:20px; width : 50%" >
+      <table class="table table-striped" style="margin-top:20px; width : 50%">
         <tbody>
           <tr>
             <td>
               <b style="font:bold">Название компании</b>
-              
+
             </td>
             <td>
-              <input class="form-control" [(ngModel)]="curCompany.name" name = "companyName" placeholder="Введите название" (change)="editCaption()" #companyName="ngModel" required/>
+              <input class="form-control" [(ngModel)]="curCompany.name" name="companyName" placeholder="Введите название" (change)="editCaption()" #companyName="ngModel" required />
               <div [hidden]="companyName.valid || companyName.untouched" class="alert alert-danger">
                 Поле должно быть заполнено
               </div>
