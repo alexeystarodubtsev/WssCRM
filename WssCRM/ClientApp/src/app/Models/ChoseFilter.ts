@@ -12,5 +12,6 @@ export class ChoseFilter {
     public EndDate?: FormControl//Date
   ) {
     this.company = new Company();
+    
   }
 }

@@ -1,0 +1,95 @@
+<div>
+  <h3>
+    Новый звонок
+  </h3>
+</div>
+<table class="table table-striped" style="margin-bottom:20px">
+  <tbody>
+    <tr>
+      <td>
+        <mat-form-field *ngIf="call.points.length == 0">
+          <mat-label>Выберите компанию</mat-label>
+          <mat-select [(value)]="call.company">
+            <mat-option *ngFor="let c of fltlist.companies"
+                        [value]="c">
+              {{ c.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="call.points.length > 0">
+          {{call.company.name}}
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field *ngIf="call.points.length == 0">
+          <mat-label>Выберите этап</mat-label>
+          <mat-select (selectionChange) = "getNewCall()" [(value)]="call.stage" >
+            <mat-option *ngFor="let s of call.company.stages"
+                        [value]="s">
+              {{ s.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="call.points.length > 0">
+          Этап: {{call.stage.name}}
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field>
+          <mat-label>Выберите менеджера</mat-label>
+          <mat-select [(value)]="call.manager">
+            <mat-option *ngFor="let m of call.company.managers"
+                        [value]="m">
+              {{ m.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field>
+          <input matInput [matDatepicker]="myDatepicker" [max] = "maxDate" placeholder="Выберите дату звонка" [readonly]="true" [(ngModel)]="call.date">
+          <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #myDatepicker></mat-datepicker>
+        </mat-form-field>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Пункт</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr *ngFor="let p of call.points">
+      <td>{{p?.name}}</td>
+      <td><!--<input type="number" [(ngModel)]="p.value" (change)="updateTotalData()" />-->
+        <mat-form-field>
+          <mat-label>Введите значение</mat-label>
+          <input matInput  type="number"  [max]="p.maxMark" [min]="0" [(ngModel)]="p.value" (change)="updateTotalData()">
+          <mat-hint>Введите значение от 0 до {{p.maxMark}}</mat-hint>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr *ngIf="call.points.length > 0">
+      <td><b>Всего</b></td>
+      <td>
+          {{call.quality}}
+      </td>
+    </tr>
+  </tbody>
+
+</table>
+
+<button type="button" class="btn  btn-sm btn-success" [attr.disabled]="call.points.length > 0 ? null : ''" (click)="saveCall()">Сохранить</button>
+

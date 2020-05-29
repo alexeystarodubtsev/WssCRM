@@ -16,10 +16,11 @@ namespace WssCRM.Models
             Name = name;
             Value = val;
         }
-        public Point(string name, int id, int maxMark)
+        public Point(string name, int value, int maxMark, int idAbstract)
         {
             Name = name;
             this.maxMark = maxMark;
+            this.Value = value;
         }
         public Point(string name)
         {

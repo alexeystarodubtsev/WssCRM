@@ -13,7 +13,7 @@ export class DataService {
     return this.http.post(this.url, f1);
   }
   getFilter() {
-    return this.http.get(this.url);
+    return this.http.get(this.url + '/Flt/all');
   }
   
 }

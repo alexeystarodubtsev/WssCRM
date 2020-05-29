@@ -85,9 +85,7 @@ export class CallsComponent implements OnInit{
     this.dataService.getCalls(this.curFlt)
       .subscribe((data: Call[]) => {
         this.calls = data;
-        for (var i = 0; i < this.calls.length; i++) {
-          this.calls[i].TrueDate = new Date(this.calls[i].date);
-        }
+        
       });
     
   }

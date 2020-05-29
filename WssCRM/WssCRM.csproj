@@ -50,6 +50,8 @@
     <None Remove="ClientApp\src\app\Models\Manager.ts" />
     <None Remove="ClientApp\src\app\Models\Point.ts" />
     <None Remove="ClientApp\src\app\Models\Stage.ts" />
+    <None Remove="ClientApp\src\app\NewCall\data-service.ts" />
+    <None Remove="ClientApp\src\app\NewCall\NewCallComponent.ts" />
     <None Remove="ClientApp\src\app\stage\stage.component.ts" />
   </ItemGroup>
 
@@ -68,6 +70,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\Models\Manager.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Point.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Stage.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\NewCall\data-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\NewCall\NewCallComponent.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\stage\stage.component.ts" />
   </ItemGroup>
 

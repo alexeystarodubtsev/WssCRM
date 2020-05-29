@@ -57,7 +57,7 @@
       <tr *ngFor="let c of calls">
         <td>{{c?.company}}</td>
         <td>{{c?.stage}}</td>
-        <td>{{c?.date}}</td>
+        <td></td>
         <td>
           <button class="btn btn-sm btn-primary" (click)="editCall(c)">Перейти к звонку</button>
         </td>
@@ -73,7 +73,6 @@
                   
   </ngb-pagination>
 </div>
-xcxc
   <ng-template #changecall>
     <button class="btn btn-sm btn-primary" (click)="returnCalls()">Вернуться ко всем звонкам</button>
     <app-call [call]="call"></app-call>

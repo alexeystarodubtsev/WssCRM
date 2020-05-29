@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class  CallComponent implements OnInit {
 
-  product;
+  
   call: Call;
   callQuality: number = 0;
   constructor(

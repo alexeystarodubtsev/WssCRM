@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WssCRM.Models;
+using WssCRM.Processing;
+
 namespace WssCRM.Controllers
 {
     [Route("api/[controller]")]
@@ -24,43 +26,27 @@ namespace WssCRM.Controllers
             
             return l;
         }
+
+        // GET api/newcall/companyID/StageID
+        [HttpGet("newcall/{companyID}/{StageID}")]
+        public Call GetNewCall(int companyID, int StageID)
+        {
+
+            return new ProcessingCall(db).NewCall(companyID,StageID);
+        }
+
         [HttpGet("{id}")]
         public Call GetCall(int id)
         {
-
-            Call call = new Call();
-            call.Company = "company";
-            call.Date = DateTime.Now.ToString("yyyy-MM-dd");
-            call.Stage = "first";
-            call.id = 2;
-            call.points.Add(new Point("Приветствие"));
-            call.points.Add(new Point("Попрощался"));
-
-            return call;
+            return new ProcessingCall(db).GetCall(id);
+            
         }
-        [HttpGet]
-        public Filter GetFilter()
+        [HttpGet("Flt/{opt}")]
+        public Filter GetFilter(string opt)
         {
-            
-            Filter F1 = new Filter();
-            Company company1;
-            foreach(var dbcomp in db.Companies)
-            {
-                company1 = new Company(dbcomp.name, dbcomp.Id);
-                foreach (var dbstage in db.Stages.Where(s => s.CompanyID == dbcomp.Id))
-                {
-                    company1.stages.Add(new Stage(dbstage.Name,dbstage.Id));
-                }
-                company1.stages.Add(new Stage("Все этапы", -40));
-                foreach (var dbman in db.Managers.Where(m=> m.CompanyID == dbcomp.Id))
-                {
-                    company1.managers.Add(new Manager(dbman.name, dbman.Id));
-                }
-                company1.managers.Add(new Manager("Все менеджеры", -40));
-                F1.Companies.Add(company1);
-            }
-            
-            return F1;
+
+            return new ProcessingCall(db).getFilter(opt);
+
         }
     }
 

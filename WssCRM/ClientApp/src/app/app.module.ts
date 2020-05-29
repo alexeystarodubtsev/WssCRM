@@ -19,8 +19,8 @@ import { CallComponent } from './call/call.component'
 import { StageComponent } from './stage/stage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbdModalContent } from './ModalWindow/ModalWindowComponent'
-import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap'; 
-
+import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NewCallComponent } from './NewCall/NewCallComponent'
 
 @NgModule({
   declarations: [
@@ -33,8 +33,8 @@ import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap'
     CompaniesComponent,
     CallComponent,
     StageComponent,
-    NgbdModalContent
-    
+    NgbdModalContent,
+    NewCallComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,6 +55,7 @@ import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap'
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'calls', component: CallsComponent },
       { path: 'companies', component: CompaniesComponent },
+      { path: 'call/new', component: NewCallComponent },
       { path: 'call/:Id', component: CallComponent }
     ])
   ],
