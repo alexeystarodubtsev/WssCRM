@@ -18,6 +18,9 @@ import { CompaniesComponent } from './companies/companies.component'
 import { CallComponent } from './call/call.component'
 import { StageComponent } from './stage/stage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbdModalContent } from './ModalWindow/ModalWindowComponent'
+import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap'; 
+
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CallsComponent,
     CompaniesComponent,
     CallComponent,
-    StageComponent
+    StageComponent,
+    NgbdModalContent
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,13 +47,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatNativeDateModule,
     MatInputModule,
     MatFormFieldModule,
+    NgbPaginationModule,
+    NgbAlertModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'calls', component: CallsComponent },
       { path: 'companies', component: CompaniesComponent },
-      { path: 'call', component: CallComponent }
+      { path: 'call/:Id', component: CallComponent }
     ])
   ],
   providers: [MatDatepickerModule,

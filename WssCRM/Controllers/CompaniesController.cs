@@ -27,6 +27,21 @@ namespace WssCRM.Controllers
             }
             return Companies;
         }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCompany (int id)
+        {
+            try
+            {
+                db.Companies.Remove(db.Companies.Where(c => c.Id == id).First());
+                db.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("can'tdel", "Не удалось удалить");
+                return BadRequest(ModelState);
+            }
+            return Ok();
+        }
         [HttpGet("{id}")]
         public Company GetCompany(int id)
         {

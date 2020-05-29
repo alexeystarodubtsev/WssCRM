@@ -1,4 +1,3 @@
-
 <!--<nav class="navbar main-nav bg-dark navbar-dark">
 
   <ul class='nav navbar-nav'>
@@ -35,45 +34,45 @@
   </ul>
 
 </nav>-->
-<nav class="navbar main-nav bg-dark navbar-dark">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle btn" data-toggle='collapse' data-target='.navbar-collapse' (click)='toggle()'>
-        <i class="fa fa-th-list" style="color:aliceblue"></i>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" [ngClass]='{ "in": isExpanded }'>
-      <ul class='nav navbar-nav'>
-        <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-          <a [routerLink]='["/"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-home'></span> Home
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/calls"]' (click)='collapse()'>
-            <i class="fa fa-phone-square"></i> Звонки
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/call"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-th-list'></span> Звонок
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/companies"]' (click)='collapse()'>
-            <i class="fa fa-briefcase"></i> Компании
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/counter"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-education'></span> Counter
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-th-list'></span> Fetch data
-          </a>
-        </li>
-      </ul>
 
-    </div>
+
+<nav class="navbar main-nav bg-dark navbar-dark">
+
+
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle btn" data-toggle='collapse' data-target='.navbar-collapse' aria-expanded="true" aria-controls="navbody">
+      <i class="fa fa-th-list" style="color:aliceblue"></i>
+    </button>
+  </div>
+  <div class="collapse navbar-collapse" id="navbody">
+    <ul class='nav navbar-nav'>
+
+      <li [routerLinkActive]='["link-active"]'>
+        <a [routerLink]='["/calls"]' (click)='collapse()'>
+          <i class="fa fa-phone-square"></i> Звонки
+        </a>
+      </li>
+      <li [routerLinkActive]='["link-active"]'>
+        <a [routerLink]='["/call"]' (click)='collapse()'>
+          <span class='glyphicon glyphicon-th-list'></span> Звонок
+        </a>
+      </li>
+      <li [routerLinkActive]='["link-active"]'>
+        <a [routerLink]='["/companies"]' (click)='collapse()'>
+          <i class="fa fa-briefcase"></i> Компании
+        </a>
+      </li>
+      <li [routerLinkActive]='["link-active"]'>
+        <a [routerLink]='["/counter"]' (click)='collapse()'>
+          <span class='glyphicon glyphicon-education'></span> Counter
+        </a>
+      </li>
+      <li [routerLinkActive]='["link-active"]'>
+        <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
+          <span class='glyphicon glyphicon-th-list'></span> Fetch data
+        </a>
+      </li>
+    </ul>
+
+  </div>
 </nav>

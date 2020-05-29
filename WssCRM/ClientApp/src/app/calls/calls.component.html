@@ -41,6 +41,7 @@
   <mat-datepicker #myDatepicker2></mat-datepicker>
 </mat-form-field>
 <button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
+
 <table class="table table-striped" *ngIf="callslist; else changecall">
 
   <thead>
@@ -58,15 +59,23 @@
         <td>{{c?.stage}}</td>
         <td>{{c?.date}}</td>
         <td>
-          <button class="btn btn-sm btn-primary" (click)="editCall(c)">Изменить</button>
-          <button class="btn btn-sm btn-danger">Удалить</button>
+          <button class="btn btn-sm btn-primary" (click)="editCall(c)">Перейти к звонку</button>
         </td>
       </tr>
   </tbody>
 
 </table>
-<ng-template #changecall>
-  <button class="btn btn-sm btn-primary" (click)="returnCalls()">Вернуться ко всем звонкам</button>
-  <app-call [call]="call"></app-call>
-</ng-template>
+<div class="footer" >
+  <ngb-pagination [(page)]="page"
+                  [pageSize]="pageSize"
+                  [collectionSize]="50"
+                  (pageChange)="pageChanged()">
+                  
+  </ngb-pagination>
+</div>
+xcxc
+  <ng-template #changecall>
+    <button class="btn btn-sm btn-primary" (click)="returnCalls()">Вернуться ко всем звонкам</button>
+    <app-call [call]="call"></app-call>
+  </ng-template>
 

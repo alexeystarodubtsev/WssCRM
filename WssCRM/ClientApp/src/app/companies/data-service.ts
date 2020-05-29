@@ -20,5 +20,8 @@ export class DataService {
   postCompany(c: Company) {
     return this.http.post(this.url, c);
   }
+  delete(id: number) {
+    return this.http.delete(this.url + '/' + id);
+  }
 
 }

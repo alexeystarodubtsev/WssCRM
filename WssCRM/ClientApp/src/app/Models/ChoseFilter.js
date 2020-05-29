@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Company_1 = require("./Company");
 var ChoseFilter = /** @class */ (function () {
-    function ChoseFilter(company, stage, manager, StartDate, EndDate) {
+    function ChoseFilter(company, stage, manager, StartDate, //Date,
+    EndDate //Date
+    ) {
         this.company = company;
         this.stage = stage;
         this.manager = manager;

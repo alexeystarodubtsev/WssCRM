@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from './data-service';
 import { Call } from '../Models/Call';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-call',
@@ -8,14 +9,25 @@ import { Call } from '../Models/Call';
   providers: [DataService]
 })
 export class  CallComponent implements OnInit {
-  
-  @Input() call: Call = new Call();
+
+  product;
+  call: Call;
   callQuality: number = 0;
+  constructor(
+    private route: ActivatedRoute,
+    private dataService: DataService
+  ) { }
+
   
-  constructor(private dataService: DataService) {
-  }
+  //
+  
+  //constructor(private dataService: DataService) {
+  //}
   ngOnInit() {
-    this.loadCall(this.call.id);
+    this.route.paramMap.subscribe(params => {
+      this.loadCall(Number(params.get('Id')));
+    });
+    
   }
   updateTotalData()
   {

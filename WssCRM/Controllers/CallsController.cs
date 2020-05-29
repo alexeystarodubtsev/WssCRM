@@ -19,6 +19,7 @@ namespace WssCRM.Controllers
         [HttpPost]
         public IEnumerable<Call> GetCalls(ChooseFilter f1)
         {
+            
             List<Call> l = new List<Call>();
             
             return l;
@@ -50,10 +51,12 @@ namespace WssCRM.Controllers
                 {
                     company1.stages.Add(new Stage(dbstage.Name,dbstage.Id));
                 }
+                company1.stages.Add(new Stage("Все этапы", -40));
                 foreach (var dbman in db.Managers.Where(m=> m.CompanyID == dbcomp.Id))
                 {
                     company1.managers.Add(new Manager(dbman.name, dbman.Id));
                 }
+                company1.managers.Add(new Manager("Все менеджеры", -40));
                 F1.Companies.Add(company1);
             }
             

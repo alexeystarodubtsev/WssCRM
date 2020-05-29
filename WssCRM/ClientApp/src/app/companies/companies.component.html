@@ -13,7 +13,9 @@
 
       <tr *ngFor="let c of companies">
         <td>{{c?.name}}</td>
-        <td><button type="button" class="btn  btn-sm btn-primary" (click)="OpenCompany(c)">Открыть карточку</button></td>
+        <td>
+          <button type="button" class="btn  btn-sm btn-primary" (click)="OpenCompany(c)">Открыть карточку</button>
+        </td>
       </tr>
     </tbody>
 
@@ -30,14 +32,23 @@
       </div>
     </div>
 
-    <div class="alert alert-danger" role="alert" *ngIf="hasErrors">
+    <!--<div class="alert alert-danger" role="alert" *ngIf="hasErrors">
       <ul>
         <li *ngFor="let error of errors">
           {{ error }}
         </li>
       </ul>
+    </div>-->
+    <ngb-alert *ngIf="hasErrors" type="danger" (close)="closeError()">
+      <ul>
+        <li *ngFor="let error of errors">
+          {{ error }}
+        </li>
+      </ul>
+    </ngb-alert>
+    <div style="text-align:right">
+      <button class="btn btn-danger" [attr.disabled]="curCompany.id == null ? '' : null" (click)="delete()">Удалить</button>
     </div>
-    
     <div style="margin-top:20px">
       <table class="table table-striped" style="margin-top:20px; width : 50%">
         <tbody>
@@ -116,7 +127,7 @@
 
     </div>
     <div style="margin-top:20px; width : 50%; text-align :right">
-      <button type="button" class="btn  btn-sm btn-success" (click)="saveCompany()">Сохранить</button>
+      <button type="button" class="btn  btn-sm btn-success" [attr.disabled]="companyName.valid ? null : ''" (click)="saveCompany()">Сохранить</button>
     </div>
   </ng-container>
 </ng-template>

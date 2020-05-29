@@ -13,6 +13,8 @@ import { FormControl } from '@angular/forms';
 const moment =  _moment;
 
 export const MY_FORMATS = {
+  
+  
   parse: {
     dateInput: 'DD.MM.YYYY',
   },
@@ -21,11 +23,12 @@ export const MY_FORMATS = {
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
-  },
+  }
 };
 @Component({
   selector: 'app-calls',
   templateUrl: './calls.component.html',
+  styleUrls: ['./calls.component.css'],
   providers: [DataService,
     {
     provide: DateAdapter,
@@ -33,7 +36,9 @@ export const MY_FORMATS = {
     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+  ]
 })
 export class CallsComponent implements OnInit{
 
@@ -44,6 +49,9 @@ export class CallsComponent implements OnInit{
   curFlt: ChoseFilter = new ChoseFilter();
   DateBegin = new FormControl(moment());
   DateEnd = new FormControl(moment());
+  page: number = 2;
+  pageSize: number = 10;
+
   //choseDate: Date; [(ngModel)]="choseDate"
   constructor(private dataService: DataService) { }
   ngOnInit() {
@@ -56,8 +64,8 @@ export class CallsComponent implements OnInit{
       .subscribe((data: Filter) => {
         this.curFlt = new ChoseFilter();
         this.fltlist = data;
-        this.curFlt.company = this.fltlist.Companies[0];
-        console.log(this.fltlist);
+        //this.curFlt.company = this.fltlist.Companies[0];
+        //console.log(this.fltlist);
         
         }
       );
@@ -69,6 +77,10 @@ export class CallsComponent implements OnInit{
     
   }
   getCalls() {
+
+    this.curFlt.StartDate = this.DateBegin;
+    this.curFlt.EndDate = this.DateEnd;
+    
     console.log(this.DateBegin);
     this.dataService.getCalls(this.curFlt)
       .subscribe((data: Call[]) => {
@@ -81,5 +93,8 @@ export class CallsComponent implements OnInit{
   }
   returnCalls() {
     this.callslist = true;
+  }
+  pageChanged() {
+    console.log(this.page);
   }
 }
