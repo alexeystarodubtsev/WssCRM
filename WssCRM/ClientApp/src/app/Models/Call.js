@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Company_1 = require("./Company");
 var Call = /** @class */ (function () {
-    function Call(id, stage, points, company, date, quality, manager) {
+    function Call(id, stage, points, company, date, quality, manager, correction, correctioncolor, duration, ClientName, ClientLink) {
         this.id = id;
         this.stage = stage;
         this.points = points;
@@ -10,6 +10,11 @@ var Call = /** @class */ (function () {
         this.date = date;
         this.quality = quality;
         this.manager = manager;
+        this.correction = correction;
+        this.correctioncolor = correctioncolor;
+        this.duration = duration;
+        this.ClientName = ClientName;
+        this.ClientLink = ClientLink;
         this.company = new Company_1.Company();
         this.points = [];
     }

@@ -33,7 +33,7 @@ namespace WssCRM.Processing
                 call.Stage = new Stage(dbstage.Name, dbstage.Id);
                 call.Date = dbcall.Date;
                 call.duration = dbcall.duration;
-                call.comment = dbcall.Correction;
+                call.Correction = dbcall.Correction;
                 call.ClientName = dbcall.ClientName;
                 call.ClientLink = dbcall.ClientLink;
                 foreach (var dbpoint in db.Points.Where(p=>p.CallID == dbcall.Id))

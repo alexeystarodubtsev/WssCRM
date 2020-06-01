@@ -7,15 +7,15 @@
   <tbody>
     <tr>
       <td>
-        <mat-form-field *ngIf="call.points.length == 0">
-          <mat-label>Выберите компанию</mat-label>
-          <mat-select [(value)]="call.company">
-            <mat-option *ngFor="let c of fltlist.companies"
-                        [value]="c">
-              {{ c.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field class="fullwidth" *ngIf="call.points.length == 0">
+            <mat-label>Выберите компанию</mat-label>
+            <mat-select [(value)]="call.company">
+              <mat-option *ngFor="let c of fltlist.companies"
+                          [value]="c">
+                {{ c.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         <div *ngIf="call.points.length > 0">
           {{call.company.name}}
         </div>
@@ -23,15 +23,16 @@
     </tr>
     <tr>
       <td>
-        <mat-form-field *ngIf="call.points.length == 0">
-          <mat-label>Выберите этап</mat-label>
-          <mat-select (selectionChange) = "getNewCall()" [(value)]="call.stage" >
-            <mat-option *ngFor="let s of call.company.stages"
-                        [value]="s">
-              {{ s.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+
+          <mat-form-field class="fullwidth" *ngIf="call.points.length == 0">
+            <mat-label>Выберите этап</mat-label>
+            <mat-select (selectionChange)="getNewCall()" [(value)]="call.stage">
+              <mat-option *ngFor="let s of call.company.stages"
+                          [value]="s">
+                {{ s.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         <div *ngIf="call.points.length > 0">
           Этап: {{call.stage.name}}
         </div>
@@ -39,26 +40,57 @@
     </tr>
     <tr>
       <td>
-        <mat-form-field>
-          <mat-label>Выберите менеджера</mat-label>
-          <mat-select [(value)]="call.manager">
-            <mat-option *ngFor="let m of call.company.managers"
-                        [value]="m">
-              {{ m.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field class="fullwidth">
+            <mat-label>Выберите менеджера</mat-label>
+            <mat-select [(value)]="call.manager" [formControl]="ManagerFormControl" [errorStateMatcher]="matcher">
+              <mat-option *ngFor="let m of call.company.managers"
+                          [value]="m">
+                {{ m.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="ManagerFormControl.hasError('required')">
+              Необходимо выбрать менеджера
+            </mat-error>
+          </mat-form-field>
       </td>
     </tr>
     <tr>
       <td>
-        <mat-form-field>
-          <input matInput [matDatepicker]="myDatepicker" [max] = "maxDate" placeholder="Выберите дату звонка" [readonly]="true" [(ngModel)]="call.date">
-          <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-          <mat-datepicker #myDatepicker></mat-datepicker>
-        </mat-form-field>
+        <mat-form-field class="fullwidth">
+            <input matInput [matDatepicker]="myDatepicker" [max]="maxDate" placeholder="Выберите дату звонка" [readonly]="true" [(ngModel)]="call.date">
+            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker></mat-datepicker>
+       </mat-form-field>
       </td>
     </tr>
+    <tr>
+      <td>
+          <mat-form-field class="fullwidth">
+            <mat-label>Введите имя клиента</mat-label>
+            <input matInput [formControl]="NameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="call.ClientName">
+            <mat-error *ngIf="NameFormControl.hasError('required')">
+              Требуется имя клиента
+            </mat-error>
+          </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <mat-form-field class="fullwidth">
+            <mat-label>Вставьте ссылку на CRM</mat-label>
+            <input matInput type="url" [(ngModel)]="call.ClientLink">
+          </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+    <td>
+        <mat-form-field class="fullwidth">
+          <mat-label>Длительность</mat-label>
+          <input matInput type="time" step="1" [(ngModel)]="call.duration">
+          <mat-hint>Введите в формате чч:мм:сс</mat-hint>
+        </mat-form-field>
+    </td>
+  </tr>
   </tbody>
 </table>
 
@@ -73,7 +105,7 @@
 
     <tr *ngFor="let p of call.points">
       <td>{{p?.name}}</td>
-      <td><!--<input type="number" [(ngModel)]="p.value" (change)="updateTotalData()" />-->
+      <td>
         <mat-form-field>
           <mat-label>Введите значение</mat-label>
           <input matInput  type="number"  [max]="p.maxMark" [min]="0" [(ngModel)]="p.value" (change)="updateTotalData()">
@@ -90,6 +122,16 @@
   </tbody>
 
 </table>
+<mat-form-field class="fullwidth">
+  <mat-label>Введите коррекцию</mat-label>
+  <textarea matInput  [(ngModel)]="call.correction" [ngClass]="{'positive' : call.correctioncolor =='green',
+            'negative' : call.correctioncolor =='red'}"></textarea>
+</mat-form-field>
+<mat-radio-group aria-label="Тип коррекции" [(ngModel)]="call.correctioncolor">
+  <mat-radio-button value="no color">Не выбрано</mat-radio-button>
+  <mat-radio-button value="green">Положительная</mat-radio-button>
+  <mat-radio-button value="red">Отрицательная</mat-radio-button>
+</mat-radio-group>
 
 <button type="button" class="btn  btn-sm btn-success" [attr.disabled]="call.points.length > 0 ? null : ''" (click)="saveCall()">Сохранить</button>
 

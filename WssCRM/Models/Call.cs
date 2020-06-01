@@ -10,7 +10,7 @@ namespace WssCRM
         public Stage Stage { get; set; }
         public Company Company { get; set; }
         public DateTime Date { get; set; }
-        public string comment { get; set; }
+        public string Correction { get; set; }
         public TimeSpan duration { get; set; }
         public Manager manager { get; set; }
         public List <Point> points { get; set; }
@@ -20,6 +20,7 @@ namespace WssCRM
         public Call ()
         {
             points = new List<Point>();
+            duration = new TimeSpan();
         }
 
     }
