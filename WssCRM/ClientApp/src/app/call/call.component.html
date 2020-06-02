@@ -1,39 +1,114 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-  <div>
-    {{call.date}}
-  </div>
-  <div>
-    {{call.company}}
-  </div>
-  <div>
-    {{call.stage}}
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Пункт</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
+<div>
+  <h3>
+    Новый звонок
+  </h3>
+</div>
+<table class="table table-striped" style="margin-bottom:20px">
+  <tbody>
+    <tr>
+      <td>
+        <div>
+          {{call.company.name}}
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div>
+          Этап: {{call.stage.name}}
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div>
+          Менеджер: {{call.manager.name}}
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div>
+          <mat-form-field class="fullwidth">
+            <input matInput [matDatepicker]="DatePickerNext" placeholder="Дата звонка" [readonly]="true" [(ngModel)]="call.date">
+            <mat-datepicker #DatePickerNext></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div>
+          <a href={{call.clientLink}}>
+            {{call.clientName}}
+          </a>
+        </div>
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        <div>
+          {{call.duration}}
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-      <tr *ngFor="let p of call.points">
-        <td>{{p?.name}}</td>
-        <td><input type="number" [(ngModel)]="p.value" (change) ="updateTotalData()"/></td>
-      </tr>
-      <tr>
-        <td><b>Всего</b></td>
-        <td>{{callQuality}}</td>
-      </tr>
-    </tbody>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Пункт</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
 
-  </table>
+    <tr *ngFor="let p of call.points">
+      <td>{{p?.name}}</td>
+      <td>
+        {{p.value}}
+      </td>
+    </tr>
+    <tr *ngIf="call.points.length > 0">
+      <td><b>Всего</b></td>
+      <td>
+        {{call.quality}}
+      </td>
+    </tr>
+  </tbody>
 
-</body>
-</html>
+</table>
+<table class="table table-striped" style="margin-bottom:20px">
+  <tbody>
+    <tr>
+      <td>
+        <mat-form-field class="fullwidth">
+          <mat-label>Коррекция</mat-label>
+          <textarea matInput [(ngModel)]="call.correction" [readonly]="true" [ngClass]="{'positive' : call.correctioncolor =='green',
+            'negative' : call.correctioncolor =='red'}"></textarea>
+        </mat-form-field>
+      </td>
+      
+    </tr>
+    <tr>
+      <td>
+        <mat-radio-group aria-label="Статус клиента" [(ngModel)]="call.clientState">
+          <mat-radio-button value="Success">Успешно закрыт</mat-radio-button>
+          <mat-radio-button value="Missed">Упущен</mat-radio-button>
+          <mat-radio-button value="Work">В работе</mat-radio-button>
+        </mat-radio-group>
+      </td>
+      <td>
+        <mat-form-field class="fullwidth" *ngIf="call.clientState=='Work'">
+          <input matInput [matDatepicker]="DatePickerNext" placeholder="Дата следующего контакта" [readonly]="true" [(ngModel)]="call.dateNext">
+          <mat-datepicker-toggle matSuffix [for]="DatePickerNext"></mat-datepicker-toggle>
+          <mat-datepicker #DatePickerNext></mat-datepicker>
+        </mat-form-field>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<button type="button" class="btn  btn-sm btn-success" (click)="saveCall()">Сохранить</button>
+

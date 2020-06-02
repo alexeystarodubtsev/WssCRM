@@ -37,6 +37,12 @@ namespace WssCRM.Processing
                 call.Correction = dbcall.Correction;
                 call.ClientName = dbcall.ClientName;
                 call.ClientLink = dbcall.ClientLink;
+                call.clientState = dbcall.ClientState;
+                call.correctioncolor = dbcall.correctioncolor;
+                call.duration = dbcall.duration;
+                if (dbcall.DateNext.HasValue)
+                    call.DateNext = dbcall.DateNext.Value;
+                call.manager = new Manager(db.Managers.Where(m => m.Id == dbcall.ManagerID).First().name, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().Id);
                 foreach (var dbpoint in db.Points.Where(p=>p.CallID == dbcall.Id))
                 {
                     var dbAbstractPoint = db.AbstractPoints.Where(p => p.Id == dbpoint.AbstractPointID).First();
@@ -51,6 +57,24 @@ namespace WssCRM.Processing
 
             return call;
         }
+
+
+        public string UpdateCall(Call clientcall)
+        {
+            DBModels.Call dbcall = getDbCall(clientcall);
+            dbcall.Points = null;
+            db.Calls.Update(dbcall);
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateException e)
+            {
+                return "Что-то пошло не так";
+            }
+            return "";
+        }
+
         public Call NewCall(int CompanyID, int StageID)
         {
 
@@ -77,8 +101,7 @@ namespace WssCRM.Processing
 
             return call;
         }
-        
-        public string AddNewCall(Call clientcall)
+        private DBModels.Call getDbCall(Call clientcall)
         {
             DBModels.Call dbcall = new DBModels.Call();
             dbcall.ClientName = clientcall.ClientName;
@@ -88,13 +111,13 @@ namespace WssCRM.Processing
             dbcall.correctioncolor = clientcall.correctioncolor;
             dbcall.Date = clientcall.Date;
             dbcall.duration = clientcall.duration;
-            if (clientcall.clientState == "В работе" && clientcall.DateNext.Year > 2000)
+            if (clientcall.clientState == "Work" && clientcall.DateNext.Year > 2000)
             {
                 dbcall.DateNext = clientcall.DateNext;
             }
             else
             {
-                if (clientcall.clientState != "" && clientcall.clientState != "В работе")
+                if (clientcall.clientState != "" && clientcall.clientState != "Work")
                 {
                     dbcall.DateOfClose = clientcall.Date;
                 }
@@ -109,7 +132,12 @@ namespace WssCRM.Processing
                 dbpoint.Value = point.Value;
                 dbcall.Points.Add(dbpoint);
             }
+            return dbcall;
+        }
+        public string AddNewCall(Call clientcall)
+        {
 
+            DBModels.Call dbcall = getDbCall(clientcall);
             db.Calls.Add(dbcall);
             try
             {

@@ -56,6 +56,16 @@ namespace WssCRM.Controllers
             }
             return Ok();
         }
+        [HttpPut]
+        public IActionResult UpdateCall(Call call)
+        {
+            string err = new ProcessingCall(db).UpdateCall(call);
+            if (err != "")
+            {
+                return BadRequest(err);
+            }
+            return Ok();
+        }
     }
 
 }

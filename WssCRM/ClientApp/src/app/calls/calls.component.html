@@ -62,7 +62,10 @@
       <td>{{c.manager.name}}</td>
       <td>{{c.clientName}}</td>
       <td>
-        {{c.date}}
+        <mat-form-field class="fullwidth">
+          <input matInput [matDatepicker]="mymatdate" placeholder="Дата звонка" [readonly]="true" [(ngModel)]="c.date">
+          <mat-datepicker #mymatdate></mat-datepicker>
+        </mat-form-field>
       </td>
       <td>
         <button class="btn btn-sm btn-primary" [routerLink]="['/call', c.id]" >Перейти к звонку</button>

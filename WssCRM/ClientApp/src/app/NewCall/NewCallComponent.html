@@ -150,7 +150,7 @@
       </td>
       <td>
         <mat-form-field class="fullwidth" *ngIf="call.clientState=='Work'">
-          <input matInput [matDatepicker]="DatePickerNext" [max]="maxDate" placeholder="Выберите дату слудующего контакта" [readonly]="true" [(ngModel)]="call.DateNext">
+          <input matInput [matDatepicker]="DatePickerNext"  placeholder="Выберите дату следующего контакта" [readonly]="true" [(ngModel)]="call.DateNext">
           <mat-datepicker-toggle matSuffix [for]="DatePickerNext"></mat-datepicker-toggle>
           <mat-datepicker #DatePickerNext></mat-datepicker>
         </mat-form-field>

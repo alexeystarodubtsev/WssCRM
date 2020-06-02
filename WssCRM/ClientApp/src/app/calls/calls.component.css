@@ -7,3 +7,16 @@
   text-align: center;
 }
 
+.fullwidth {
+  width: 40%;
+  min-width: 100px;
+  max-width: 500px;
+}
+
+.positive {
+  background-color: chartreuse;
+}
+
+.negative {
+  background-color: red;
+}

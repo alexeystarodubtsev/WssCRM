@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { isNullOrUndefined } from 'util';
+import { Call } from '../Models/Call';
 
 @Injectable()
 export class DataService {
@@ -15,6 +16,9 @@ export class DataService {
     }
     return this.http.get(this.url + '/' + id);
 
+  }
+  saveCall(c: Call) {
+    return this.http.put(this.url, c);
   }
 
 }
