@@ -85,7 +85,7 @@ export class CallsComponent implements OnInit{
     this.dataService.getCalls(this.curFlt)
       .subscribe((data: Call[]) => {
         this.calls = data;
-        
+        console.log(data);
       });
     
   }

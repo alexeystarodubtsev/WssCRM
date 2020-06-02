@@ -17,10 +17,16 @@ namespace WssCRM
         public int id { get; set; }
         public string ClientName { get; set; }
         public string ClientLink { get; set; }
+        public string correctioncolor { get; set; }
+        public string clientState { get; set; }
+        public DateTime DateNext { get; set; }
+        public bool hasObjections { get; set; }
+        public List<Objection> Objections { get; set; }
         public Call ()
         {
             points = new List<Point>();
             duration = new TimeSpan();
+            Objections = new List<Objection>();
         }
 
     }

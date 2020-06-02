@@ -122,16 +122,41 @@
   </tbody>
 
 </table>
-<mat-form-field class="fullwidth">
-  <mat-label>Введите коррекцию</mat-label>
-  <textarea matInput  [(ngModel)]="call.correction" [ngClass]="{'positive' : call.correctioncolor =='green',
+<table class="table table-striped" style="margin-bottom:20px">
+  <tbody>
+    <tr>
+      <td>
+        <mat-form-field class="fullwidth">
+          <mat-label>Введите коррекцию</mat-label>
+          <textarea matInput [(ngModel)]="call.correction" [ngClass]="{'positive' : call.correctioncolor =='green',
             'negative' : call.correctioncolor =='red'}"></textarea>
-</mat-form-field>
-<mat-radio-group aria-label="Тип коррекции" [(ngModel)]="call.correctioncolor">
-  <mat-radio-button value="no color">Не выбрано</mat-radio-button>
-  <mat-radio-button value="green">Положительная</mat-radio-button>
-  <mat-radio-button value="red">Отрицательная</mat-radio-button>
-</mat-radio-group>
-
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-radio-group aria-label="Тип коррекции" [(ngModel)]="call.correctioncolor">
+          <mat-radio-button value="no color">Не выбрано</mat-radio-button>
+          <mat-radio-button value="green">Положительная</mat-radio-button>
+          <mat-radio-button value="red">Отрицательная</mat-radio-button>
+        </mat-radio-group>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-radio-group aria-label="Статус клиента" [(ngModel)]="call.clientState">
+          <mat-radio-button value="Success">Успешно закрыт</mat-radio-button>
+          <mat-radio-button value="Missed">Упущен</mat-radio-button>
+          <mat-radio-button value="Work">В работе</mat-radio-button>
+        </mat-radio-group>
+      </td>
+      <td>
+        <mat-form-field class="fullwidth" *ngIf="call.clientState=='Work'">
+          <input matInput [matDatepicker]="DatePickerNext" [max]="maxDate" placeholder="Выберите дату слудующего контакта" [readonly]="true" [(ngModel)]="call.DateNext">
+          <mat-datepicker-toggle matSuffix [for]="DatePickerNext"></mat-datepicker-toggle>
+          <mat-datepicker #DatePickerNext></mat-datepicker>
+        </mat-form-field>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <button type="button" class="btn  btn-sm btn-success" [attr.disabled]="call.points.length > 0 ? null : ''" (click)="saveCall()">Сохранить</button>
 

@@ -4,6 +4,7 @@ import { Stage } from './Stage';
 import { Manager } from './Manager';
 import { FormControl } from '@angular/forms';
 import { Time } from '@angular/common';
+import { Objection } from './Objection';
 export class Call {
   constructor(
     public id?: number,
@@ -17,10 +18,17 @@ export class Call {
     public correctioncolor? : string,
     public duration?: Time,
     public ClientName?: string,
-    public ClientLink?: string
+    public ClientLink?: string,
+    public clientState?: string,
+    public Objections?: Objection[],
+    public hasObjections?: boolean,
+    public DateNext?: FormControl
   ) {
     this.company = new Company();
     this.points = [];
+    this.Objections = [];
+
+    
    
   }
   

@@ -25,6 +25,7 @@ export class  CallComponent implements OnInit {
   //}
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
+      console.log(Number(params.get('Id')));
       this.loadCall(Number(params.get('Id')));
     });
     

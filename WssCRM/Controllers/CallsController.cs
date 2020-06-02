@@ -21,10 +21,8 @@ namespace WssCRM.Controllers
         [HttpPost]
         public IEnumerable<Call> GetCalls(ChooseFilter f1)
         {
-            
-            List<Call> l = new List<Call>();
-            
-            return l;
+
+            return new ProcessingCall(db).GetCalls(f1);
         }
 
         // GET api/newcall/companyID/StageID
@@ -47,6 +45,16 @@ namespace WssCRM.Controllers
 
             return new ProcessingCall(db).getFilter(opt);
 
+        }
+        [HttpPost("newcall")]
+        public IActionResult AddCall(Call call)
+        {
+            string err = new ProcessingCall(db).AddNewCall(call);
+            if (err !="")
+            {
+                return BadRequest(err);
+            }
+            return Ok();
         }
     }
 

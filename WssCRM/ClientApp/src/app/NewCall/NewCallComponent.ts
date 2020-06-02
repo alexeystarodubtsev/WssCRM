@@ -78,7 +78,9 @@ export class NewCallComponent implements OnInit {
   }
 
   saveCall() {
-
+    this.dataService.postCall(this.call)
+      .subscribe(data => {
+      });
   }
   updateTotalData() {
     this.call.quality = 0;

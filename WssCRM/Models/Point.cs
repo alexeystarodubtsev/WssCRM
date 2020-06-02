@@ -21,6 +21,7 @@ namespace WssCRM.Models
             Name = name;
             this.maxMark = maxMark;
             this.Value = value;
+            this.id = idAbstract;
         }
         public Point(string name)
         {

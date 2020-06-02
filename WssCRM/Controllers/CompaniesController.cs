@@ -55,13 +55,15 @@ namespace WssCRM.Controllers
                     dbcomp.Stages.Where(st => st == s).First().Points =
                         db.AbstractPoints.Where(p => p.StageID == s.Id).ToList();
                 }
+                dbcomp.Managers = db.Managers.Where(m => m.CompanyID == dbcomp.Id).ToList();
             }
             catch
             {
                 return new Company();
             }
             Company returnCompany = new Company(dbcomp.name, dbcomp.Id);
-                returnCompany.stages = new List<Stage>();
+            returnCompany.stages = new List<Stage>();
+            returnCompany.managers = new List<Manager>();
             foreach (var dbstage in dbcomp.Stages)
             {
                 Stage curStage = new Stage();
@@ -78,7 +80,11 @@ namespace WssCRM.Controllers
                 }
                 returnCompany.stages.Add(curStage);
             }
-            return returnCompany;
+            foreach (var dbman in dbcomp.Managers)
+            {
+                returnCompany.managers.Add(new Manager(dbman.name, dbman.Id));
+            }
+                return returnCompany;
             
             
         }
@@ -90,84 +96,13 @@ namespace WssCRM.Controllers
                 DBModels.Company dbcomp = new DBModels.Company();
                 dbcomp.Id = clientComp.id;
                 dbcomp.name = clientComp.Name;
-                dbcomp.Stages = new List<DBModels.Stage>();
-                foreach (var stage in clientComp.stages)
-                {
-                    DBModels.Stage dbStage = new DBModels.Stage();
-                    dbStage.Name = stage.name;
-                    dbStage.Points = new List<DBModels.AbstractPoint>();
-                    dbStage.Id = stage.id;
-                    foreach(var point in stage.points)
-                    {
-                        DBModels.AbstractPoint dbPoint = new DBModels.AbstractPoint();
-                        dbPoint.name = point.Name;
-                        dbPoint.maxMark = point.maxMark;
-                        dbPoint.Id = point.id;
-                        dbStage.Points.Add(dbPoint);
-                    }
-                    dbcomp.Stages.Add(dbStage);
-                }
-
-                //db.Database.Migrate();
                 if (db.Companies.Contains(dbcomp))
                 {
-                    
-                    foreach(var dbstage in dbcomp.Stages)
-                    {
-                        if (db.Stages.Contains(dbstage))
-                        {
-                            foreach (var dbpoint in dbstage.Points)
-                            {
-                                if (db.AbstractPoints.Contains(dbpoint))
-                                {
-                                    db.AbstractPoints.Update(dbpoint);
-                                }
-                                else
-                                {
-                                    dbpoint.StageID = dbstage.Id;
-                                    dbpoint.Id = 0;
-                                    db.AbstractPoints.Add(dbpoint);
-                                    //
-                                }
-                                try
-                                {
-                                    db.SaveChanges();
-                                }
-                                catch (DbUpdateException)
-                                {
-                                    ModelState.AddModelError("key", "Имя пункта должно быть уникальным");
-                                    return BadRequest(ModelState);
-                                }
-                            }
-                            dbstage.CompanyID = dbcomp.Id;
-                            
-                            db.Stages.Update(dbstage);
-                            
-                        }
-                        else
-                        {
-                            //dbstage.CompanyID = dbcomp.Id;
-                            db.Stages.Add(dbstage);
-                            
-                        }
-                        try
-                        {
-                            db.SaveChanges();
-                        }
-                        catch (DbUpdateException)
-                        {
-                            ModelState.AddModelError("key", "Имя пункта должно быть уникально в пределах одного этапа, " +
-                                "имя этапа должно быть уникально в пределах одной компании");
-                            return BadRequest(ModelState);
-                        }
-                    }
                     db.Companies.Update(dbcomp);
-                    
                 }
                 else
                 {
                     db.Companies.Add(dbcomp);
-                    
                 }
                 try
                 {
@@ -175,10 +110,90 @@ namespace WssCRM.Controllers
                 }
                 catch (DbUpdateException)
                 {
-                    ModelState.AddModelError("key","Имя компании, пунктов, этапов должно быть уникальным");
-                    
+                    ModelState.AddModelError("key", "Имя компании должно быть уникально");
                     return BadRequest(ModelState);
                 }
+                foreach (var stage in clientComp.stages)
+                {
+                    DBModels.Stage dbStage = new DBModels.Stage();
+                    dbStage.Name = stage.name;
+                    dbStage.Id = stage.id;
+                    dbStage.CompanyID = db.Companies.Where(c => c.name == clientComp.Name).First().Id;
+                    if (db.Stages.Contains(dbStage))
+                    {
+                        db.Stages.Update(dbStage);
+                    }
+                    else
+                    {
+                        db.Stages.Add(dbStage);
+                    }
+                }
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("key", "Имя этапов должно быть уникально");
+                    return BadRequest(ModelState);
+                }
+                foreach (var man in clientComp.managers)
+                {
+                    DBModels.Manager dbman = new DBModels.Manager();
+                    dbman.Id = man.id;
+                    dbman.name = man.name;
+                    dbman.CompanyID = db.Companies.Where(c => c.name == clientComp.Name).First().Id;
+                    if (db.Managers.Contains(dbman))
+                    {
+                        db.Managers.Update(dbman);
+                    }
+                    else
+                    {
+                        db.Managers.Add(dbman);
+                    }
+                }
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("key", "Имя менеджеров должно быть уникально");
+                    return BadRequest(ModelState);
+                }
+
+                foreach (var stage in clientComp.stages)
+                {
+                    DBModels.Stage dbStage = db.Stages.Where(s => s.Name == stage.name).First();
+                    
+                    foreach(var point in stage.points)
+                    {
+                        DBModels.AbstractPoint dbPoint = new DBModels.AbstractPoint();
+                        dbPoint.name = point.Name;
+                        dbPoint.maxMark = point.maxMark;
+                        dbPoint.Id = point.id;
+                        dbPoint.StageID = dbStage.Id;
+                        if (db.AbstractPoints.Contains(dbPoint))
+                        {
+                            db.AbstractPoints.Update(dbPoint);
+                        }
+                        else
+                        {
+                            db.AbstractPoints.Add(dbPoint);
+                        }
+                    }
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (DbUpdateException)
+                    {
+                        ModelState.AddModelError("key", "Имена пунктов в этапе '" + dbStage.Name + "' должны быть уникальными");
+                        return BadRequest(ModelState);
+                    }
+                }
+                
+                
                 return Ok(clientComp);
             }
             ModelState.AddModelError("other", "Что-то пошло не так, обратитесь к разработчикам");

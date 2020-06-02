@@ -48,20 +48,26 @@
     <tr>
       <th>Компания</th>
       <th>Этап</th>
+      <th>Менеджер</th>
+      <th>Клиент</th>
       <th>Дата</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     
-      <tr *ngFor="let c of calls">
-        <td>{{c?.company}}</td>
-        <td>{{c?.stage}}</td>
-        <td></td>
-        <td>
-          <button class="btn btn-sm btn-primary" (click)="editCall(c)">Перейти к звонку</button>
-        </td>
-      </tr>
+    <tr *ngFor="let c of calls">
+      <td>{{c.company.name}}</td>
+      <td>{{c.stage.name}}</td>
+      <td>{{c.manager.name}}</td>
+      <td>{{c.clientName}}</td>
+      <td>
+        {{c.date}}
+      </td>
+      <td>
+        <button class="btn btn-sm btn-primary" [routerLink]="['/call', c.id]" >Перейти к звонку</button>
+      </td>
+    </tr>
   </tbody>
 
 </table>
