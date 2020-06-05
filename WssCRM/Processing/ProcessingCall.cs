@@ -85,6 +85,7 @@ namespace WssCRM.Processing
             call.Company.stages = new List<Stage>();
             call.Company.stages.Add(new Stage(dbstage.Name, dbstage.Id));
             call.Stage = new Stage(dbstage.Name, dbstage.Id);
+            call.correctioncolor = "no color";
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
             {
                 call.Date = DateTime.Now.AddDays(-3);
@@ -149,11 +150,21 @@ namespace WssCRM.Processing
             }
             return "";
         }
-        public IEnumerable<Call> GetCalls(ChooseFilter f1)
+        public PartialCalls GetCalls(ChooseFilter f1)
         {
+            PartialCalls l = new PartialCalls();
+            l.calls  = new List<Call>();
+            int qty = db.Calls.Count(c =>
+                (c.StageID == f1.stage.id || f1.stage.id == -40)
+                && c.Date >= f1.StartDate
+                && c.Date <= f1.EndDate
+                && (c.ManagerID == f1.manager.id || f1.manager.id == -40)
+                && (db.Stages.Where(s => s.CompanyID == f1.Company.id && s.Id == c.StageID).Count() > 0)
+                && (db.Managers.Where(m => m.CompanyID == f1.Company.id && m.Id == c.ManagerID).Count() > 0));
+            int qtyonsamepage = 20;
+            l.pageSize = (qty / qtyonsamepage) + ((qty % qtyonsamepage) > 0 ? 1 : 0);
 
-            List<Call> l = new List<Call>();
-
+            
             foreach (var dbcall in db.Calls.Where(c => 
                 (c.StageID == f1.stage.id || f1.stage.id == -40)
                 && c.Date >= f1.StartDate 
@@ -161,7 +172,7 @@ namespace WssCRM.Processing
                 && (c.ManagerID == f1.manager.id || f1.manager.id == -40)
                 && (db.Stages.Where(s => s.CompanyID == f1.Company.id && s.Id == c.StageID).Count() > 0)
                 && (db.Managers.Where(m => m.CompanyID == f1.Company.id && m.Id == c.ManagerID).Count() > 0)
-            ))
+            ).Skip((f1.pageNumber - 1)*qtyonsamepage).Take(qtyonsamepage))
             {
                 Call call = new Call();
                 call.ClientName = dbcall.ClientName;
@@ -171,7 +182,7 @@ namespace WssCRM.Processing
                 call.Stage = new Stage(db.Stages.Where(s => s.Id == dbcall.StageID).First().Name, db.Stages.Where(s => s.Id == dbcall.StageID).First().Id);
                 call.manager = new Manager(db.Managers.Where(m => m.Id == dbcall.ManagerID).First().name, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().Id);
                 call.Date = dbcall.Date;
-                l.Add(call);
+                l.calls.Add(call);
             }
 
             return l;

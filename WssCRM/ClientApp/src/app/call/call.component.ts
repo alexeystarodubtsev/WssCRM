@@ -23,7 +23,7 @@ import { MY_FORMATS } from '../calls/calls.component';
 export class  CallComponent implements OnInit {
 
   
-  call: Call;
+  call: Call = new Call();
   callQuality: number = 0;
   constructor(
     private route: ActivatedRoute,
@@ -37,15 +37,18 @@ export class  CallComponent implements OnInit {
   //}
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      console.log(Number(params.get('Id')));
       this.loadCall(Number(params.get('Id')));
     });
     
   }
-  updateTotalData()
-  {
-    this.callQuality = 0;
-    this.call.points.forEach(p => { this.callQuality += p.value;  });
+  updateTotalData() {
+    this.call.quality = 0;
+    let MaxPoints = 0;
+    this.call.points.forEach(p => { this.call.quality += p.value; MaxPoints += p.maxMark; });
+    if (MaxPoints != 0)
+      this.call.quality = Math.round(this.call.quality * 10000 / MaxPoints) / 100;
+    else
+      this.call.quality = -1;
   }
   saveCall() {
     this.dataService.saveCall(this.call).
@@ -56,7 +59,6 @@ export class  CallComponent implements OnInit {
     this.dataService.getCall(id)
       .subscribe((data: Call) => {
         this.call = data;
-        console.log(this.call);
         this.updateTotalData();
       });
     

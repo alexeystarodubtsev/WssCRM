@@ -8,6 +8,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { PartialCalls } from '../Models/PartialCalls';
 // tslint:disable-next-line:no-duplicate-imports
 
 const moment =  _moment;
@@ -49,8 +50,7 @@ export class CallsComponent implements OnInit{
   curFlt: ChoseFilter = new ChoseFilter();
   DateBegin = new FormControl(moment());
   DateEnd = new FormControl(moment());
-  page: number = 2;
-  pageSize: number = 10;
+  pageSize: number = 0;
 
   //choseDate: Date; [(ngModel)]="choseDate"
   constructor(private dataService: DataService) { }
@@ -83,9 +83,10 @@ export class CallsComponent implements OnInit{
     
     console.log(this.DateBegin);
     this.dataService.getCalls(this.curFlt)
-      .subscribe((data: Call[]) => {
-        this.calls = data;
-        console.log(data);
+      .subscribe((data: PartialCalls) => {
+        this.calls = data.calls;
+        this.pageSize = data.pageSize;
+        console.log(this.pageSize);
       });
     
   }
@@ -93,6 +94,6 @@ export class CallsComponent implements OnInit{
     this.callslist = true;
   }
   pageChanged() {
-    console.log(this.page);
+    this.getCalls();
   }
 }

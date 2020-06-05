@@ -75,9 +75,9 @@
 
 </table>
 <div class="footer" >
-  <ngb-pagination [(page)]="page"
-                  [pageSize]="pageSize"
-                  [collectionSize]="50"
+  <ngb-pagination [(page)]="curFlt.pageNumber"
+                  [pageSize]="20"
+                  [collectionSize]="pageSize * 20"
                   (pageChange)="pageChanged()">
                   
   </ngb-pagination>

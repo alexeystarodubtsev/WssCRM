@@ -1,8 +1,4 @@
-<div>
-  <h3>
-    Новый звонок
-  </h3>
-</div>
+
 <table class="table table-striped" style="margin-bottom:20px">
   <tbody>
     <tr>
@@ -39,9 +35,12 @@
     <tr>
       <td>
         <div>
-          <a href={{call.clientLink}}>
+          <a href={{call.clientLink}} *ngIf="call.clientLink !=null">
             {{call.clientName}}
           </a>
+          <div *ngIf="call.clientLink ==null">
+            {{call.clientName}}
+          </div>
         </div>
       </td>
     </tr>
@@ -74,7 +73,7 @@
     <tr *ngIf="call.points.length > 0">
       <td><b>Всего</b></td>
       <td>
-        {{call.quality}}
+        {{call.quality}}%
       </td>
     </tr>
   </tbody>

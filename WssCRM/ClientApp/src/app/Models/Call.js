@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Company_1 = require("./Company");
+var Stage_1 = require("./Stage");
+var Manager_1 = require("./Manager");
 var Call = /** @class */ (function () {
     function Call(id, stage, points, company, date, quality, manager, correction, correctioncolor, duration, ClientName, ClientLink, clientState, Objections, hasObjections, DateNext) {
         this.id = id;
@@ -22,6 +24,8 @@ var Call = /** @class */ (function () {
         this.company = new Company_1.Company();
         this.points = [];
         this.Objections = [];
+        this.stage = new Stage_1.Stage();
+        this.manager = new Manager_1.Manager();
     }
     return Call;
 }());

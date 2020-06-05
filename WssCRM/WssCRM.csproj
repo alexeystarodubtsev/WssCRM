@@ -49,6 +49,7 @@
     <None Remove="ClientApp\src\app\Models\Filter.ts" />
     <None Remove="ClientApp\src\app\Models\Manager.ts" />
     <None Remove="ClientApp\src\app\Models\Objection.ts" />
+    <None Remove="ClientApp\src\app\Models\PartialCalls.ts" />
     <None Remove="ClientApp\src\app\Models\Point.ts" />
     <None Remove="ClientApp\src\app\Models\Stage.ts" />
     <None Remove="ClientApp\src\app\NewCall\data-service.ts" />
@@ -70,6 +71,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\Models\Filter.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Manager.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Objection.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\PartialCalls.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Point.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Stage.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\NewCall\data-service.ts" />

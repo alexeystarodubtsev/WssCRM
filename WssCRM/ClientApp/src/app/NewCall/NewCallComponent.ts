@@ -66,6 +66,7 @@ export class NewCallComponent implements OnInit {
       this.dataService.getCall(this.call.company.id, this.call.stage.id)
         .subscribe((data: Call) => {
           this.call.points = data.points;
+          this.call.correctioncolor = data.correctioncolor;
           if (isNullOrUndefined(this.call.date)) {
             this.call.date = data.date;
           }
@@ -87,7 +88,7 @@ export class NewCallComponent implements OnInit {
     let MaxPoints = 0;
     this.call.points.forEach(p => { this.call.quality += p.value; MaxPoints += p.maxMark; });
     if (MaxPoints != 0)
-      this.call.quality /= MaxPoints;
+      this.call.quality = Math.round(this.call.quality * 10000 / MaxPoints) / 100;
     else
       this.call.quality = -1;
   }

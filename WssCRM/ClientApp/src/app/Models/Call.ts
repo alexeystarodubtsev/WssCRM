@@ -27,7 +27,8 @@ export class Call {
     this.company = new Company();
     this.points = [];
     this.Objections = [];
-
+    this.stage = new Stage();
+    this.manager = new Manager();
     
    
   }

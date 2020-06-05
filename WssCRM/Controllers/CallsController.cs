@@ -19,7 +19,7 @@ namespace WssCRM.Controllers
             db = context;
         }
         [HttpPost]
-        public IEnumerable<Call> GetCalls(ChooseFilter f1)
+        public PartialCalls GetCalls(ChooseFilter f1)
         {
 
             return new ProcessingCall(db).GetCalls(f1);

@@ -12,13 +12,15 @@ namespace WssCRM.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Manager manager { get; set; }
-        public ChooseFilter(Company company, Stage stage, Manager manager, DateTime StartDate, DateTime EndDate)
+        public int pageNumber { get; set; }
+        public ChooseFilter(Company company, Stage stage, Manager manager, DateTime StartDate, DateTime EndDate, int pageNumber)
         {
             this.Company = company;
             this.stage = stage;
             this.manager = manager;
             this.StartDate = StartDate;
             this.EndDate = EndDate;
+            this.pageNumber = pageNumber;
         }
     }
 }
