@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WssCRM.Models;
 using WssCRM.Processing;
 
@@ -66,6 +67,23 @@ namespace WssCRM.Controllers
             }
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCompany(int id)
+        {
+            try
+            {
+                db.Calls.Remove(db.Calls.Where(c => c.Id == id).First());
+                db.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("can'tdel", "Не удалось удалить");
+                return BadRequest(ModelState);
+            }
+            return Ok();
+        }
+
     }
 
 }

@@ -62,7 +62,11 @@ namespace WssCRM.Processing
         public string UpdateCall(Call clientcall)
         {
             DBModels.Call dbcall = getDbCall(clientcall);
-            dbcall.Points = null;
+            dbcall.Points = new List<DBModels.Point>();
+            foreach (var dbp in db.Points.Where(p => p.CallID == clientcall.id))
+            {
+                dbcall.Points.Add(dbp);
+            };
             db.Calls.Update(dbcall);
             try
             {

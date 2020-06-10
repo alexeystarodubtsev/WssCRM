@@ -3,7 +3,7 @@ import { DataService } from './data-service';
 import { Call } from '../Models/Call';
 import { Filter } from '../Models/Filter';
 import { ChoseFilter } from '../Models/ChoseFilter';
-
+import { Router } from '@angular/router';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
@@ -51,9 +51,8 @@ export class CallsComponent implements OnInit{
   DateBegin = new FormControl(moment());
   DateEnd = new FormControl(moment());
   pageSize: number = 0;
-
   //choseDate: Date; [(ngModel)]="choseDate"
-  constructor(private dataService: DataService) { }
+  constructor(private router: Router, private dataService: DataService) { }
   ngOnInit() {
     this.loadFilter();// загрузка данных при старте компонента
 
@@ -71,6 +70,9 @@ export class CallsComponent implements OnInit{
       );
     
   }
+
+  
+
   editCall(c: Call) {
     this.call = c;
     this.callslist = false;
@@ -93,6 +95,15 @@ export class CallsComponent implements OnInit{
   returnCalls() {
     this.callslist = true;
   }
+  OpenCall(id: number) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(["/call/" + id])
+    );
+
+    window.open(url, '_blank');
+  
+  }
+
   pageChanged() {
     this.getCalls();
   }

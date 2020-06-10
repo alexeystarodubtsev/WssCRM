@@ -23,6 +23,7 @@ export class Call {
     public Objections?: Objection[],
     public hasObjections?: boolean,
     public DateNext?: FormControl
+
   ) {
     this.company = new Company();
     this.points = [];

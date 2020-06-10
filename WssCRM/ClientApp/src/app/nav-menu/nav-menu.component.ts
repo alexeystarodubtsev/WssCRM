@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = true;
-
   collapse() {
     this.isExpanded = false;
+    console.log(window.innerWidth);
   }
 
   toggle() {

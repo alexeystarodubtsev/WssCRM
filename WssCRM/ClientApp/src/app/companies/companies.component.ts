@@ -48,6 +48,7 @@ export class CompaniesComponent implements OnInit {
     this.errors = [];
   }
   saveCompany() {
+    console.log(this.curCompany);
     this.dataService.postCompany(this.curCompany)
       .subscribe(data => {
         this.loadCompanies();

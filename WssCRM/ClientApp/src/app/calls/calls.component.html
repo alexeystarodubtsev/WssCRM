@@ -68,7 +68,8 @@
         </mat-form-field>
       </td>
       <td>
-        <button class="btn btn-sm btn-primary" [routerLink]="['/call', c.id]" >Перейти к звонку</button>
+        <!--<button class="btn btn-sm btn-primary" [routerLink]="['/call', c.id]" >Перейти к звонку</button>-->
+        <button class="btn btn-sm btn-primary" (click) = "OpenCall(c.id)">Перейти к звонку</button>
       </td>
     </tr>
   </tbody>

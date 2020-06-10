@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../calls/calls.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalContent } from '../ModalWindow/ModalWindowComponent';
 
 @Component({
   selector: 'app-call',
@@ -25,9 +27,12 @@ export class  CallComponent implements OnInit {
   
   call: Call = new Call();
   callQuality: number = 0;
+  errors: string[] = [];
+  hasErrors: boolean = false;
   constructor(
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private modalService: NgbModal
   ) { }
 
   
@@ -59,9 +64,54 @@ export class  CallComponent implements OnInit {
     this.dataService.getCall(id)
       .subscribe((data: Call) => {
         this.call = data;
+        //if (this.call.DateNext)
         this.updateTotalData();
       });
     
+  }
+
+  processError(err) {
+    this.hasErrors = true;
+    if (err.status === 400) {
+      let validationErrorDictionary = err.error;
+
+      for (var fieldName in validationErrorDictionary) {
+        if (validationErrorDictionary.hasOwnProperty(fieldName)) {
+          this.errors.push(validationErrorDictionary[fieldName].join());
+
+        }
+      }
+    } else {
+      this.errors.push("something went wrong!");
+    }
+    setTimeout(() => {
+      this.hasErrors = false;
+      this.errors = [];
+    }, 10000);
+  }
+
+  closeError() {
+
+    this.hasErrors = false;
+    this.errors = [];
+  }
+
+  delete() {
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.question = 'Вы уверены, что хотите безвозвратно удалить звонок?';
+    modalRef.result.then((result) => {
+      if (result && result == 'Ok click') {
+        this.dataService.delete(this.call.id).subscribe(data => {
+          window.close();
+        },
+          err => {
+            this.processError(err);
+
+          });
+
+      }
+
+    })
   }
     
 }
