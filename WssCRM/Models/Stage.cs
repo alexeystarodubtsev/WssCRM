@@ -9,15 +9,17 @@ namespace WssCRM.Models
     {
         public string name;
         public int id;
+        public bool deleted { get; set; }
         public List<Point> points = new List<Point>();
         public Stage()
         {
 
         }
-        public Stage(string name, int id)
+        public Stage(string name, int id, bool deleted)
         {
             this.name = name;
             this.id = id;
+            this.deleted = deleted;
         }
     }
 }

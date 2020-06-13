@@ -17,6 +17,7 @@ export class CompaniesComponent implements OnInit {
   companies: Company[];
   curCompany: Company = new Company();
   curStage: Stage;
+  Attachments: File[] = [];
   curmanager: Manager = new Manager();
   ModeNewManager: boolean = false;
   tableMode: boolean = true;
@@ -24,6 +25,7 @@ export class CompaniesComponent implements OnInit {
   caption: string;
   errors: string[] = [];
   hasErrors: boolean = false;
+  processFile: boolean = false;
   constructor(private dataService: DataService, private modalService: NgbModal) { }
   ngOnInit() {
     this.curCompany.name = "";
@@ -80,6 +82,31 @@ export class CompaniesComponent implements OnInit {
     }, 10000);
   }
 
+  deleteMan(m: Manager) {
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.question = 'Вы уверены, что хотите удалить менеджера?';
+    modalRef.result.then((result) => {
+      if (result && result == 'Ok click') {
+        m.deleted = true;
+        
+      }
+
+    })
+  }
+
+  deleteStage(s: Stage) {
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.question = 'Вы уверены, что хотите удалить этап?';
+    modalRef.result.then((result) => {
+      if (result && result == 'Ok click') {
+        s.deleted = true;
+
+      }
+
+    })
+  }
+
+
   delete() {
     const modalRef = this.modalService.open(NgbdModalContent);
     modalRef.componentInstance.question = 'Вы уверены, что хотите безвозвратно удалить компанию со всеми звонками?';
@@ -107,6 +134,7 @@ export class CompaniesComponent implements OnInit {
     if (this.curmanager.name != "") {
       this.curCompany.managers.push(this.curmanager)
     }
+    console.log(this.curCompany.managers);
     this.ModeNewManager = false;
   }
   OpenCompany(c: Company) {
@@ -136,8 +164,32 @@ export class CompaniesComponent implements OnInit {
   }
   returnToCompany() {
     this.StageMode = false;
+    this.curStage = new Stage();
   }
   returnCompanies() {
     this.tableMode = true;
+    this.curCompany = new Company();
+    this.caption = "";
+    this.curStage = new Stage();
+    this.curmanager = new Manager();
+    this.Attachments = [];
   }
+
+  chooseXLS(event) {
+    this.Attachments = event.target.files;
+    
+  }
+
+  uploadXLS() {
+    this.processFile = true;
+    const formData = new FormData();
+    formData.append(this.Attachments[0].name, this.Attachments[0]);
+    this.dataService.postFile(formData).subscribe((data: Company) => {
+      this.curCompany.stages = data.stages;
+      this.processFile = false;
+      this.Attachments = [];
+    });
+  }
+
+
 }

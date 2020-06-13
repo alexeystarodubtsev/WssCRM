@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WssCRM.Models;
@@ -30,8 +31,8 @@ namespace WssCRM.Processing
 
                 call.Company = new Company(dbcomp.name, dbcomp.Id);
                 call.Company.stages = new List<Stage>();
-                call.Company.stages.Add(new Stage(dbstage.Name, dbstage.Id));
-                call.Stage = new Stage(dbstage.Name, dbstage.Id);
+                call.Company.stages.Add(new Stage(dbstage.Name, dbstage.Id,dbstage.deleted));
+                call.Stage = new Stage(dbstage.Name, dbstage.Id, dbstage.deleted);
                 call.Date = dbcall.Date;
                 call.duration = dbcall.duration;
                 call.Correction = dbcall.Correction;
@@ -42,11 +43,11 @@ namespace WssCRM.Processing
                 call.duration = dbcall.duration;
                 if (dbcall.DateNext.HasValue)
                     call.DateNext = dbcall.DateNext.Value;
-                call.manager = new Manager(db.Managers.Where(m => m.Id == dbcall.ManagerID).First().name, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().Id);
+                call.manager = new Manager(db.Managers.Where(m => m.Id == dbcall.ManagerID).First().name, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().Id, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().deleted);
                 foreach (var dbpoint in db.Points.Where(p=>p.CallID == dbcall.Id))
                 {
                     var dbAbstractPoint = db.AbstractPoints.Where(p => p.Id == dbpoint.AbstractPointID).First();
-                    call.points.Add(new Point(dbAbstractPoint.name, dbpoint.Value, dbAbstractPoint.maxMark,dbAbstractPoint.Id));
+                    call.points.Add(new Point(dbAbstractPoint.name, dbpoint.Value, dbAbstractPoint.maxMark,dbAbstractPoint.Id,false));
                 }
             }
             catch (System.InvalidOperationException e)
@@ -67,11 +68,12 @@ namespace WssCRM.Processing
             {
                 dbcall.Points.Add(dbp);
             };
+            dbcall.Id = clientcall.id;
             db.Calls.Update(dbcall);
             try
             {
                 db.SaveChanges();
-            }
+            } 
             catch (DbUpdateException e)
             {
                 return "Что-то пошло не так";
@@ -87,8 +89,8 @@ namespace WssCRM.Processing
             var dbstage = db.Stages.Where(s => s.Id == StageID).First();
             call.Company = new Company(dbcomp.name, dbcomp.Id);
             call.Company.stages = new List<Stage>();
-            call.Company.stages.Add(new Stage(dbstage.Name, dbstage.Id));
-            call.Stage = new Stage(dbstage.Name, dbstage.Id);
+            call.Company.stages.Add(new Stage(dbstage.Name, dbstage.Id,dbstage.deleted));
+            call.Stage = new Stage(dbstage.Name, dbstage.Id, dbstage.deleted);
             call.correctioncolor = "no color";
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
             {
@@ -98,9 +100,9 @@ namespace WssCRM.Processing
                 call.Date = DateTime.Now.AddDays(-1);
             
             
-            foreach (var dbpoint in db.AbstractPoints.Where(p => p.StageID == StageID))
+            foreach (var dbpoint in db.AbstractPoints.Where(p => p.StageID == StageID && p.deleted != true))
             {
-                call.points.Add(new Point(dbpoint.name,0,dbpoint.maxMark,dbpoint.Id));
+                call.points.Add(new Point(dbpoint.name,0,dbpoint.maxMark,dbpoint.Id,false));
             }
             
 
@@ -114,7 +116,8 @@ namespace WssCRM.Processing
             dbcall.ClientState = clientcall.clientState;
             dbcall.Correction = clientcall.Correction;
             dbcall.correctioncolor = clientcall.correctioncolor;
-            dbcall.Date = clientcall.Date;
+            dbcall.Date = new DateTime();
+            dbcall.Date = clientcall.Date.Date;
             dbcall.duration = clientcall.duration;
             if (clientcall.clientState == "Work" && clientcall.DateNext.Year > 2000)
             {
@@ -158,6 +161,9 @@ namespace WssCRM.Processing
         {
             PartialCalls l = new PartialCalls();
             l.calls  = new List<Call>();
+
+           
+
             int qty = db.Calls.Count(c =>
                 (c.StageID == f1.stage.id || f1.stage.id == -40)
                 && c.Date >= f1.StartDate
@@ -167,7 +173,6 @@ namespace WssCRM.Processing
                 && (db.Managers.Where(m => m.CompanyID == f1.Company.id && m.Id == c.ManagerID).Count() > 0));
             int qtyonsamepage = 20;
             l.pageSize = (qty / qtyonsamepage) + ((qty % qtyonsamepage) > 0 ? 1 : 0);
-
             
             foreach (var dbcall in db.Calls.Where(c => 
                 (c.StageID == f1.stage.id || f1.stage.id == -40)
@@ -183,8 +188,8 @@ namespace WssCRM.Processing
                 call.ClientLink = dbcall.ClientLink;
                 call.id = dbcall.Id;
                 call.Company = new Company(db.Companies.Where(c => c.Id == f1.Company.id).First().name, f1.Company.id);
-                call.Stage = new Stage(db.Stages.Where(s => s.Id == dbcall.StageID).First().Name, db.Stages.Where(s => s.Id == dbcall.StageID).First().Id);
-                call.manager = new Manager(db.Managers.Where(m => m.Id == dbcall.ManagerID).First().name, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().Id);
+                call.Stage = new Stage(db.Stages.Where(s => s.Id == dbcall.StageID).First().Name, db.Stages.Where(s => s.Id == dbcall.StageID).First().Id,false);
+                call.manager = new Manager(db.Managers.Where(m => m.Id == dbcall.ManagerID).First().name, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().Id, false);
                 call.Date = dbcall.Date;
                 l.calls.Add(call);
             }
@@ -198,18 +203,18 @@ namespace WssCRM.Processing
             foreach (var dbcomp in db.Companies)
             {
                 company1 = new Company(dbcomp.name, dbcomp.Id);
-                foreach (var dbstage in db.Stages.Where(s => s.CompanyID == dbcomp.Id))
+                foreach (var dbstage in db.Stages.Where(s => s.CompanyID == dbcomp.Id && s.deleted != true))
                 {
-                    company1.stages.Add(new Stage(dbstage.Name, dbstage.Id));
+                    company1.stages.Add(new Stage(dbstage.Name, dbstage.Id,false));
                 }
                 if (opt.ToUpper() == "ALL")
-                  company1.stages.Add(new Stage("Все этапы", -40));
-                foreach (var dbman in db.Managers.Where(m => m.CompanyID == dbcomp.Id))
+                  company1.stages.Add(new Stage("Все этапы", -40, false));
+                foreach (var dbman in db.Managers.Where(m => m.CompanyID == dbcomp.Id && m.deleted != true))
                 {
-                    company1.managers.Add(new Manager(dbman.name, dbman.Id));
+                    company1.managers.Add(new Manager(dbman.name, dbman.Id,false));
                 }
                 if (opt.ToUpper() == "ALL")
-                    company1.managers.Add(new Manager("Все менеджеры", -40));
+                    company1.managers.Add(new Manager("Все менеджеры", -40,false));
                 F1.Companies.Add(company1);
             }
             return F1;

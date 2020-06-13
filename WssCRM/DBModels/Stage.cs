@@ -14,6 +14,7 @@ namespace WssCRM.DBModels
         public int CompanyID { get; set; }
         [Required]
         public string Name { get; set; }
+        public bool deleted { get; set; }
         public ICollection <AbstractPoint> Points { get; set; }
         public ICollection<Call> Calls { get; set; }
     }

@@ -23,5 +23,8 @@ export class DataService {
   delete(id: number) {
     return this.http.delete(this.url + '/' + id);
   }
+  postFile(f) {
+    return this.http.post(this.url + '/processfile', f);
+  }
 
 }

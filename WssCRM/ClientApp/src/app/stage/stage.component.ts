@@ -22,6 +22,11 @@ export class StageComponent implements OnInit {
 
     this.stage.points.push(this.curPoint);
   }
+
+  deletePoint(p: Point) {
+    p.deleted = true;
+  }
+
   updateTotalData() {
     this.MaxPoint = 0;
     this.stage.points.forEach(p => { if (p.maxMark != undefined) this.MaxPoint += p.maxMark; });

@@ -15,5 +15,6 @@ namespace WssCRM.DBModels
         [Required]
         public string name { get; set; }
         public int StageID { get; set; }
+        public bool deleted { get; set; }
     }
 }

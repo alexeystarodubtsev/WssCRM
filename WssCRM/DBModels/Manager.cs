@@ -12,6 +12,7 @@ namespace WssCRM.DBModels
         public int Id { get; set; }
         public string name { get; set; }
         public int CompanyID { get; set; }
-        
+        public bool deleted { get; set; }
+
     }
 }

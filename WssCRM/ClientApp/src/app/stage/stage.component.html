@@ -17,19 +17,24 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of stage.points">
-        <ng-template [ngIf]="p.active != true" [ngIfElse]="editPoint">
-          <td>
-            {{p.name}}
-          </td>
-          <td>
-            {{p.maxMark}}
-          </td>
-          <td>
-            <button type="button" class="btn btn-sm btn-primary" (click)="EditPoint(p)">Изменить</button>
-          </td>
-        </ng-template>
-      </tr>
+      <ng-container *ngFor="let p of stage.points">
+        <tr *ngIf="!p.deleted">
+
+          <ng-template [ngIf]="p.active != true" [ngIfElse]="editPoint">
+            <td>
+              {{p.name}}
+            </td>
+            <td>
+              {{p.maxMark}}
+            </td>
+            <td>
+              <button type="button" class="btn btn-sm btn-primary" (click)="EditPoint(p)">Изменить</button>
+              <button type="button" class="btn btn-sm btn-danger" (click)="deletePoint(p)">Удалить</button>
+            </td>
+          </ng-template>
+
+        </tr>
+      </ng-container>
       
     </tbody>
     <tfoot>

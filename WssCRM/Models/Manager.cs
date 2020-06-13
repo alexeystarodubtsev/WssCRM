@@ -9,10 +9,12 @@ namespace WssCRM.Models
     {
         public string name { get; set; }
         public int id { get; set; }
-        public Manager(string name, int id)
+        public bool deleted { get; set; }
+        public Manager(string name, int id, bool deleted)
         {
             this.name = name;
             this.id = id;
+            this.deleted = deleted;
         }
     }
 }

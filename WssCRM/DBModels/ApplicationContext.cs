@@ -41,6 +41,9 @@ namespace WssCRM.DBModels
             modelBuilder.Entity<Manager>()
                 .HasIndex(m => new { m.name, m.CompanyID })
                 .IsUnique();
+            modelBuilder.Entity<Call>()
+                .HasIndex(c => new {c.Date, c.ClientName,c.Correction,c.duration,c.ManagerID,c.StageID })
+                .IsUnique();
 
         }
     }

@@ -14,7 +14,7 @@
       <tr *ngFor="let c of companies">
         <td>{{c?.name}}</td>
         <td>
-          <button type="button" class="btn  btn-sm btn-primary" (click)="OpenCompany(c)">Открыть карточку</button>
+          <button type="button" class="btn  btn-sm btn-dark" (click)="OpenCompany(c)">Открыть карточку</button>
         </td>
       </tr>
     </tbody>
@@ -25,20 +25,13 @@
   <ng-container *ngIf="!StageMode; else Stage">
     <div class="col-sm-12" style="margin-top:20px">
       <div class="col-sm-3" style="margin-top:20px">
-        <button class="btn btn-sm btn-primary" (click)="returnCompanies()">Вернуться ко всем компаниям</button>
+        <button class="btn btn-sm btn-secondary" (click)="returnCompanies()">Вернуться ко всем компаниям</button>
       </div>
       <div class="col-sm-7" style="margin-top:20px">
         <h2 style="text-align:center">{{caption}}</h2>
       </div>
     </div>
 
-    <!--<div class="alert alert-danger" role="alert" *ngIf="hasErrors">
-      <ul>
-        <li *ngFor="let error of errors">
-          {{ error }}
-        </li>
-      </ul>
-    </div>-->
     <ngb-alert *ngIf="hasErrors" type="danger" (close)="closeError()">
       <ul>
         <li *ngFor="let error of errors">
@@ -48,6 +41,19 @@
     </ngb-alert>
     <div style="text-align:right">
       <button class="btn btn-danger" [attr.disabled]="curCompany.id == null ? '' : null" (click)="delete()">Удалить</button>
+    </div>
+    <div style="text-align:right">
+      <label class="btn btn-primary btn-file" [style.visibility]="curCompany.id == null ? 'visible' : 'hidden'">
+        Загрузить из excel
+        <input type="file" (change)="chooseXLS($event)" style="display:none" accept=".xlsx, .xlsm" />
+      </label>
+      <div *ngFor="let file of Attachments" style="font-size:medium;margin-left:10px; color:tan">
+        {{file?.name}}
+      </div>
+      <button *ngIf="Attachments.length > 0" class="btn btn-success" (click)="uploadXLS()">Обработать</button>
+      <div class="spinner-border" role="status" [style.visibility] ="processFile ? 'visible' : 'hidden'">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
     <div style="margin-top:20px">
       <table class="table table-striped" style="margin-top:20px; width : 50%">
@@ -89,14 +95,16 @@
               <button type="button" class="btn btn-sm btn-success" (click)="addManager()">Добавить</button>
             </td>
           </tr>
-          <tr *ngFor="let m of curCompany.managers">
-            <td>
-              {{m.name}}
-            </td>
-            <td>
-              <button type="button" class="btn btn-danger">Удалить</button>
-            </td>
-          </tr>
+          <ng-container *ngFor="let m of curCompany.managers">
+            <tr *ngIf="m.deleted == false">
+              <td>
+                {{m.name}}
+              </td>
+              <td>
+                <button type="button" class="btn btn-danger" (click)="deleteMan(m)">Удалить</button>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>
@@ -114,14 +122,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let s of curCompany.stages">
-            <td>
-              {{s.name}}
-            </td>
-            <td>
-              <button type="button" class="btn  btn-sm btn-primary" (click)="editStage(s)">Редактировать</button>
-            </td>
-          </tr>
+          <ng-container *ngFor="let s of curCompany.stages">
+            <tr *ngIf="s.deleted == false">
+              <td>
+                {{s.name}}
+              </td>
+              <td>
+                <button type="button" class="btn  btn-sm btn-primary" (click)="editStage(s)">Редактировать</button>
+                <button type="button" class="btn btn-danger" (click)="deleteStage(s)">Удалить</button>
+              </td>
+            </tr>
+
+          </ng-container>
         </tbody>
       </table>
 
