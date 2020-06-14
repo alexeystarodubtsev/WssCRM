@@ -88,7 +88,19 @@ namespace WssCRM.Controllers
         {
             return new AnalyzeCalls(db).getMissedCalls(f1);
         }
-        
+
+        [HttpPut("passedon")]
+        public IActionResult passOnToCustomer(MissedCall c)
+        {
+            string ans = new AnalyzeCalls(db).passOnToCustomer(c);
+            if (ans == "")
+                return Ok();
+            else
+            {
+                ModelState.AddModelError("other", ans);
+                return BadRequest(ModelState);
+            }
+        }
 
     }
 

@@ -46,21 +46,23 @@
 
   <thead>
     <tr>
-      <th>Компания</th>
+      <th>№</th>
+      <th>Клиент</th>
       <th>Этап</th>
       <th>Менеджер</th>
-      <th>Клиент</th>
       <th>Дата</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     
-    <tr *ngFor="let c of calls">
-      <td>{{c.company.name}}</td>
+    <tr *ngFor="let c of calls; let i = index">
+      <td>
+        {{i+1 + (curFlt.pageNumber - 1) * 20}}
+      </td>
+      <td>{{c.clientName}}</td>
       <td>{{c.stage.name}}</td>
       <td>{{c.manager.name}}</td>
-      <td>{{c.clientName}}</td>
       <td>
         <mat-form-field class="fullwidth">
           <input matInput [matDatepicker]="mymatdate" placeholder="Дата звонка" [readonly]="true" [(ngModel)]="c.date">
@@ -69,7 +71,7 @@
       </td>
       <td>
         <!--<button class="btn btn-sm btn-primary" [routerLink]="['/call', c.id]" >Перейти к звонку</button>-->
-        <button class="btn btn-sm btn-primary" (click) = "OpenCall(c.id)">Перейти к звонку</button>
+        <button class="btn btn-sm btn-primary" (click)="OpenCall(c.id)">Перейти к звонку</button>
       </td>
     </tr>
   </tbody>

@@ -9,9 +9,10 @@ export class missedCall {
     public correction?: string,
     public noticeCRM?: string,
     public dateNext?: string,
-    public manager?: string
+    public manager?: string,
+    public processed? : boolean
   )
   {
-    
+    this.processed = false;
   }
 }

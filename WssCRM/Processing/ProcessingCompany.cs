@@ -88,6 +88,7 @@ namespace WssCRM.Processing
                 curStage.incomeStage = dbstage.incomeStage;
                 curStage.preAgreementStage = dbstage.preAgreementStage;
                 curStage.agreementStage = dbstage.agreementStage;
+                curStage.Num = dbstage.Num;
                 foreach (var dbpoint in dbstage.Points)
                 {
                     Point p = new Point();
@@ -141,6 +142,7 @@ namespace WssCRM.Processing
                     dbStage.agreementStage = stage.agreementStage;
                     dbStage.preAgreementStage = stage.preAgreementStage;
                     dbStage.incomeStage = stage.incomeStage;
+                    dbStage.Num = stage.Num;
                     if (db.Stages.Contains(dbStage))
                     {
                         db.Stages.Update(dbStage);

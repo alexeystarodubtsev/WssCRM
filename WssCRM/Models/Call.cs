@@ -19,8 +19,9 @@ namespace WssCRM
         public string ClientLink { get; set; }
         public string correctioncolor { get; set; }
         public string clientState { get; set; }
-        public DateTime DateNext { get; set; }
+        public DateTime dateNext { get; set; }
         public bool hasObjections { get; set; }
+        public bool hasDateNext { get; set; }
         public List<Objection> Objections { get; set; }
         public Call ()
         {

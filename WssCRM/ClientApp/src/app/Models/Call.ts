@@ -17,21 +17,22 @@ export class Call {
     public correction?: string,
     public correctioncolor? : string,
     public duration?: Time,
-    public ClientName?: string,
-    public ClientLink?: string,
+    public clientName?: string,
+    public clientLink?: string,
     public clientState?: string,
-    public Objections?: Objection[],
+    public objections?: Objection[],
     public hasObjections?: boolean,
-    public DateNext?: FormControl
+    public dateNext?: FormControl,
+    public hasDateNext?: boolean
 
   ) {
     this.company = new Company();
     this.points = [];
-    this.Objections = [];
+    this.objections = [];
     this.stage = new Stage();
     this.manager = new Manager();
+    this.hasDateNext = false;
     
-   
   }
   
 }

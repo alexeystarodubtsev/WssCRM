@@ -41,8 +41,12 @@ namespace WssCRM.Processing
                 call.clientState = dbcall.ClientState;
                 call.correctioncolor = dbcall.correctioncolor;
                 call.duration = dbcall.duration;
+                call.hasDateNext = false;
                 if (dbcall.DateNext.HasValue)
-                    call.DateNext = dbcall.DateNext.Value;
+                {
+                    call.dateNext = dbcall.DateNext.Value;
+                    call.hasDateNext = true;
+                }
                 call.manager = new Manager(db.Managers.Where(m => m.Id == dbcall.ManagerID).First().name, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().Id, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().deleted);
                 foreach (var dbpoint in db.Points.Where(p=>p.CallID == dbcall.Id))
                 {
@@ -119,9 +123,9 @@ namespace WssCRM.Processing
             dbcall.Date = new DateTime();
             dbcall.Date = clientcall.Date.Date;
             dbcall.duration = clientcall.duration;
-            if (clientcall.clientState == "Work" && clientcall.DateNext.Year > 2000)
+            if (clientcall.clientState == "Work" && clientcall.dateNext.Year > 2000)
             {
-                dbcall.DateNext = clientcall.DateNext;
+                dbcall.DateNext = clientcall.dateNext;
             }
             else
             {

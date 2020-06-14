@@ -26,6 +26,7 @@ namespace WssCRM.DBModels
         public DateTime Date { get; set; }
         [Required]
         public int ManagerID { get; set; }
+        public bool passedOnToCustomer { get; set; }
         public string correctioncolor { get; set; }
         public System.Nullable<DateTime> DateNext { get; set; }
         public System.Nullable<DateTime> DateOfClose { get; set; }

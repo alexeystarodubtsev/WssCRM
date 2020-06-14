@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseFilter } from '../Models/ChoseFilter';
+import { missedCall } from '../Models/missedCall';
 
 @Injectable()
 export class DataService {
@@ -15,5 +16,7 @@ export class DataService {
   getFilter() {
     return this.http.get(this.url + '/Flt/all');
   }
-  
+  passOnCall(c: missedCall) {
+    return this.http.put(this.url + '/passedon', c);
+  }
 }

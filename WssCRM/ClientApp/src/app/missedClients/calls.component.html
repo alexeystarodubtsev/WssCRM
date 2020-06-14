@@ -9,8 +9,9 @@
     </mat-option>
   </mat-select>
 </mat-form-field>
-
-
+<div>
+  <mat-checkbox [(ngModel)]="curFlt.onlyNotProcessed">Только не разобранные с заказчиком</mat-checkbox>
+</div>
 
 
 <button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
@@ -21,7 +22,7 @@
 
   <thead>
     <tr>
-      <th></th>
+      <th>№</th>
       <th>Клиент</th>
       <th>Причина</th>
       <th>Ответственный</th>
@@ -30,14 +31,15 @@
       <th>Примечание по CRM</th>
       <th>Состояние клиента</th>
       <th>Дата упущения</th>
+      <th>Разобран с заказчиком</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     
-    <tr *ngFor="let c of calls">
+    <tr *ngFor="let c of calls; let i = index">
       <td>
-        
+        {{i+1 + (curFlt.pageNumber - 1) * 20}}
       </td>
       <td>
         <a href={{c.clientLink}} *ngIf="c.clientLink !=null" target="_blank">
@@ -54,6 +56,9 @@
       <td>{{c.noticeCRM}}</td>
       <td>{{c.clientState}}</td>
       <td>{{c.dateNext}}</td>
+      <td>
+        <mat-checkbox [(ngModel)]="c.processed" (change)="processCall(c)" ></mat-checkbox>
+      </td>
       <td>
         <button class="btn btn-sm btn-primary" (click)="OpenCall(c.id)">Перейти к последнему звонку</button>
       </td>

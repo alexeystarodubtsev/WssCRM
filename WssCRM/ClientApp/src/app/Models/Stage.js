@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Stage = /** @class */ (function () {
-    function Stage(name, points, id, deleted, agreementStage, preAgreementStage, incomeStage) {
+    function Stage(name, points, id, deleted, agreementStage, preAgreementStage, incomeStage, num) {
         this.name = name;
         this.points = points;
         this.id = id;
@@ -9,6 +9,7 @@ var Stage = /** @class */ (function () {
         this.agreementStage = agreementStage;
         this.preAgreementStage = preAgreementStage;
         this.incomeStage = incomeStage;
+        this.num = num;
         this.points = [];
         this.deleted = false;
         this.agreementStage = false;

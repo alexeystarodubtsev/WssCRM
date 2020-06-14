@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var missedCall = /** @class */ (function () {
-    function missedCall(id, clientName, clientLink, clientState, date, reason, correction, noticeCRM, dateNext, manager) {
+    function missedCall(id, clientName, clientLink, clientState, date, reason, correction, noticeCRM, dateNext, manager, processed) {
         this.id = id;
         this.clientName = clientName;
         this.clientLink = clientLink;
@@ -12,6 +12,8 @@ var missedCall = /** @class */ (function () {
         this.noticeCRM = noticeCRM;
         this.dateNext = dateNext;
         this.manager = manager;
+        this.processed = processed;
+        this.processed = false;
     }
     return missedCall;
 }());

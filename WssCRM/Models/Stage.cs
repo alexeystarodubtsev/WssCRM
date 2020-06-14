@@ -14,6 +14,7 @@ namespace WssCRM.Models
         public bool agreementStage { get; set; }
         public bool preAgreementStage { get; set; }
         public bool incomeStage { get; set; }
+        public int Num { get; set; }
         public Stage()
         {
 

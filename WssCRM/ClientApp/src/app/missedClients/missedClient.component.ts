@@ -43,7 +43,15 @@ export class missedClientComponent implements OnInit{
       );
     
   }
-
+  processCall(c: missedCall) {
+    this.processCalls = true;
+    this.dataService.passOnCall(c)
+      .subscribe((data => {
+        this.processCalls = false;
+      }),
+      err => { }
+        );
+  }
  
   getCalls() {
     this.processCalls = true;
@@ -52,8 +60,6 @@ export class missedClientComponent implements OnInit{
         this.processCalls = false;
         this.calls = data.calls;
         this.pageSize = data.pageSize;
-        console.log(data);
-        console.log(this.calls);
       });
     
   }

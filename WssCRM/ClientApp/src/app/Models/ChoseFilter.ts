@@ -10,9 +10,11 @@ export class ChoseFilter {
     public manager?: Manager,
     public StartDate?: FormControl,//Date,
     public EndDate?: FormControl,//Date
-    public pageNumber?: number
+    public pageNumber?: number,
+    public onlyNotProcessed?: boolean
   ) {
     this.company = new Company();
     this.pageNumber = 1;
+    this.onlyNotProcessed = true;
   }
 }

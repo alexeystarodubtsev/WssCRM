@@ -67,7 +67,7 @@
       <td>
           <mat-form-field class="fullwidth">
             <mat-label>Введите имя клиента</mat-label>
-            <input matInput [formControl]="NameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="call.ClientName">
+            <input matInput [formControl]="NameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="call.clientName">
             <mat-error *ngIf="NameFormControl.hasError('required')">
               Требуется имя клиента
             </mat-error>
@@ -78,7 +78,7 @@
       <td>
           <mat-form-field class="fullwidth">
             <mat-label>Вставьте ссылку на CRM</mat-label>
-            <input matInput type="url" [(ngModel)]="call.ClientLink">
+            <input matInput type="url" [(ngModel)]="call.clientLink">
           </mat-form-field>
       </td>
     </tr>
@@ -97,13 +97,17 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>№</th>
       <th>Пункт</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
 
-    <tr *ngFor="let p of call.points">
+    <tr *ngFor="let p of call.points; let i = index">
+      <td>
+        {{i+1}}
+      </td>
       <td>{{p?.name}}</td>
       <td>
         <mat-form-field>
@@ -114,9 +118,10 @@
       </td>
     </tr>
     <tr *ngIf="call.points.length > 0">
-      <td><b>Всего</b></td>
+      <td></td>
+      <td><b>Средний %</b></td>
       <td>
-          {{call.quality}}%
+        <b>{{call.quality}}%</b>
       </td>
     </tr>
   </tbody>
@@ -150,9 +155,10 @@
       </td>
       <td>
         <mat-form-field class="fullwidth" *ngIf="call.clientState=='Work'">
-          <input matInput [matDatepicker]="DatePickerNext"  placeholder="Выберите дату следующего контакта" [readonly]="true" [(ngModel)]="call.DateNext">
+          <input matInput [matDatepicker]="DatePickerNext" placeholder="Выберите дату следующего контакта" [readonly]="true" [(ngModel)]="call.dateNext">
           <mat-datepicker-toggle matSuffix [for]="DatePickerNext"></mat-datepicker-toggle>
           <mat-datepicker #DatePickerNext></mat-datepicker>
+          <button matSuffix [for]="DatePickerNext" type="button" class="btn  btn-sm btn-default" (click)="call.dateNext = undefined" *ngIf="call.dateNext != undefined">&times;</button>
         </mat-form-field>
       </td>
     </tr>

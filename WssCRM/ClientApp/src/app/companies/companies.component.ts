@@ -27,6 +27,7 @@ export class CompaniesComponent implements OnInit {
   errors: string[] = [];
   hasErrors: boolean = false;
   processFile: boolean = false;
+  processCompany: boolean = false;
   constructor(private dataService: DataService, private modalService: NgbModal) { }
   ngOnInit() {
     this.curCompany.name = "";
@@ -52,14 +53,16 @@ export class CompaniesComponent implements OnInit {
     this.errors = [];
   }
   saveCompany() {
-    console.log(this.curCompany);
+    this.processCompany = true;
     this.dataService.postCompany(this.curCompany)
       .subscribe(data => {
         this.loadCompanies();
         this.tableMode = true;
         this.curCompany = null;
+        this.processCompany = false;
       }, err => {
         this.processError(err);
+        this.processCompany = false;
       });
     
     

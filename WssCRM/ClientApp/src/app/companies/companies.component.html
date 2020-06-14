@@ -113,8 +113,9 @@
       <table class="table table-striped" style="margin-top:20px">
         <thead>
           <tr>
+            <th>Порядок этапа</th>
             <th>
-              <h3>Этапы</h3>
+              Этапы
             </th>
             <th>Входящий этап</th>
             <th>Этап договора</th>
@@ -128,16 +129,23 @@
           <ng-container *ngFor="let s of curCompany.stages">
             <tr *ngIf="s.deleted == false">
               <td>
+                <mat-form-field style="min-width : 50px; width:50px">
+                  <mat-label>№</mat-label>
+                  <input matInput type="number" [(ngModel)]="s.num">
+                  <mat-hint>Введите число</mat-hint>
+                </mat-form-field>
+              </td>
+              <td>
                 {{s.name}}
               </td>
               <td>
                 <mat-checkbox [(ngModel)]="s.incomeStage"></mat-checkbox>
               </td>
               <td>
-                <mat-checkbox [(ngModel)]="s.agreementStage"></mat-checkbox>
+                <mat-checkbox [(ngModel)]="s.agreementStage" (change)="s.preAgreementStage = false" ></mat-checkbox>
               </td>
               <td>
-                <mat-checkbox [(ngModel)]="s.preAgreementStage"></mat-checkbox>
+                <mat-checkbox [(ngModel)]="s.preAgreementStage" (change)="s.agreementStage = false" ></mat-checkbox>
               </td>
               <td>
                 <button type="button" class="btn  btn-sm btn-primary" (click)="editStage(s)">Редактировать</button>
@@ -155,6 +163,9 @@
     </div>
     <div style="margin-top:20px; width : 50%; text-align :right">
       <button type="button" class="btn  btn-sm btn-success" [attr.disabled]="companyName.valid ? null : ''" (click)="saveCompany()">Сохранить</button>
+      <div class="spinner-border" role="status" [style.visibility]="processCompany ? 'visible' : 'hidden'">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
   </ng-container>
 </ng-template>

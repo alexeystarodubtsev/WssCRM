@@ -18,6 +18,7 @@ namespace WssCRM.DBModels
         public bool agreementStage { get; set; }
         public bool preAgreementStage { get; set; }
         public bool incomeStage { get; set; }
+        public int Num { get; set; }
         public ICollection <AbstractPoint> Points { get; set; }
         public ICollection<Call> Calls { get; set; }
     }

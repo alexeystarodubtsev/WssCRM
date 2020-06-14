@@ -7,6 +7,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { MY_FORMATS } from '../calls/calls.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalContent } from '../ModalWindow/ModalWindowComponent';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-call',
@@ -56,6 +57,7 @@ export class  CallComponent implements OnInit {
       this.call.quality = -1;
   }
   saveCall() {
+    
     this.dataService.saveCall(this.call).
       subscribe(data => { },
         err => { });
@@ -64,7 +66,9 @@ export class  CallComponent implements OnInit {
     this.dataService.getCall(id)
       .subscribe((data: Call) => {
         this.call = data;
-        //if (this.call.DateNext)
+        if (!data.hasDateNext) {
+          this.call.dateNext = undefined;
+        }
         this.updateTotalData();
       });
     

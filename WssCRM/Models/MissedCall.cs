@@ -17,6 +17,8 @@ namespace WssCRM.Models
         public string NoticeCRM { get; set; }
         public string DateNext { get; set; }
         public string Manager { get; set; }
-        
+        public bool   processed { get; set; }
+
+
     }
 }

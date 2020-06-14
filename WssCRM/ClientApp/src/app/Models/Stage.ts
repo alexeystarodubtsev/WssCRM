@@ -8,7 +8,8 @@ export class Stage {
     public deleted?: boolean,
     public agreementStage?: boolean,
     public preAgreementStage?: boolean,
-    public incomeStage? : boolean
+    public incomeStage?: boolean,
+    public num?: number
 
   ) {
     this.points = [];
