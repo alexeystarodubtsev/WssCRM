@@ -49,12 +49,12 @@
         <ul class='nav navbar-nav'>
 
           <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/calls"]' >
+            <a [routerLink]='["/calls"]'>
               <i class="fa fa-phone-square"></i> Звонки
             </a>
           </li>
           <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/call/new"]' >
+            <a [routerLink]='["/call/new"]'>
               <i class="fa fa-phone-square"></i> Новый звонок
             </a>
           </li>
@@ -63,6 +63,12 @@
               <i class="fa fa-briefcase"></i> Компании
             </a>
           </li>
+          <li [routerLinkActive]='["link-active"]'>
+            <a [routerLink]='["/missedcall"]'>
+              <i class="fa fa-briefcase"></i> Упущенные клиенты
+            </a>
+          </li>
+          
           <li [routerLinkActive]='["link-active"]'>
             <a [routerLink]='["/counter"]'>
               <span class='glyphicon glyphicon-education'></span> Counter

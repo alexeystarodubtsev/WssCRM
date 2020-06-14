@@ -16,12 +16,17 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CallsComponent } from './calls/calls.component'
 import { CompaniesComponent } from './companies/companies.component'
 import { CallComponent } from './call/call.component'
+import { missedClientComponent } from './missedClients/missedClient.component'
 import { StageComponent } from './stage/stage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbdModalContent } from './ModalWindow/ModalWindowComponent'
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewCallComponent } from './NewCall/NewCallComponent'
 import { MatRadioModule } from '@angular/material/radio';
+
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +39,8 @@ import { MatRadioModule } from '@angular/material/radio';
     CallComponent,
     StageComponent,
     NgbdModalContent,
-    NewCallComponent
+    NewCallComponent,
+    missedClientComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,6 +56,7 @@ import { MatRadioModule } from '@angular/material/radio';
     NgbPaginationModule,
     NgbAlertModule,
     ReactiveFormsModule,
+    MatCheckboxModule,
     MatRadioModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -58,6 +65,7 @@ import { MatRadioModule } from '@angular/material/radio';
       { path: 'calls', component: CallsComponent },
       { path: 'companies', component: CompaniesComponent },
       { path: 'call/new', component: NewCallComponent },
+      { path: 'missedcall', component: missedClientComponent },
       { path: 'call/:Id', component: CallComponent }
     ])
   ],
@@ -66,6 +74,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatNativeDateModule,
     MatInputModule,
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
+
   ],
   bootstrap: [AppComponent]
 })

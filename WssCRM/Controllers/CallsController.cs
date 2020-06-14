@@ -83,6 +83,12 @@ namespace WssCRM.Controllers
             }
             return Ok();
         }
+        [HttpPost ("getmissed")]
+        public PartialMissedCalls getMissed(ChooseFilter f1)
+        {
+            return new AnalyzeCalls(db).getMissedCalls(f1);
+        }
+        
 
     }
 

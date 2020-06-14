@@ -76,6 +76,7 @@ namespace WssCRM.Processing
                 return new Company();
             }
             Company returnCompany = new Company(dbcomp.name, dbcomp.Id);
+            returnCompany.daysForAnalyze = dbcomp.daysForAnalyze;
             returnCompany.stages = new List<Stage>();
             returnCompany.managers = new List<Manager>();
             foreach (var dbstage in dbcomp.Stages)
@@ -84,6 +85,9 @@ namespace WssCRM.Processing
                 curStage.name = dbstage.Name;
                 curStage.points = new List<Point>();
                 curStage.id = dbstage.Id;
+                curStage.incomeStage = dbstage.incomeStage;
+                curStage.preAgreementStage = dbstage.preAgreementStage;
+                curStage.agreementStage = dbstage.agreementStage;
                 foreach (var dbpoint in dbstage.Points)
                 {
                     Point p = new Point();
@@ -106,6 +110,7 @@ namespace WssCRM.Processing
             DBModels.Company dbcomp = new DBModels.Company();
             dbcomp.Id = clientComp.id;
             dbcomp.name = clientComp.Name;
+            dbcomp.daysForAnalyze = clientComp.daysForAnalyze;
             using (var transaction = db.Database.BeginTransaction())
             {
                 if (db.Companies.Contains(dbcomp))
@@ -133,6 +138,9 @@ namespace WssCRM.Processing
                     dbStage.Id = stage.id;
                     dbStage.CompanyID = db.Companies.Where(c => c.name == clientComp.Name).First().Id;
                     dbStage.deleted = stage.deleted;
+                    dbStage.agreementStage = stage.agreementStage;
+                    dbStage.preAgreementStage = stage.preAgreementStage;
+                    dbStage.incomeStage = stage.incomeStage;
                     if (db.Stages.Contains(dbStage))
                     {
                         db.Stages.Update(dbStage);

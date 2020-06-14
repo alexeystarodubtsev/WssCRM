@@ -13,6 +13,7 @@ namespace WssCRM.DBModels
         public int Id { get; set; }
         [Required]
         public string name { get; set; }
+        public int daysForAnalyze { get; set; }
         public ICollection <Stage> Stages { get; set; }
         public ICollection<Manager> Managers { get; set; }
     }

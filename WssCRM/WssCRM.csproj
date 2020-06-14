@@ -23,8 +23,15 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\missedClients\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\missedClients\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ClientApp\src\app\missedClients\**" />
+    <None Remove="ClientApp\src\app\missedClients\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,8 +56,10 @@
     <None Remove="ClientApp\src\app\Models\Company.ts" />
     <None Remove="ClientApp\src\app\Models\Filter.ts" />
     <None Remove="ClientApp\src\app\Models\Manager.ts" />
+    <None Remove="ClientApp\src\app\Models\missedCall.ts" />
     <None Remove="ClientApp\src\app\Models\Objection.ts" />
     <None Remove="ClientApp\src\app\Models\PartialCalls.ts" />
+    <None Remove="ClientApp\src\app\Models\PartialMissedCalls.ts" />
     <None Remove="ClientApp\src\app\Models\Point.ts" />
     <None Remove="ClientApp\src\app\Models\Stage.ts" />
     <None Remove="ClientApp\src\app\NewCall\data-service.ts" />
@@ -59,6 +68,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\missedClients\missedClient.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\missedClients\data-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\calls\calls.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\calls\data-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\call\call.component.ts" />
@@ -71,7 +82,9 @@
     <TypeScriptCompile Include="ClientApp\src\app\Models\Company.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Filter.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Manager.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\missedCall.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Objection.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\PartialMissedCalls.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\PartialCalls.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Point.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Stage.ts" />
@@ -82,6 +95,11 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="ClientApp\src\app\missedClients\calls.component.css" />
+    <None Include="ClientApp\src\app\missedClients\calls.component.html" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

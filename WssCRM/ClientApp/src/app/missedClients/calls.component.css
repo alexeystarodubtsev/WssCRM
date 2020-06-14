@@ -1,0 +1,22 @@
+.footer {
+  position: fixed;
+  left: 50%;
+  bottom: 10px;
+  width: 100%;
+  
+  text-align: center;
+}
+
+.fullwidth {
+  width: 40%;
+  min-width: 100px;
+  max-width: 500px;
+}
+
+.positive {
+  background-color: chartreuse;
+}
+
+.negative {
+  background-color: red;
+}

@@ -15,6 +15,9 @@ namespace WssCRM.DBModels
         [Required]
         public string Name { get; set; }
         public bool deleted { get; set; }
+        public bool agreementStage { get; set; }
+        public bool preAgreementStage { get; set; }
+        public bool incomeStage { get; set; }
         public ICollection <AbstractPoint> Points { get; set; }
         public ICollection<Call> Calls { get; set; }
     }

@@ -6,10 +6,12 @@ export class Company {
     public name?: string,
     public managers?: Manager[],
     public stages?: Stage[],
+    public daysForAnalyze ? : number,
     public id ? : number
     
   ) {
       this.managers = [];
-      this.stages = [];
+    this.stages = [];
+    this.daysForAnalyze = 21;
     }
 }

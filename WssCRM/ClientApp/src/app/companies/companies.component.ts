@@ -10,7 +10,8 @@ import { NgbdModalContent } from '../ModalWindow/ModalWindowComponent';
 @Component({
   selector: 'app-companies',
   templateUrl: './companies.component.html',
-  providers: [DataService]
+  providers: [DataService
+  ]
 })
 export class CompaniesComponent implements OnInit {
 
@@ -44,6 +45,7 @@ export class CompaniesComponent implements OnInit {
     this.caption = "Новая компания";
 
   }
+
   closeError() {
 
     this.hasErrors = false;
@@ -143,7 +145,9 @@ export class CompaniesComponent implements OnInit {
       .subscribe((data: Company) => {
         this.curCompany = data;
         this.tableMode = false;
-        this.editCaption();});
+        this.editCaption();
+      });
+
     
   }
   editCaption() {

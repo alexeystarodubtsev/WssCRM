@@ -116,6 +116,9 @@
             <th>
               <h3>Этапы</h3>
             </th>
+            <th>Входящий этап</th>
+            <th>Этап договора</th>
+            <th>Этап перед договором</th>
             <th>
               <button type="button" class="btn btn-sm btn-success" (click)="newStage()">Добавить этап</button>
             </th>
@@ -128,15 +131,27 @@
                 {{s.name}}
               </td>
               <td>
+                <mat-checkbox [(ngModel)]="s.incomeStage"></mat-checkbox>
+              </td>
+              <td>
+                <mat-checkbox [(ngModel)]="s.agreementStage"></mat-checkbox>
+              </td>
+              <td>
+                <mat-checkbox [(ngModel)]="s.preAgreementStage"></mat-checkbox>
+              </td>
+              <td>
                 <button type="button" class="btn  btn-sm btn-primary" (click)="editStage(s)">Редактировать</button>
                 <button type="button" class="btn btn-danger" (click)="deleteStage(s)">Удалить</button>
               </td>
             </tr>
-
           </ng-container>
         </tbody>
       </table>
-
+      <mat-form-field>
+        <mat-label>Количество дней для анализа звонков</mat-label>
+        <input matInput type="number" [min]="7" [(ngModel)]="curCompany.daysForAnalyze">
+        <mat-hint>Введите значение от 7</mat-hint>
+      </mat-form-field>
     </div>
     <div style="margin-top:20px; width : 50%; text-align :right">
       <button type="button" class="btn  btn-sm btn-success" [attr.disabled]="companyName.valid ? null : ''" (click)="saveCompany()">Сохранить</button>

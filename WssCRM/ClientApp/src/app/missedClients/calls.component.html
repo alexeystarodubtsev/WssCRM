@@ -1,0 +1,72 @@
+<h1>Звонки</h1>
+
+<mat-form-field>
+  <mat-label>Выберите компанию</mat-label>
+  <mat-select [(value)]="curFlt.company">
+    <mat-option *ngFor="let c of fltlist.companies"
+                [value]="c">
+      {{ c.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+
+
+<button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
+<div class="spinner-border" role="status" [style.visibility]="processCalls ? 'visible' : 'hidden'">
+  <span class="sr-only">Loading...</span>
+</div>
+<table class="table table-striped" *ngIf="callslist; else changecall">
+
+  <thead>
+    <tr>
+      <th></th>
+      <th>Клиент</th>
+      <th>Причина</th>
+      <th>Ответственный</th>
+      <th>Дата последнего звонка</th>
+      <th>Примечание звонка</th>
+      <th>Примечание по CRM</th>
+      <th>Состояние клиента</th>
+      <th>Дата упущения</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr *ngFor="let c of calls">
+      <td>
+        
+      </td>
+      <td>
+        <a href={{c.clientLink}} *ngIf="c.clientLink !=null" target="_blank">
+          {{c.clientName}}
+        </a>
+        <div *ngIf="c.clientLink ==null">
+          {{c.clientName}}
+        </div>
+      </td>
+      <td>{{c.reason}}</td>
+      <td>{{c.manager}}</td>
+      <td>{{c.date}}</td>
+      <td>{{c.correction}}</td>
+      <td>{{c.noticeCRM}}</td>
+      <td>{{c.clientState}}</td>
+      <td>{{c.dateNext}}</td>
+      <td>
+        <button class="btn btn-sm btn-primary" (click)="OpenCall(c.id)">Перейти к последнему звонку</button>
+      </td>
+    </tr>
+  </tbody>
+
+</table>
+<div class="footer" >
+  <ngb-pagination [(page)]="curFlt.pageNumber"
+                  [pageSize]="20"
+                  [collectionSize]="pageSize * 20"
+                  (pageChange)="pageChanged()">
+                  
+  </ngb-pagination>
+</div>
+

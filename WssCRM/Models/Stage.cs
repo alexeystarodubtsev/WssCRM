@@ -11,6 +11,9 @@ namespace WssCRM.Models
         public int id;
         public bool deleted { get; set; }
         public List<Point> points = new List<Point>();
+        public bool agreementStage { get; set; }
+        public bool preAgreementStage { get; set; }
+        public bool incomeStage { get; set; }
         public Stage()
         {
 
