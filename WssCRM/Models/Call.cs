@@ -22,6 +22,7 @@ namespace WssCRM
         public DateTime dateNext { get; set; }
         public bool hasObjections { get; set; }
         public bool hasDateNext { get; set; }
+        public bool firstCalltoClient { get; set; }
         public List<Objection> Objections { get; set; }
         public Call ()
         {

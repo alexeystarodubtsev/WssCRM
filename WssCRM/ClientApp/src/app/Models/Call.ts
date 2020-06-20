@@ -23,7 +23,8 @@ export class Call {
     public objections?: Objection[],
     public hasObjections?: boolean,
     public dateNext?: FormControl,
-    public hasDateNext?: boolean
+    public hasDateNext?: boolean,
+    public firstCalltoClient? : boolean
 
   ) {
     this.company = new Company();
@@ -32,6 +33,7 @@ export class Call {
     this.stage = new Stage();
     this.manager = new Manager();
     this.hasDateNext = false;
+    this.firstCalltoClient = false;
     
   }
   

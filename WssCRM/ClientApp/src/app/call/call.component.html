@@ -34,34 +34,39 @@
     </tr>
     <tr>
       <td>
-        <div>
-          <mat-form-field class="fullwidth">
-            <input matInput [matDatepicker]="DatePickerNext" placeholder="Дата звонка" [readonly]="true" [(ngModel)]="call.date">
-            <mat-datepicker #DatePickerNext></mat-datepicker>
-          </mat-form-field>
-        </div>
+        <mat-checkbox [(ngModel)]="call.firstCalltoClient">Первый звонок клиенту</mat-checkbox>
       </td>
     </tr>
-    <tr>
-      <td>
-        <div>
-          <a href={{call.clientLink}} *ngIf="call.clientLink !=null" target="_blank">
-            {{call.clientName}}
-          </a>
-          <div *ngIf="call.clientLink ==null">
-            {{call.clientName}}
-          </div>
+  <tr>
+    <td>
+      <div>
+        <mat-form-field class="fullwidth">
+          <input matInput [matDatepicker]="DatePickerNext" placeholder="Дата звонка" [readonly]="true" [(ngModel)]="call.date">
+          <mat-datepicker #DatePickerNext></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div>
+        <a href={{call.clientLink}} *ngIf="call.clientLink !=null" target="_blank">
+          {{call.clientName}}
+        </a>
+        <div *ngIf="call.clientLink ==null">
+          {{call.clientName}}
         </div>
-      </td>
-    </tr>
+      </div>
+    </td>
+  </tr>
 
-    <tr>
-      <td>
-        <div>
-          {{call.duration}}
-        </div>
-      </td>
-    </tr>
+  <tr>
+    <td>
+      <div>
+        {{call.duration}}
+      </div>
+    </td>
+  </tr>
   </tbody>
 </table>
 
@@ -92,7 +97,6 @@
       </td>
     </tr>
   </tbody>
-
 </table>
 <table class="table table-striped" style="margin-bottom:20px">
   <tbody>

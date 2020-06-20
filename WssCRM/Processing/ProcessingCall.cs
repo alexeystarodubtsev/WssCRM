@@ -42,6 +42,7 @@ namespace WssCRM.Processing
                 call.correctioncolor = dbcall.correctioncolor;
                 call.duration = dbcall.duration;
                 call.hasDateNext = false;
+                call.firstCalltoClient = dbcall.firstCalltoClient;
                 if (dbcall.DateNext.HasValue)
                 {
                     call.dateNext = dbcall.DateNext.Value;
@@ -123,6 +124,7 @@ namespace WssCRM.Processing
             dbcall.Date = new DateTime();
             dbcall.Date = clientcall.Date.Date;
             dbcall.duration = clientcall.duration;
+            dbcall.firstCalltoClient = clientcall.firstCalltoClient;
             if (clientcall.clientState == "Work" && clientcall.dateNext.Year > 2000)
             {
                 dbcall.DateNext = clientcall.dateNext;
