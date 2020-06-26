@@ -42,7 +42,7 @@
 </mat-form-field>
 <button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
 
-<table class="table table-striped" *ngIf="callslist; else changecall">
+<table class="table table-striped" *ngIf="callslist; else changecall" style="margin-bottom:30px">
 
   <thead>
     <tr>
@@ -81,7 +81,10 @@
   <ngb-pagination [(page)]="curFlt.pageNumber"
                   [pageSize]="20"
                   [collectionSize]="pageSize * 20"
-                  (pageChange)="pageChanged()">
+                  (pageChange)="pageChanged()"
+                  [maxSize]="3"
+                  [rotate]="true"
+                  >
                   
   </ngb-pagination>
 </div>

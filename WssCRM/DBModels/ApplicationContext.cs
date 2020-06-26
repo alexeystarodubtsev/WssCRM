@@ -36,14 +36,19 @@ namespace WssCRM.DBModels
                 .IsUnique()
                 ;
             modelBuilder.Entity<AbstractPoint>()
-                .HasIndex(p => new { p.name, p.StageID })
+                .HasIndex(p => new { p.name, p.StageID, p.num })
                 .IsUnique();
             modelBuilder.Entity<Manager>()
                 .HasIndex(m => new { m.name, m.CompanyID })
                 .IsUnique();
             modelBuilder.Entity<Call>()
-                .HasIndex(c => new {c.Date, c.ClientName,c.Correction,c.duration,c.ManagerID,c.StageID })
+                .HasIndex(c => new {c.Date, c.ClientName,c.duration,c.ManagerID,c.StageID })
                 .IsUnique();
+            modelBuilder.Entity<Call>()
+                .Property(e => e.Correction)
+                .HasColumnType("text")
+                .IsUnicode();
+
             //modelBuilder.Entity<Stage>()
             //    //.ToTable("Stage")
             //    .HasIndex(s => new { s.Num, s.CompanyID })

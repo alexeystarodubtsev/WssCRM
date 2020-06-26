@@ -186,7 +186,23 @@ export class CompaniesComponent implements OnInit {
     this.Attachments = event.target.files;
     
   }
-
+  
+  uploadCalls() {
+    this.processFile = true;
+    const formData = new FormData();
+    for (let i = 0; i < this.Attachments.length; i++) {
+      formData.append(this.Attachments[i].name, this.Attachments[i])
+    }
+    formData.set("idCompany", this.curCompany.id.toString());
+    this.dataService.postCalls(formData).subscribe(data =>
+    {
+      this.processFile = false;
+      this.Attachments = [];
+    }, err => {
+      this.processFile = false;
+      this.processError(err);
+    });
+  }
   uploadXLS() {
     this.processFile = true;
     const formData = new FormData();
@@ -195,7 +211,11 @@ export class CompaniesComponent implements OnInit {
       this.curCompany.stages = data.stages;
       this.processFile = false;
       this.Attachments = [];
-    });
+    }, err => {
+
+      this.processFile = false;
+      this.processError(err);
+      });
   }
 
 

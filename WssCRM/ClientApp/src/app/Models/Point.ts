@@ -5,8 +5,8 @@ export class Point {
     public id?: number,
     public maxMark?: number,
     public active?: boolean,
-    public deleted?: boolean
-
+    public deleted?: boolean,
+    public num ?: number
   ) {
   this.active = false;
 

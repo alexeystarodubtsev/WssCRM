@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WssCRM.DBModels;
 
 namespace WssCRM.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200626083121_addDateCreateAndDealName")]
+    partial class addDateCreateAndDealName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,9 +63,7 @@ namespace WssCRM.Migrations
                         .IsRequired();
 
                     b.Property<string>("Correction")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .IsUnicode(true);
+                        .IsRequired();
 
                     b.Property<DateTime>("Date");
 
@@ -91,7 +91,7 @@ namespace WssCRM.Migrations
 
                     b.HasIndex("StageID");
 
-                    b.HasIndex("Date", "ClientName", "duration", "ManagerID", "StageID")
+                    b.HasIndex("Date", "ClientName", "Correction", "duration", "ManagerID", "StageID")
                         .IsUnique();
 
                     b.ToTable("Calls");

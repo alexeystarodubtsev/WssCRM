@@ -30,6 +30,29 @@ namespace WssCRM.Controllers
             return Companies;
         }
 
+        
+        [HttpPost("processcalls")]
+        public IActionResult ProcessCalls()
+        {
+            int CompanyID;
+            if (int.TryParse(Request.Form[Request.Form.Keys.First()], out CompanyID))
+            {
+                string ans = new ProcessingCall(db).ProcessingCalls(CompanyID, Request.Form.Files);
+                if (ans == "")
+                    return Ok();
+                else
+                {
+                    ModelState.AddModelError("", ans);
+                    return BadRequest(ModelState);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("badCompanyID", "Неверный идентификатор компании, обратитесь к разработчикам");
+                return BadRequest(ModelState);
+            }
+        }
+
         [HttpPost("processfile")]
         public Company ProcessCompany()
         {

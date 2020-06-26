@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WssCRM.Models;
 
@@ -152,6 +156,7 @@ namespace WssCRM.Processing
         {
 
             DBModels.Call dbcall = getDbCall(clientcall);
+            dbcall.DateCreate = DateTime.Now;
             db.Calls.Add(dbcall);
             try
             {
@@ -224,6 +229,276 @@ namespace WssCRM.Processing
                 F1.Companies.Add(company1);
             }
             return F1;
+        }
+
+        public string ProcessingCalls(int companyID, IFormFileCollection files)
+        {
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                foreach (var file in files)
+                {
+                    DBModels.Manager dbman;
+                    string managername = Regex.Match(file.FileName, @"(\w+)").Groups[1].Value;
+                    try
+                    {
+                        dbman = db.Managers.Where(m => m.name == managername && m.CompanyID == companyID).First();
+
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        return "У данной компании отсутствует менеджер " + managername;
+                    }
+                    string ans = parseFileWithCalls(dbman.Id, file);
+                    if (ans != "")
+                    {
+                        transaction.Rollback();
+                        return ans;
+                    }
+
+                }
+                transaction.Commit();
+            }
+                return "";
+        }
+        public string parseFileWithCalls(int idManager, IFormFile file)
+        {
+            using (var stream = file.OpenReadStream())
+            {
+                XLWorkbook wb = new XLWorkbook(stream);
+                
+                    foreach (var page in wb.Worksheets.Where(p => !Regex.Match(p.Name,"статистик", RegexOptions.IgnoreCase).Success && !Regex.Match(p.Name, "сводн", RegexOptions.IgnoreCase).Success))
+                    {
+                        const int numColPoint = 4;
+                        IXLCell CellDate = page.Cell(1, numColPoint + 1);
+                        DateTime curDate;
+                        DateTime.TryParse(CellDate.GetValue<string>(), out curDate);
+                        Regex rComment = new Regex(@"КОРРЕКЦИИ");
+                        int corrRow = 5;
+                        Match Mcomment = rComment.Match(page.Cell(corrRow, 1).GetString().ToUpper());
+                        while (!Mcomment.Success)
+                        {
+                            corrRow++;
+                            Mcomment = rComment.Match(page.Cell(corrRow, 1).GetString().ToUpper());
+                        }
+                        while (!(CellDate.CellBelow().IsEmpty() && CellDate.CellBelow().CellRight().IsEmpty() && CellDate.CellBelow().CellBelow().IsEmpty() && CellDate.CellBelow().CellBelow().CellRight().IsEmpty()))
+                        {
+                            var curCall = new DBModels.Call();
+                            if (CellDate.GetValue<string>() != "")
+                            {
+                                if (CellDate.DataType == XLDataType.DateTime)
+                                    curDate = CellDate.GetDateTime();
+                                else
+                                {
+                                    if (!DateTime.TryParse(CellDate.GetString(), new CultureInfo("ru-RU"), DateTimeStyles.None, out curDate))
+                                        DateTime.TryParse(CellDate.GetString(), new CultureInfo("en-US"), DateTimeStyles.None, out curDate);
+
+                                }
+                            }
+                            string phoneNumber = CellDate.CellBelow().GetValue<string>();
+                            var CellPhoneNumber = CellDate.CellBelow();
+                            if (phoneNumber == "")
+                            {
+                                phoneNumber = CellDate.CellBelow().CellBelow().GetValue<string>();
+                                CellPhoneNumber = CellPhoneNumber.CellBelow();
+                            }
+
+                            string link;
+                            if (CellPhoneNumber.HasHyperlink)
+                                link = CellPhoneNumber.GetHyperlink().ExternalAddress.AbsoluteUri;
+                            else
+                                link = "";
+
+                            if (phoneNumber != "")
+                            {
+                                curCall.ClientName = phoneNumber;
+                                curCall.ClientLink = link;
+                                curCall.ManagerID = idManager;
+                                curCall.Date = curDate;
+
+                                try
+                                {
+                                    curCall.StageID = db.Stages.Where(s => Regex.Match(s.Name, page.Name.Trim(), RegexOptions.IgnoreCase).Success).First().Id;
+                                }
+                                catch (InvalidOperationException)
+                                {
+                                    return "В системе отсутствует этап " + page.Name;
+                                }
+                                curCall.Correction = page.Cell(corrRow, CellDate.Address.ColumnNumber).GetString();
+                                curCall.Date = curDate;
+                                TimeSpan duration;
+                                IXLCell CellPoint = CellDate.CellBelow().CellBelow().CellBelow();
+                                if (CellPoint.DataType == XLDataType.DateTime)
+                                    CellPoint.DataType = XLDataType.TimeSpan;
+                                TimeSpan.TryParse(CellPoint.GetString(), out duration);
+                                XLColor CorrColor = page.Cell(corrRow, CellDate.Address.ColumnNumber).Style.Fill.BackgroundColor;
+                                if (CorrColor == XLColor.Red)
+                                {
+                                    curCall.correctioncolor = "red";
+                                }
+                                else
+                                {
+                                    if (CorrColor == XLColor.Lime)
+                                    {
+                                        curCall.correctioncolor = "green";
+                                    }
+                                    else
+                                    {
+                                        curCall.correctioncolor = "no color";
+                                    }
+                                }
+                                IXLCell CellNamePoint;
+                                int markOfPoint;
+                                TimeSpan wrongtime1 = new TimeSpan(1, 0, 0, 0);
+                                TimeSpan wrongtime2 = new TimeSpan();
+                                curCall.Points = new List<DBModels.Point>();
+                                DBModels.Point dbpoint;
+                                if (wrongtime1 <= duration || duration == wrongtime2)
+                                {
+                                    duration = wrongtime2;
+                                    if (CellPoint.TryGetValue<int>(out markOfPoint))
+                                    {
+                                        dbpoint = new DBModels.Point();
+                                        CellNamePoint = page.Cell(CellPoint.Address.RowNumber, numColPoint);
+                                        dbpoint.Value = markOfPoint;
+                                        dbpoint.red = CellPoint.Style.Fill.BackgroundColor == XLColor.Red;
+
+                                        int num = 0;
+                                        try
+                                        {
+                                            if (!page.Cell("C" + (CellPoint.Address.RowNumber).ToString()).TryGetValue<int>(out num))
+                                                throw new InvalidOperationException();
+                                            dbpoint.AbstractPointID = db.AbstractPoints.Where(p => CellNamePoint.GetString() == p.name && p.num == num).First().Id;
+                                        }
+                                        catch (InvalidOperationException)
+                                        {
+                                            return "В системе из этапа " + page.Name + " в файле " + file.Name + " отсутствует пункт " + num.ToString() + ". " + CellNamePoint.GetString();
+                                        }
+
+                                        curCall.Points.Add(dbpoint);
+                                    }
+                                }
+                                curCall.duration = duration;
+                                CellPoint = CellDate.CellBelow().CellBelow().CellBelow().CellBelow();
+                                dbpoint = new DBModels.Point();
+                                if (!CellPoint.TryGetValue<int>(out markOfPoint))
+                                {
+                                    if (CellPoint.GetString() != "")
+                                    {
+                                        curCall.DealName = CellPoint.GetString();
+
+                                    }
+                                }
+                                else
+                                {
+                                    CellNamePoint = page.Cell(CellPoint.Address.RowNumber, numColPoint);
+                                    dbpoint.Value = markOfPoint;
+                                    dbpoint.red = CellPoint.Style.Fill.BackgroundColor == XLColor.Red;
+                                    int num = 0;
+                                    try
+                                    {
+                                        if (!page.Cell("C" + (CellPoint.Address.RowNumber).ToString()).TryGetValue<int>(out num))
+                                            throw new InvalidOperationException();
+                                        dbpoint.AbstractPointID = db.AbstractPoints.Where(p => CellNamePoint.GetString() == p.name && p.num == num).First().Id;
+                                    }
+                                    catch (InvalidOperationException)
+                                    {
+                                        return "В системе из этапа " + page.Name + " в файле " + file.Name + " отсутствует пункт " + num.ToString() + ". " + CellNamePoint.GetString();
+                                    }
+
+                                    curCall.Points.Add(dbpoint);
+                                }
+                                CellPoint = CellPoint.CellBelow();
+                                while (CellPoint.Address.RowNumber < corrRow - 4)
+                                {
+                                    dbpoint = new DBModels.Point();
+                                    if (CellPoint.TryGetValue<int>(out markOfPoint))
+                                    {
+                                        CellNamePoint = page.Cell(CellPoint.Address.RowNumber, numColPoint);
+                                        dbpoint.Value = markOfPoint;
+                                        dbpoint.red = CellPoint.Style.Fill.BackgroundColor == XLColor.Red;
+                                        int num = 0;
+                                        try
+                                        {
+                                            if (!page.Cell("C" + (CellPoint.Address.RowNumber).ToString()).TryGetValue<int>(out num))
+                                                throw new InvalidOperationException();
+                                            dbpoint.AbstractPointID = db.AbstractPoints.Where(p => CellNamePoint.GetString() == p.name && p.num == num).First().Id;
+                                        }
+                                        catch (InvalidOperationException)
+                                        {
+                                            return "В системе из этапа " + page.Name + " в файле " + file.Name + " отсутствует пункт " + num.ToString() + ". " + CellNamePoint.GetString();
+
+                                        }
+
+                                        curCall.Points.Add(dbpoint);
+                                    }
+                                    CellPoint = CellPoint.CellBelow();
+                                }
+
+
+                                if (Regex.Match(page.Cell("A" + (corrRow + 6).ToString()).GetString().ToLower().Trim(), "дата", RegexOptions.IgnoreCase).Success)
+                                {
+                                    var NextContactCell = page.Cell(corrRow + 6, CellDate.Address.ColumnNumber);
+                                    if (NextContactCell.GetString() != "")
+                                    {
+                                        var DateNext = new DateTime();
+                                        if (NextContactCell.DataType == XLDataType.DateTime)
+                                            DateNext = NextContactCell.GetDateTime();
+                                        else
+                                        {
+                                            if (!DateTime.TryParse(NextContactCell.GetString(), new CultureInfo("ru-RU"), DateTimeStyles.None, out DateNext))
+                                            {
+                                                if (DateTime.TryParse(NextContactCell.GetString(), new CultureInfo("en-US"), DateTimeStyles.None, out DateNext)) ;
+                                            }
+
+                                        }
+                                        if (DateNext.Year > 2000)
+                                        {
+                                            curCall.DateNext = DateNext;
+                                        }
+                                    }
+                                    if (Regex.Match(page.Cell(corrRow + 5, CellDate.Address.ColumnNumber).GetString(), "работ", RegexOptions.IgnoreCase).Success)
+                                    {
+                                        curCall.ClientState = "Work";
+                                    };
+                                    if (Regex.Match(page.Cell(corrRow + 5, CellDate.Address.ColumnNumber).GetString(), "упущ", RegexOptions.IgnoreCase).Success)
+                                    {
+                                        curCall.ClientState = "Missed";
+                                        curCall.DateOfClose = curDate;
+                                    };
+                                    if (Regex.Match(page.Cell(corrRow + 5, CellDate.Address.ColumnNumber).GetString(), "успеш", RegexOptions.IgnoreCase).Success)
+                                    {
+                                        curCall.ClientState = "Success";
+                                        curCall.DateOfClose = curDate;
+                                    };
+                                }
+
+                                curCall.DateCreate = DateTime.Now;
+                                try
+                                {
+                                    if (curCall.Points.Count() > 0)
+                                    {
+                                        db.Calls.Add(curCall);
+                                        db.SaveChanges();
+                                    }
+                                }
+                                catch (DbUpdateException e)
+                                {
+                                    return "Невозможно сохранить звонок" + curCall.ClientName + " из этапа " + page.Name + " файла" + file.Name;
+                                }
+
+                            }
+                            
+                            CellDate = CellDate.CellRight();
+                        }
+
+
+
+
+
+                    }
+                    
+            }
+            return "";
         }
     }
 }

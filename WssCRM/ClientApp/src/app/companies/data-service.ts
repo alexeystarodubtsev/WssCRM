@@ -26,5 +26,9 @@ export class DataService {
   postFile(f) {
     return this.http.post(this.url + '/processfile', f);
   }
+  postCalls(files) {
+    return this.http.post(this.url + '/processcalls', files);
+  }
+
 
 }

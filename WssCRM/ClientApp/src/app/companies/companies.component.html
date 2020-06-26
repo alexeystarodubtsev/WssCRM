@@ -47,13 +47,21 @@
         Загрузить из excel
         <input type="file" (change)="chooseXLS($event)" style="display:none" accept=".xlsx, .xlsm" />
       </label>
+      <label class="btn btn-primary btn-file" [style.visibility]="curCompany.id == null ? 'hidden' : 'visible'">
+        Выбрать звонки для загрузки
+        <input type="file" (change)="chooseXLS($event)" style="display:none" accept=".xlsx, .xlsm" multiple="multiple" />
+      </label>
       <div *ngFor="let file of Attachments" style="font-size:medium;margin-left:10px; color:tan">
         {{file?.name}}
       </div>
-      <button *ngIf="Attachments.length > 0" class="btn btn-success" (click)="uploadXLS()">Обработать</button>
-      <div class="spinner-border" role="status" [style.visibility] ="processFile ? 'visible' : 'hidden'">
+      <button *ngIf="Attachments.length > 0 && curCompany.id == null" class="btn btn-success" (click)="uploadXLS()">Обработать</button>
+      <button *ngIf="Attachments.length > 0 && curCompany.id != null" class="btn btn-success" (click)="uploadCalls()">Отправить</button>
+      <div class="spinner-border" role="status" [style.visibility]="processFile ? 'visible' : 'hidden'">
         <span class="sr-only">Loading...</span>
       </div>
+
+
+
     </div>
     <div style="margin-top:20px">
       <table class="table table-striped" style="margin-top:20px; width : 50%">

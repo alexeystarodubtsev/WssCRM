@@ -6,6 +6,9 @@
     <thead>
       <tr>
         <th>
+          №
+        </th>
+        <th>
           Название пункта
         </th>
         <th>
@@ -21,6 +24,9 @@
         <tr *ngIf="!p.deleted">
 
           <ng-template [ngIf]="p.active != true" [ngIfElse]="editPoint">
+            <td>
+              {{p.num}}
+            </td>
             <td>
               {{p.name}}
             </td>
@@ -49,6 +55,7 @@
   </table>
 </div>
 <ng-template #editPoint>
+  <td>{{curPoint.num}}</td>
   <td><input class="form-control" [(ngModel)]="curPoint.name" placeholder="Название пункта" /></td>
   <td><input class="form-control" type="number" [(ngModel)]="curPoint.maxMark" /></td>
   <td><button type="button" class="btn btn-sm btn-success" (click)="savePoint()">Сохранить</button></td>

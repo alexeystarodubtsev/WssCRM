@@ -29,8 +29,10 @@ namespace WssCRM.DBModels
         public bool passedOnToCustomer { get; set; }
         public string correctioncolor { get; set; }
         public bool firstCalltoClient { get; set; }
+        public string DealName { get; set; }
         public System.Nullable<DateTime> DateNext { get; set; }
         public System.Nullable<DateTime> DateOfClose { get; set; }
+        public DateTime DateCreate { get; set; }
         public ICollection<Point> Points { get; set; }
         
         

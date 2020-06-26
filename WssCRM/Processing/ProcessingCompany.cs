@@ -44,9 +44,12 @@ namespace WssCRM.Processing
                         Point point = new Point();
                         point.Name = CellPoint.GetString();
                         int maxMark;
+                        int num;
                         if (page.Cell("B" + CellPoint.Address.RowNumber).TryGetValue<int>(out maxMark))
                         {
                             point.maxMark = maxMark;
+                            if (page.Cell("C" + CellPoint.Address.RowNumber).TryGetValue<int>(out num))
+                                point.num = num;
                             s1.points.Add(point);
                         }
                         CellPoint = CellPoint.CellBelow();
@@ -95,6 +98,7 @@ namespace WssCRM.Processing
                     p.Name = dbpoint.name;
                     p.maxMark = dbpoint.maxMark;
                     p.id = dbpoint.Id;
+                    p.num = dbpoint.num;
                     curStage.points.Add(p);
                 }
                 returnCompany.stages.Add(curStage);
@@ -201,6 +205,7 @@ namespace WssCRM.Processing
                         dbPoint.Id = point.id;
                         dbPoint.StageID = dbStage.Id;
                         dbPoint.deleted = point.deleted;
+                        dbPoint.num = point.num;
                         if (db.AbstractPoints.Contains(dbPoint))
                         {
                             db.AbstractPoints.Update(dbPoint);

@@ -19,12 +19,14 @@ export class StageComponent implements OnInit {
   newPoint() {
     this.curPoint = new Point();
     this.curPoint.active = true;
-
+    this.curPoint.num = 1;
+    this.stage.points.forEach(p => { if (p.num >= this.curPoint.num) this.curPoint.num = p.num + 1; });
     this.stage.points.push(this.curPoint);
   }
 
   deletePoint(p: Point) {
     p.deleted = true;
+    p.num *= -1;
   }
 
   updateTotalData() {

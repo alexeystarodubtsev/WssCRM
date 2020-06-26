@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WssCRM.DBModels;
 
 namespace WssCRM.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200626090820_addTypetextCorrection")]
+    partial class addTypetextCorrection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,8 +64,7 @@ namespace WssCRM.Migrations
 
                     b.Property<string>("Correction")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .IsUnicode(true);
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Date");
 

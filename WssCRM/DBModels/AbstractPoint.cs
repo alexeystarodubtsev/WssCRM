@@ -12,6 +12,7 @@ namespace WssCRM.DBModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int maxMark { get; set; }
+        public int num { get; set; }
         [Required]
         public string name { get; set; }
         public int StageID { get; set; }

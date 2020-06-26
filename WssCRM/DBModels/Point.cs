@@ -13,6 +13,7 @@ namespace WssCRM.DBModels
         public int CallID { get; set; }
         public int Value { get; set; }
         public int AbstractPointID { get; set; }
+        public bool red { get; set; }
         //public AbstractPoint PointData {get; set; }
     }
 }

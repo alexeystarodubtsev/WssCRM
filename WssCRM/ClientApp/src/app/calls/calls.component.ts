@@ -82,8 +82,7 @@ export class CallsComponent implements OnInit{
 
     this.curFlt.StartDate = this.DateBegin;
     this.curFlt.EndDate = this.DateEnd;
-    
-    console.log(this.DateBegin);
+
     this.dataService.getCalls(this.curFlt)
       .subscribe((data: PartialCalls) => {
         this.calls = data.calls;
