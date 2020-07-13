@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WssCRM.DBModels;
 
 namespace WssCRM.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200713123817_trymakeunicode")]
+    partial class trymakeunicode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,8 +78,6 @@ namespace WssCRM.Migrations
 
                     b.Property<int>("ManagerID");
 
-                    b.Property<int?>("ParentCallID");
-
                     b.Property<int>("StageID");
 
                     b.Property<string>("correctioncolor");
@@ -89,8 +89,6 @@ namespace WssCRM.Migrations
                     b.Property<bool>("passedOnToCustomer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentCallID");
 
                     b.HasIndex("StageID");
 
@@ -204,10 +202,6 @@ namespace WssCRM.Migrations
 
             modelBuilder.Entity("WssCRM.DBModels.Call", b =>
                 {
-                    b.HasOne("WssCRM.DBModels.Call", "ParentCall")
-                        .WithMany("ChildCalls")
-                        .HasForeignKey("ParentCallID");
-
                     b.HasOne("WssCRM.DBModels.Stage")
                         .WithMany("Calls")
                         .HasForeignKey("StageID")

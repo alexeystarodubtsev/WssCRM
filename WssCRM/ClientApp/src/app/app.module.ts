@@ -23,9 +23,10 @@ import { NgbdModalContent } from './ModalWindow/ModalWindowComponent'
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewCallComponent } from './NewCall/NewCallComponent'
 import { MatRadioModule } from '@angular/material/radio';
-
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ReactiveFormsModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -73,6 +77,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatNativeDateModule,
     MatNativeDateModule,
     MatInputModule,
+    MatIconModule,
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
 
   ],

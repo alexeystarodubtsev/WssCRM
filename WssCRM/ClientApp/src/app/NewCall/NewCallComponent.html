@@ -24,18 +24,20 @@
     <tr>
       <td>
 
-          <mat-form-field class="fullwidth" *ngIf="call.points.length == 0">
-            <mat-label>Выберите этап</mat-label>
-            <mat-select (selectionChange)="getNewCall()" [(value)]="call.stage">
-              <mat-option *ngFor="let s of call.company.stages"
-                          [value]="s">
-                {{ s.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        <div *ngIf="call.points.length > 0">
-          Этап: {{call.stage.name}}
-        </div>
+        <mat-form-field class="fullwidth">
+          <mat-label>Выберите этап</mat-label>
+          <mat-select (selectionChange)="getNewCall()" [(value)]="call.stage">
+            <mat-option *ngFor="let s of call.company.stages"
+                        [value]="s">
+              {{ s.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-mini-fab color="accent" style="margin-left : 10px">+</button>
+        
+        <!--<div *ngIf="call.points.length > 0">
+    Этап: {{call.stage.name}}
+  </div>-->
       </td>
     </tr>
     <tr>

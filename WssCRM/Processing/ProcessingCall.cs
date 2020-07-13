@@ -56,7 +56,9 @@ namespace WssCRM.Processing
                 foreach (var dbpoint in db.Points.Where(p=>p.CallID == dbcall.Id))
                 {
                     var dbAbstractPoint = db.AbstractPoints.Where(p => p.Id == dbpoint.AbstractPointID).First();
-                    call.points.Add(new Point(dbAbstractPoint.name, dbpoint.Value, dbAbstractPoint.maxMark,dbAbstractPoint.Id,false));
+                    var clientpoint = new Point(dbAbstractPoint.name, dbpoint.Value, dbAbstractPoint.maxMark, dbAbstractPoint.Id, false);
+                    clientpoint.red = dbpoint.red;
+                    call.points.Add(clientpoint);
                 }
             }
             catch (System.InvalidOperationException e)
@@ -129,6 +131,7 @@ namespace WssCRM.Processing
             dbcall.Date = clientcall.Date.Date;
             dbcall.duration = clientcall.duration;
             dbcall.firstCalltoClient = clientcall.firstCalltoClient;
+           
             if (clientcall.clientState == "Work" && clientcall.dateNext.Year > 2000)
             {
                 dbcall.DateNext = clientcall.dateNext;
@@ -148,6 +151,7 @@ namespace WssCRM.Processing
                 DBModels.Point dbpoint = new DBModels.Point();
                 dbpoint.AbstractPointID = point.id;
                 dbpoint.Value = point.Value;
+                dbpoint.red = point.red;
                 dbcall.Points.Add(dbpoint);
             }
             return dbcall;
@@ -483,7 +487,7 @@ namespace WssCRM.Processing
                                 }
                                 catch (DbUpdateException e)
                                 {
-                                    return "Невозможно сохранить звонок" + curCall.ClientName + " из этапа " + page.Name + " файла" + file.Name;
+                                    return "Невозможно сохранить звонок" + curCall.ClientName + " из этапа " + page.Name + " файла " + file.Name;
                                 }
 
                             }

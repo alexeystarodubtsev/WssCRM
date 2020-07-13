@@ -13,9 +13,11 @@ namespace WssCRM.Models
         public int maxMark { get; set; }
         public bool deleted { get; set; }
         public int num { get; set; }
+        public bool red { get; set; }
+
         public Point(string name, int val)
         {
-            Name = name;
+            Name  = name;
             Value = val;
         }
         public Point(string name, int value, int maxMark, int idAbstract, bool deleted)

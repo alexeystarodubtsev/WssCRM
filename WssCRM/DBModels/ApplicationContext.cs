@@ -46,9 +46,12 @@ namespace WssCRM.DBModels
                 .IsUnique();
             modelBuilder.Entity<Call>()
                 .Property(e => e.Correction)
-                .HasColumnType("text")
-                .IsUnicode();
-
+                .HasColumnType("ntext");
+            modelBuilder.Entity<Call>()
+                .HasOne(c => c.ParentCall)
+                .WithMany(p => p.ChildCalls)
+                .HasForeignKey(c => c.ParentCallID);
+                
             //modelBuilder.Entity<Stage>()
             //    //.ToTable("Stage")
             //    .HasIndex(s => new { s.Num, s.CompanyID })

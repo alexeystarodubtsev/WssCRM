@@ -34,7 +34,10 @@ namespace WssCRM.DBModels
         public System.Nullable<DateTime> DateOfClose { get; set; }
         public DateTime DateCreate { get; set; }
         public ICollection<Point> Points { get; set; }
-        
+        public System.Nullable<int>  ParentCallID { get; set; }
+        public List<Call> ChildCalls { get; set; }
+        public Call ParentCall { get; set;}
+
         
     }
 }
