@@ -7,37 +7,53 @@
   <tbody>
     <tr>
       <td>
-          <mat-form-field class="fullwidth" *ngIf="call.points.length == 0">
+          <mat-form-field class="fullwidth" >
             <mat-label>Выберите компанию</mat-label>
-            <mat-select [(value)]="call.company">
+            <mat-select [(value)]="call.company" (selectionChange)="Addstage()">
               <mat-option *ngFor="let c of fltlist.companies"
                           [value]="c">
                 {{ c.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-        <div *ngIf="call.points.length > 0">
-          {{call.company.name}}
-        </div>
+        
       </td>
     </tr>
     <tr>
+      <th>
+        Этапы:
+        <ng-container *ngIf="call.stages.length == 0 && stage==null && call.company.id != undefined && fltStages.length > 0">
+          <button mat-mini-fab color="accent" style="margin-left : 10px" (click)="Addstage()">+</button>
+        </ng-container>
+      </th>
+    </tr>
+    <tr *ngFor="let s of call.stages; let i = index">
       <td>
-
+        
+          {{s.name}}
+        
+          <button mat-mini-fab color="warn" (click)="deletestage(s)" style="margin-left : 10px">-</button> 
+          <ng-container *ngIf="call.stages.length == i + 1 && stage==null && fltStages.length > 0">
+            <button mat-mini-fab color="accent" style="margin-left : 10px" (click)="Addstage()">+</button>
+          </ng-container>
+     </td>
+    </tr>
+    <tr *ngIf="stage!=null && call.company.id != undefined">
+      <td>
         <mat-form-field class="fullwidth">
           <mat-label>Выберите этап</mat-label>
-          <mat-select (selectionChange)="getNewCall()" [(value)]="call.stage">
-            <mat-option *ngFor="let s of call.company.stages"
-                        [value]="s">
-              {{ s.name }}
+          <mat-select [(value)]="stage" (selectionChange)="addstagetolist()">
+            <mat-option *ngFor="let st of fltStages"
+                        [value]="st">
+              {{ st.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <button mat-mini-fab color="accent" style="margin-left : 10px">+</button>
-        
-        <!--<div *ngIf="call.points.length > 0">
-    Этап: {{call.stage.name}}
-  </div>-->
+      </td>
+    </tr>
+    <tr *ngIf="call.stages.length > 0 && stage==null">
+      <td>
+        <button mat-raised-button color="primary" (click)="getNewCall()">Сгенирировать чек-лист</button>
       </td>
     </tr>
     <tr>
@@ -101,30 +117,36 @@
   </tbody>
 </table>
 
-<table class="table table-striped">
+<table class="table table-striped" >
   <thead>
     <tr>
+      <th>Этап</th>
       <th>№</th>
       <th>Пункт</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-
-    <tr *ngFor="let p of call.points; let i = index">
-      <td>
-        {{i+1}}
-      </td>
-      <td>{{p?.name}}</td>
-      <td>
-        <mat-form-field>
-          <mat-label>Введите значение</mat-label>
-          <input matInput  type="number"  [max]="p.maxMark" [min]="0" [(ngModel)]="p.value" (change)="updateTotalData()">
-          <mat-hint>Введите значение от 0 до {{p.maxMark}}</mat-hint>
-        </mat-form-field>
-      </td>
-    </tr>
-    <tr *ngIf="call.points.length > 0">
+    <ng-container *ngFor="let s of call.stages; let i = index">
+      <tr *ngFor="let p of s.points; let j = index">
+        <td *ngIf="j==0" [attr.rowspan]="s.points.length" style="transform: rotate(-90deg); vertical-align: middle; color:burlywood;">
+          {{s.name}}
+        </td>
+        <td>
+          {{j+1}}
+        </td>
+        <td>{{p?.name}}</td>
+        <td>
+          <mat-form-field>
+            <mat-label>Введите значение</mat-label>
+            <input matInput type="number" [max]="p.maxMark" [min]="0" [(ngModel)]="p.value" (change)="updateTotalData()">
+            <mat-hint>Введите значение от 0 до {{p.maxMark}}</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+    </ng-container>
+    <tr>
+      <td></td>
       <td></td>
       <td><b>Средний %</b></td>
       <td>
@@ -171,5 +193,5 @@
     </tr>
   </tbody>
 </table>
-<button type="button" class="btn  btn-sm btn-success" [attr.disabled]="call.points.length > 0 ? null : ''" (click)="saveCall()">Сохранить</button>
+<button type="button" class="btn  btn-sm btn-success" [attr.disabled]="call.stages.length > 0 ? null : ''" (click)="saveCall()">Сохранить</button>
 

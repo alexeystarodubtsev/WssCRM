@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Point = /** @class */ (function () {
-    function Point(name, value, id, maxMark, active, red, deleted, num) {
+    function Point(name, value, id, maxMark, active, red, deleted, stage, num) {
         this.name = name;
         this.value = value;
         this.id = id;
@@ -9,6 +9,7 @@ var Point = /** @class */ (function () {
         this.active = active;
         this.red = red;
         this.deleted = deleted;
+        this.stage = stage;
         this.num = num;
         this.active = false;
         this.deleted = false;

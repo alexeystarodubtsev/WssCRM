@@ -14,8 +14,8 @@ export class DataService {
     return this.http.get(this.url + '/Flt/restr');
   }
 
-  getCall(idCompany: number, idStage: number) {
-    return this.http.get(this.url + '/newcall/' + idCompany + '/' + idStage);
+  gettemplpoints(c: Call) {
+    return this.http.post(this.url + '/getnewcall/', c);
   }
   postCall(c: Call) {
     return this.http.post(this.url + '/newcall', c);

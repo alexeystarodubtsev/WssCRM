@@ -61,7 +61,11 @@
         {{i+1 + (curFlt.pageNumber - 1) * 20}}
       </td>
       <td>{{c.clientName}}</td>
-      <td>{{c.stage.name}}</td>
+      <td>
+        <div *ngFor="let s of c.stages">
+          {{s.name}}
+        </div>
+      </td>
       <td>{{c.manager.name}}</td>
       <td>
         <mat-form-field class="fullwidth">

@@ -1,3 +1,5 @@
+import { Stage } from "./Stage";
+
 export class Point {
   constructor(
     public name?: string,
@@ -7,6 +9,7 @@ export class Point {
     public active?: boolean,
     public red?: boolean,
     public deleted?: boolean,
+    public stage?: Stage,
     public num ?: number
   ) {
   this.active = false;

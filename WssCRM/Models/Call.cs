@@ -7,13 +7,13 @@ namespace WssCRM
 {
     public class Call
     {
-        public Stage Stage { get; set; }
+        public List<Stage> Stages { get; set; }
         public Company Company { get; set; }
         public DateTime Date { get; set; }
         public string Correction { get; set; }
         public TimeSpan duration { get; set; }
         public Manager manager { get; set; }
-        public List <Point> points { get; set; }
+        //public List <Point> points { get; set; }
         public int id { get; set; }
         public string ClientName { get; set; }
         public string ClientLink { get; set; }
@@ -26,9 +26,10 @@ namespace WssCRM
         public List<Objection> Objections { get; set; }
         public Call ()
         {
-            points = new List<Point>();
+            //points = new List<Point>();
             duration = new TimeSpan();
             Objections = new List<Objection>();
+            Stages = new List<Stage>();
         }
 
     }

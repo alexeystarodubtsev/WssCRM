@@ -27,11 +27,11 @@ namespace WssCRM.Controllers
         }
 
         // GET api/newcall/companyID/StageID
-        [HttpGet("newcall/{companyID}/{StageID}")]
-        public Call GetNewCall(int companyID, int StageID)
+        [HttpPost("getnewcall")]
+        public Call GetNewCall(Call call)
         {
-
-            return new ProcessingCall(db).NewCall(companyID,StageID);
+           
+            return new ProcessingCall(db).NewCall(call.Company.id, call.Stages.Select(s => s.id).ToList());
         }
 
         [HttpGet("{id}")]

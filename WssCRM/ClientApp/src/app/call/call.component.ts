@@ -50,11 +50,13 @@ export class  CallComponent implements OnInit {
   updateTotalData() {
     this.call.quality = 0;
     let MaxPoints = 0;
-    this.call.points.forEach(p => { this.call.quality += p.value; MaxPoints += p.maxMark; });
+    //this.call.points.forEach(p => { this.call.quality += p.value; MaxPoints += p.maxMark; });
+    this.call.stages.forEach(s => { s.points.forEach(p => { this.call.quality += p.value; MaxPoints += p.maxMark; }) })
     if (MaxPoints != 0)
       this.call.quality = Math.round(this.call.quality * 10000 / MaxPoints) / 100;
     else
       this.call.quality = -1;
+    
   }
   saveCall() {
     
@@ -66,10 +68,13 @@ export class  CallComponent implements OnInit {
     this.dataService.getCall(id)
       .subscribe((data: Call) => {
         this.call = data;
+
         if (!data.hasDateNext) {
           this.call.dateNext = undefined;
         }
         this.updateTotalData();
+      }, err => {
+        console.log(this.call)
       });
     
   }

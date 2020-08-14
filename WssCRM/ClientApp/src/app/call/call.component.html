@@ -21,7 +21,10 @@
     <tr>
       <td>
         <div>
-          Этап: {{call.stage.name}}
+          Этапы:
+          <div *ngFor="let s of call.stages">
+            {{s.name}}
+          </div> 
         </div>
       </td>
     </tr>
@@ -73,23 +76,34 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>Этап</th>
       <th>№</th>
       <th>Пункт</th>
-      <th></th>
+      <th>Балл</th>
     </tr>
   </thead>
   <tbody>
+    <ng-container *ngFor="let s of call.stages; let i = index">
+      
+      <tr *ngFor="let p of s.points; let j = index">
+        <td *ngIf="j==0" [attr.rowspan]="s.points.length" style="transform: rotate(-90deg); vertical-align: middle; color:burlywood;">
+          {{s.name}}
+        </td>
 
-    <tr *ngFor="let p of call.points; let i = index">
-      <td>
-        {{i+1}}
-      </td>
-      <td>{{p?.name}}</td>
-      <td [ngClass]="{'negative' : p.red}">
-        {{p.value}}
-      </td>
-    </tr>
-    <tr *ngIf="call.points.length > 0">
+        <td>
+          {{s.points.length}}
+        </td>
+
+        <td>{{p?.name}}</td>
+        <td [ngClass]="{'negative' : p.red}">
+          {{p.value}}
+        </td>
+
+      </tr>
+
+    </ng-container>
+    <tr *ngIf="call.stages.length > 0">
+      <td></td>
       <td></td>
       <td><b>Средний %</b></td>
       <td>

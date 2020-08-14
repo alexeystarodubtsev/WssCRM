@@ -13,7 +13,6 @@ export class Stage {
 
   ) {
     this.points = [];
-
     this.deleted = false;
     this.agreementStage = false;
     this.incomeStage = false;

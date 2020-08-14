@@ -30,13 +30,24 @@ namespace WssCRM.Processing
                 call.id = id;
                 
                 
-                var dbstage = db.Stages.Where(s => s.Id == dbcall.StageID).First();
-                var dbcomp = db.Companies.Where(c => c.Id == dbstage.CompanyID).First();
+                var dbstages = db.Stages.Where(s => s.Id == dbcall.StageID);
+                var dbcomp = db.Companies.Where(c => c.Id == dbstages.First().CompanyID).First();
 
                 call.Company = new Company(dbcomp.name, dbcomp.Id);
                 call.Company.stages = new List<Stage>();
-                call.Company.stages.Add(new Stage(dbstage.Name, dbstage.Id,dbstage.deleted));
-                call.Stage = new Stage(dbstage.Name, dbstage.Id, dbstage.deleted);
+                foreach (var dbstage in dbstages)
+                {
+                    call.Company.stages.Add(new Stage(dbstage.Name, dbstage.Id, dbstage.deleted));
+                    call.Stages.Add(new Stage(dbstage.Name, dbstage.Id, dbstage.deleted));
+                }
+                foreach (var cl in db.Calls.Where(c => c.ParentCallID == dbcall.Id))
+                {
+                    var dbstage = db.Stages.Where(s => s.Id == cl.StageID).First();
+                    call.Stages.Add(new Stage(dbstage.Name, dbstage.Id, dbstage.deleted));
+                }
+
+
+
                 call.Date = dbcall.Date;
                 call.duration = dbcall.duration;
                 call.Correction = dbcall.Correction;
@@ -58,7 +69,14 @@ namespace WssCRM.Processing
                     var dbAbstractPoint = db.AbstractPoints.Where(p => p.Id == dbpoint.AbstractPointID).First();
                     var clientpoint = new Point(dbAbstractPoint.name, dbpoint.Value, dbAbstractPoint.maxMark, dbAbstractPoint.Id, false);
                     clientpoint.red = dbpoint.red;
-                    call.points.Add(clientpoint);
+                    call.Stages.Where(s => s.id == dbAbstractPoint.StageID).First().points.Add(clientpoint);
+                }
+                foreach (var dbpoint in db.Points.Where(p => db.Calls.Where(c => c.ParentCallID == dbcall.Id).Select(c => c.Id).Contains(p.CallID)))
+                {
+                    var dbAbstractPoint = db.AbstractPoints.Where(p => p.Id == dbpoint.AbstractPointID).First();
+                    var clientpoint = new Point(dbAbstractPoint.name, dbpoint.Value, dbAbstractPoint.maxMark, dbAbstractPoint.Id, false);
+                    clientpoint.red = dbpoint.red;
+                    call.Stages.Where(s => s.id == dbAbstractPoint.StageID).First().points.Add(clientpoint);
                 }
             }
             catch (System.InvalidOperationException e)
@@ -73,7 +91,8 @@ namespace WssCRM.Processing
 
         public string UpdateCall(Call clientcall)
         {
-            DBModels.Call dbcall = getDbCall(clientcall);
+            var dbcalls = getDbCalls(clientcall);
+            var dbcall = dbcalls.Where(c => c.ParentCallID == null).First();
             dbcall.Points = new List<DBModels.Point>();
             foreach (var dbp in db.Points.Where(p => p.CallID == clientcall.id))
             {
@@ -92,16 +111,20 @@ namespace WssCRM.Processing
             return "";
         }
 
-        public Call NewCall(int CompanyID, int StageID)
+        public Call NewCall(int CompanyID, List <int> StageIDs)
         {
 
             Call call = new Call();
             var dbcomp = db.Companies.Where(c => c.Id == CompanyID).First();
-            var dbstage = db.Stages.Where(s => s.Id == StageID).First();
+            var dbstages = db.Stages.Where(s => StageIDs.Contains(s.Id));
             call.Company = new Company(dbcomp.name, dbcomp.Id);
             call.Company.stages = new List<Stage>();
-            call.Company.stages.Add(new Stage(dbstage.Name, dbstage.Id,dbstage.deleted));
-            call.Stage = new Stage(dbstage.Name, dbstage.Id, dbstage.deleted);
+            foreach (var dbstage in dbstages)
+            {
+                call.Company.stages.Add(new Stage(dbstage.Name, dbstage.Id, dbstage.deleted));
+                call.Stages.Add(new Stage(dbstage.Name, dbstage.Id, dbstage.deleted));
+            }
+            
             call.correctioncolor = "no color";
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
             {
@@ -111,16 +134,18 @@ namespace WssCRM.Processing
                 call.Date = DateTime.Now.AddDays(-1);
             
             
-            foreach (var dbpoint in db.AbstractPoints.Where(p => p.StageID == StageID && p.deleted != true))
+            foreach (var dbpoint in db.AbstractPoints.Where(p => StageIDs.Contains(p.StageID) && p.deleted != true))
             {
-                call.points.Add(new Point(dbpoint.name,0,dbpoint.maxMark,dbpoint.Id,false));
+
+                call.Stages.Where(s => s.id == dbpoint.StageID).First().points.Add(new Point(dbpoint.name,0,dbpoint.maxMark,dbpoint.Id,false));
             }
             
 
             return call;
         }
-        private DBModels.Call getDbCall(Call clientcall)
+        private List<DBModels.Call> getDbCalls(Call clientcall)
         {
+            List<DBModels.Call> dbcalls = new List<DBModels.Call>();
             DBModels.Call dbcall = new DBModels.Call();
             dbcall.ClientName = clientcall.ClientName;
             dbcall.ClientLink = clientcall.ClientLink;
@@ -143,25 +168,75 @@ namespace WssCRM.Processing
                     dbcall.DateOfClose = clientcall.Date;
                 }
             }
-            dbcall.StageID = clientcall.Stage.id;
+
+            
             dbcall.ManagerID = clientcall.manager.id;
             dbcall.Points = new List<DBModels.Point>();
-            foreach (var point in clientcall.points)
+            int i = 0;
+            foreach(var stage in clientcall.Stages)
             {
-                DBModels.Point dbpoint = new DBModels.Point();
-                dbpoint.AbstractPointID = point.id;
-                dbpoint.Value = point.Value;
-                dbpoint.red = point.red;
-                dbcall.Points.Add(dbpoint);
+                i++;
+                DBModels.Call childCall = new DBModels.Call();
+                childCall.Points = new List<DBModels.Point>();
+                childCall.ParentCallID = dbcall.Id;
+                childCall.ClientName = dbcall.ClientName;
+                childCall.ManagerID = dbcall.ManagerID;
+                childCall.Date = dbcall.Date;
+                childCall.ClientState = dbcall.ClientState;
+                childCall.Correction = dbcall.Correction;
+                childCall.duration = dbcall.duration;
+                if (i == 1 )
+                {
+                    dbcall.StageID = stage.id;
+                }
+                else
+                {
+                    childCall.StageID = stage.id;
+                }
+                foreach (var point in stage.points)
+                {
+                    DBModels.Point dbpoint = new DBModels.Point();
+                    dbpoint.AbstractPointID = point.id;
+                    dbpoint.Value = point.Value;
+                    dbpoint.red = point.red;
+                    if (i == 1)
+                    {
+                        dbcall.Points.Add(dbpoint);
+                        
+                    }
+                    else
+                    {
+                        childCall.Points.Add(dbpoint);
+                        
+                    }
+                    
+                }
+                if (i == 1)
+                {
+                    dbcalls.Add(dbcall);
+                }
+                else
+                {
+                    dbcalls.Add(childCall);
+                }
             }
-            return dbcall;
+            
+            return dbcalls;
         }
         public string AddNewCall(Call clientcall)
         {
 
-            DBModels.Call dbcall = getDbCall(clientcall);
-            dbcall.DateCreate = DateTime.Now;
-            db.Calls.Add(dbcall);
+            var dbcalls = getDbCalls(clientcall);
+            var dbMainCall = dbcalls.Where(c => !c.ParentCallID.HasValue).First();
+            db.Calls.Add(dbMainCall);
+            db.SaveChanges();
+            foreach (var dbcall in dbcalls.Where(c => c.ParentCallID.HasValue))
+            {
+                dbcall.DateCreate = DateTime.Now;
+                dbcall.ParentCallID = dbMainCall.Id;
+                db.Calls.Add(dbcall);
+            }
+            
             try
             {
                 db.SaveChanges();
@@ -177,25 +252,32 @@ namespace WssCRM.Processing
             PartialCalls l = new PartialCalls();
             l.calls  = new List<Call>();
 
-           
 
+           
+            var callIds = db.Calls
+                .Where(c => c.StageID == f1.stage.id 
+                || (f1.stage.id == -40 
+                    && db.Stages.Where(s => s.CompanyID == f1.Company.id)
+                    .Select(s => s.Id)
+                    .Contains(c.StageID)))
+                    .Select(c => c.ParentCallID.HasValue  ? c.ParentCallID.Value : c.Id).Distinct();
             int qty = db.Calls.Count(c =>
-                (c.StageID == f1.stage.id || f1.stage.id == -40)
+                callIds.Contains(c.Id)
                 && c.Date >= f1.StartDate
                 && c.Date <= f1.EndDate
                 && (c.ManagerID == f1.manager.id || f1.manager.id == -40)
-                && (db.Stages.Where(s => s.CompanyID == f1.Company.id && s.Id == c.StageID).Count() > 0)
-                && (db.Managers.Where(m => m.CompanyID == f1.Company.id && m.Id == c.ManagerID).Count() > 0));
+                && (db.Managers.Where(m => m.CompanyID == f1.Company.id && m.Id == c.ManagerID).Count() > 0)
+                );
             int qtyonsamepage = 20;
             l.pageSize = (qty / qtyonsamepage) + ((qty % qtyonsamepage) > 0 ? 1 : 0);
             
-            foreach (var dbcall in db.Calls.Where(c => 
-                (c.StageID == f1.stage.id || f1.stage.id == -40)
+            foreach (var dbcall in db.Calls.Where(c =>
+                callIds.Contains(c.Id)
                 && c.Date >= f1.StartDate 
                 && c.Date <= f1.EndDate
                 && (c.ManagerID == f1.manager.id || f1.manager.id == -40)
-                && (db.Stages.Where(s => s.CompanyID == f1.Company.id && s.Id == c.StageID).Count() > 0)
-                && (db.Managers.Where(m => m.CompanyID == f1.Company.id && m.Id == c.ManagerID).Count() > 0)
+                && (db.Managers.Where(m => m.CompanyID == f1.Company.id && m.Id == c.ManagerID).Count() > 0
+                )
             ).Skip((f1.pageNumber - 1)*qtyonsamepage).Take(qtyonsamepage))
             {
                 Call call = new Call();
@@ -203,7 +285,13 @@ namespace WssCRM.Processing
                 call.ClientLink = dbcall.ClientLink;
                 call.id = dbcall.Id;
                 call.Company = new Company(db.Companies.Where(c => c.Id == f1.Company.id).First().name, f1.Company.id);
-                call.Stage = new Stage(db.Stages.Where(s => s.Id == dbcall.StageID).First().Name, db.Stages.Where(s => s.Id == dbcall.StageID).First().Id,false);
+                var stag = db.Stages.Where(s => s.Id == dbcall.StageID).First().Name;
+                call.Stages.Add(new Stage(db.Stages.Where(s => s.Id == dbcall.StageID).First().Name, db.Stages.Where(s => s.Id == dbcall.StageID).First().Id,false));
+
+                foreach (var childcall in db.Calls.Where(c => c.ParentCallID == dbcall.Id))
+                {
+                    call.Stages.Add(new Stage(db.Stages.Where(s => s.Id == childcall.StageID).First().Name, db.Stages.Where(s => s.Id == childcall.StageID).First().Id, false));
+                }
                 call.manager = new Manager(db.Managers.Where(m => m.Id == dbcall.ManagerID).First().name, db.Managers.Where(m => m.Id == dbcall.ManagerID).First().Id, false);
                 call.Date = dbcall.Date;
                 l.calls.Add(call);

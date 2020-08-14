@@ -8,6 +8,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { MY_FORMATS } from '../calls/calls.component';
 import { isNullOrUndefined } from 'util';
 import { FormControl, Validators, NgForm, FormGroupDirective } from '@angular/forms';
+import { Stage } from '../Models/Stage';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -38,7 +39,8 @@ export class NewCallComponent implements OnInit {
   maxDate = new Date();
   call: Call = new Call();
   fltlist: Filter = new Filter();
-
+  stage: Stage = new Stage();
+  fltStages: Stage[] = [];
   NameFormControl = new FormControl('',
     [Validators.required]
   );
@@ -62,10 +64,11 @@ export class NewCallComponent implements OnInit {
 
   getNewCall() {
     
-    if (this.call.stage.id != null && this.call.stage.id != 0) {
-      this.dataService.getCall(this.call.company.id, this.call.stage.id)
+     
+      this.dataService.gettemplpoints(this.call)
         .subscribe((data: Call) => {
-          this.call.points = data.points;
+          
+          this.call.stages = data.stages;
           this.call.correctioncolor = data.correctioncolor;
           if (isNullOrUndefined(this.call.date)) {
             this.call.date = data.date;
@@ -75,9 +78,22 @@ export class NewCallComponent implements OnInit {
           }
           this.updateTotalData();
         });
-    }
+    
   }
-
+  Addstage() {
+    this.stage = new Stage();
+    this.fltStages = this.call.company.stages.filter(item => this.call.stages.every(instage => instage != item));
+  }
+  addstagetolist() {
+    this.call.stages.push(this.stage);
+    this.stage = null;
+    this.fltStages = this.call.company.stages.filter(item => this.call.stages.every(instage => instage != item));
+    
+  }
+  deletestage(s: Stage) {
+    this.call.stages = this.call.stages.filter(item => item != s);
+    this.fltStages = this.call.company.stages.filter(item => this.call.stages.every(instage => instage != item));
+  }
   saveCall() {
     this.dataService.postCall(this.call)
       .subscribe(data => {
@@ -86,7 +102,7 @@ export class NewCallComponent implements OnInit {
   updateTotalData() {
     this.call.quality = 0;
     let MaxPoints = 0;
-    this.call.points.forEach(p => { this.call.quality += p.value; MaxPoints += p.maxMark; });
+    this.call.stages.forEach(s => { s.points.forEach(p => { this.call.quality += p.value; MaxPoints += p.maxMark; }) })
     if (MaxPoints != 0)
       this.call.quality = Math.round(this.call.quality * 10000 / MaxPoints) / 100;
     else

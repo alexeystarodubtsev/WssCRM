@@ -8,8 +8,8 @@ import { Objection } from './Objection';
 export class Call {
   constructor(
     public id?: number,
-    public stage?: Stage,
-    public points?: Point[],
+    public stages?: Stage[],
+    //public points?: Point[],
     public company?: Company,
     public date?: FormControl,
     public quality?: number,
@@ -28,9 +28,9 @@ export class Call {
 
   ) {
     this.company = new Company();
-    this.points = [];
+    //this.points = [];
     this.objections = [];
-    this.stage = new Stage();
+    this.stages = [];
     this.manager = new Manager();
     this.hasDateNext = false;
     this.firstCalltoClient = false;
