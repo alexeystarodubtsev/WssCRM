@@ -22,7 +22,7 @@ namespace WssCRM.DBModels
             : base(options)
         {
             //Database.EnsureCreated();   // создаем базу данных при первом обращении
-            
+            this.Database.SetCommandTimeout(new TimeSpan(0,3,0));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

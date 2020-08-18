@@ -40,6 +40,13 @@ namespace WssCRM.Controllers
             return new ProcessingCall(db).GetCall(id);
             
         }
+        
+        [HttpPost("getstatistics")]
+        public ICollection<StatisticStage> getStatistics(ChooseFilter f1)
+        {
+            return new Statistics(db).getStatistics(f1);
+
+        }
         [HttpGet("Flt/{opt}")]
         public Filter GetFilter(string opt)
         {

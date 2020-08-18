@@ -62,9 +62,13 @@
     <None Remove="ClientApp\src\app\Models\PartialMissedCalls.ts" />
     <None Remove="ClientApp\src\app\Models\Point.ts" />
     <None Remove="ClientApp\src\app\Models\Stage.ts" />
+    <None Remove="ClientApp\src\app\Models\StatisticStage.ts" />
+    <None Remove="ClientApp\src\app\Models\TableWithStatistic.ts" />
     <None Remove="ClientApp\src\app\NewCall\data-service.ts" />
     <None Remove="ClientApp\src\app\NewCall\NewCallComponent.ts" />
     <None Remove="ClientApp\src\app\stage\stage.component.ts" />
+    <None Remove="ClientApp\src\app\statistics\data-service.ts" />
+    <None Remove="ClientApp\src\app\statistics\statisticsComponent.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -88,9 +92,13 @@
     <TypeScriptCompile Include="ClientApp\src\app\Models\PartialCalls.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Point.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Stage.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\StatisticStage.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\TableWithStatistic.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\NewCall\data-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\NewCall\NewCallComponent.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\stage\stage.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\statistics\data-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\statistics\statisticsComponent.ts" />
   </ItemGroup>
 
   <ItemGroup>

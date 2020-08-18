@@ -27,7 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-
+import { statisticsComponent } from './statistics/statisticsComponent';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +41,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     StageComponent,
     NgbdModalContent,
     NewCallComponent,
-    missedClientComponent
+    missedClientComponent,
+    statisticsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -70,7 +71,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
       { path: 'companies', component: CompaniesComponent },
       { path: 'call/new', component: NewCallComponent },
       { path: 'missedcall', component: missedClientComponent },
-      { path: 'call/:Id', component: CallComponent }
+      { path: 'call/:Id', component: CallComponent },
+      { path: 'statistics', component: statisticsComponent }
     ])
   ],
   providers: [MatDatepickerModule,

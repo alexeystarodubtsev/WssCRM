@@ -68,7 +68,12 @@
               <i class="fa fa-briefcase"></i> Упущенные клиенты
             </a>
           </li>
-          
+          <li [routerLinkActive]='["link-active"]'>
+            <a [routerLink]='["/statistics"]'>
+              <i class="fa fa-briefcase"></i> Статистики
+            </a>
+          </li>
+
           <li [routerLinkActive]='["link-active"]'>
             <a [routerLink]='["/counter"]'>
               <span class='glyphicon glyphicon-education'></span> Counter
