@@ -38,23 +38,38 @@ namespace WssCRM.Processing
                         group new {point.Value, AbstractPoint.maxMark} by new {c.Id, AbstractPoint.StageID, c.ManagerID, c.duration, c.Date} into pointsPerStagePerCall
                         group new {AVGPersStagePerCall = (double)pointsPerStagePerCall.Sum(p => p.Value) / pointsPerStagePerCall.Sum(p => p.maxMark),
                                     CallDuration = pointsPerStagePerCall.Key.duration
-                        } by new { pointsPerStagePerCall.Key.StageID, pointsPerStagePerCall.Key.ManagerID, pointsPerStagePerCall.Key.Date.Month, pointsPerStagePerCall.Key.Date.Year} into byStage
+                        } by new { pointsPerStagePerCall.Key.StageID
+                                , pointsPerStagePerCall.Key.ManagerID
+                                , Period = (f1.period=="day" ? pointsPerStagePerCall.Key.Date.ToString("dd.MM.yyyy") : 
+                                    f1.period == "week" ? pointsPerStagePerCall.Key.Date.AddDays(
+                                        DayOfWeek.Wednesday - pointsPerStagePerCall.Key.Date.DayOfWeek <= 0 ? 
+                                        DayOfWeek.Wednesday - pointsPerStagePerCall.Key.Date.DayOfWeek : 
+                                        DayOfWeek.Wednesday - pointsPerStagePerCall.Key.Date.DayOfWeek - 7
+                                        ).ToString("dd.MM") + " - " + 
+                                        pointsPerStagePerCall.Key.Date.AddDays(
+                                        DayOfWeek.Tuesday - pointsPerStagePerCall.Key.Date.DayOfWeek >= 0 ?
+                                        DayOfWeek.Tuesday - pointsPerStagePerCall.Key.Date.DayOfWeek :
+                                        DayOfWeek.Tuesday - pointsPerStagePerCall.Key.Date.DayOfWeek + 7
+                                        ).ToString("dd.MM")
+                                        : info.MonthNames[pointsPerStagePerCall.Key.Date.Month - 1])
+                                , pointsPerStagePerCall.Key.Date.Year
+                        } into byStage
                         from s in dbStages
                         where s.Id == byStage.Key.StageID
                         from m in dbManagers
                         where m.Id == byStage.Key.ManagerID
-                        orderby s.Id, byStage.Key.Year * 100 + byStage.Key.Month, m.Id
+                        orderby s.Id, (byStage.Key.Year * 100).ToString() + byStage.Key.Period, m.Id
                         
                           select new { Manager = m.name
                                     , qty = byStage.Count()
                                     , AvgPers = byStage.Sum(stage => stage.AVGPersStagePerCall) / byStage.Count()
                                     , StageName = s.Name
-                                    , Period = info.MonthNames[byStage.Key.Month - 1]
-                                    , numMonth = byStage.Key.Year * 100 + byStage.Key.Month
-                            //        , Duration = byStage.Aggregate(new TimeSpan(), (sum, nextcall) => sum.Add(nextcall.CallDuration))
-                            //, TotalDuration = g.Aggregate(new TimeSpan(), (sum, nextcall) => sum.Add(nextcall.duration))
+                                    , Period = byStage.Key.Period
+                                    , numMonth = (byStage.Key.Year * 100).ToString() + byStage.Key.Period
+                              //        , Duration = byStage.Aggregate(new TimeSpan(), (sum, nextcall) => sum.Add(nextcall.CallDuration))
+                              //, TotalDuration = g.Aggregate(new TimeSpan(), (sum, nextcall) => sum.Add(nextcall.duration))
 
-                        };
+                          };
 
 
             var queryPerMonthTotal = from c in dbCalls
@@ -65,7 +80,20 @@ namespace WssCRM.Processing
                                      {
                                          AVGPerCall = (double)pointsPerCall.Sum(p => p.Value) / pointsPerCall.Sum(p => p.maxMark),
                                          CallDuration = pointsPerCall.Key.duration
-                                     } by new { pointsPerCall.Key.ManagerID, pointsPerCall.Key.Date.Month, pointsPerCall.Key.Date.Year } into byManager
+                                     } by new { pointsPerCall.Key.ManagerID,
+                                         Period = (f1.period == "day" ? pointsPerCall.Key.Date.ToString("dd.MM.yyyy") :
+                                            f1.period == "week" ? pointsPerCall.Key.Date.AddDays(
+                                            DayOfWeek.Wednesday - pointsPerCall.Key.Date.DayOfWeek <= 0 ?
+                                            DayOfWeek.Wednesday - pointsPerCall.Key.Date.DayOfWeek :
+                                            DayOfWeek.Wednesday - pointsPerCall.Key.Date.DayOfWeek - 7
+                                            ).ToString("dd.MM") + " - " +
+                                            pointsPerCall.Key.Date.AddDays(
+                                            DayOfWeek.Tuesday - pointsPerCall.Key.Date.DayOfWeek >= 0 ?
+                                            DayOfWeek.Tuesday - pointsPerCall.Key.Date.DayOfWeek :
+                                            DayOfWeek.Tuesday - pointsPerCall.Key.Date.DayOfWeek + 7
+                                            ).ToString("dd.MM")
+                                            : info.MonthNames[pointsPerCall.Key.Date.Month - 1])
+                                       , pointsPerCall.Key.Date.Year } into byManager
                                      from m in dbManagers
                                      where m.Id == byManager.Key.ManagerID
 
@@ -80,16 +108,16 @@ namespace WssCRM.Processing
 
                                          StageName = "Все этапы"
                                          ,
-                                         Period = info.MonthNames[byManager.Key.Month - 1]
+                                         Period = byManager.Key.Period
                                          ,
 
-                                         numMonth = byManager.Key.Year * 100 + byManager.Key.Month
-                                                 
-                                                 
-                                            //  , Duration = byManager.Aggregate(new TimeSpan(), (sum, nextcall) => sum.Add(nextcall.CallDuration))
-                                            //, TotalDuration = g.Aggregate(new TimeSpan(), (sum, nextcall) => sum.Add(nextcall.duration))
+                                         numMonth = (byManager.Key.Year * 100).ToString() + byManager.Key.Period
 
-                                        };
+
+                                         //  , Duration = byManager.Aggregate(new TimeSpan(), (sum, nextcall) => sum.Add(nextcall.CallDuration))
+                                         //, TotalDuration = g.Aggregate(new TimeSpan(), (sum, nextcall) => sum.Add(nextcall.duration))
+
+                                     };
             var totalQuery = queryPerMonthPerStage;
             if (f1.stage.id == -40)
             {

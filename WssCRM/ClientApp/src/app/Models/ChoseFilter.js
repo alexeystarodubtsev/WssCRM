@@ -4,7 +4,7 @@ var Company_1 = require("./Company");
 var ChoseFilter = /** @class */ (function () {
     function ChoseFilter(company, stage, manager, StartDate, //Date,
     EndDate, //Date
-    pageNumber, onlyNotProcessed) {
+    pageNumber, onlyNotProcessed, period) {
         this.company = company;
         this.stage = stage;
         this.manager = manager;
@@ -12,6 +12,7 @@ var ChoseFilter = /** @class */ (function () {
         this.EndDate = EndDate;
         this.pageNumber = pageNumber;
         this.onlyNotProcessed = onlyNotProcessed;
+        this.period = period;
         this.company = new Company_1.Company();
         this.pageNumber = 1;
         this.onlyNotProcessed = true;

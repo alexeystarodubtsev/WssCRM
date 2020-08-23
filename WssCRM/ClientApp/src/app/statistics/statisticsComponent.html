@@ -40,6 +40,22 @@
   <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
   <mat-datepicker #myDatepicker2></mat-datepicker>
 </mat-form-field>
+
+<mat-form-field>
+  <mat-label>Период</mat-label>
+  <mat-select [(value)]="curFlt.period">
+    <mat-option value="month">
+      По месяцам
+    </mat-option>
+    <mat-option value="week">
+      По неделям
+    </mat-option>
+    <mat-option value="day">
+      По дням
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 <button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
 
 <div>
@@ -47,7 +63,7 @@
     <button [className]="curStage == s.stageName ? 'btn btn-primary': 'btn btn-default'" (click)="ChangeStage(s)">{{s.stageName}}</button>
   </ng-container>
 </div>
-<div *ngFor="let table of Tables; let i = index" style="margin-top: 30px">
+<div *ngFor="let table of Tables; let i = index" style="margin-bottom: 100px">
 
     <table class="table table-striped">
       <tr>

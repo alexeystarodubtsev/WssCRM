@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';  
@@ -49,6 +50,7 @@ import { statisticsComponent } from './statistics/statisticsComponent';
     HttpClientModule,
     FormsModule,
     MatSelectModule,
+    MatTableModule,
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatDatepickerModule,

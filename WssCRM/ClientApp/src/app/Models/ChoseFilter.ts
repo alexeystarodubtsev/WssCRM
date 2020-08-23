@@ -11,7 +11,8 @@ export class ChoseFilter {
     public StartDate?: FormControl,//Date,
     public EndDate?: FormControl,//Date
     public pageNumber?: number,
-    public onlyNotProcessed?: boolean
+    public onlyNotProcessed?: boolean,
+    public period?: string
   ) {
     this.company = new Company();
     this.pageNumber = 1;

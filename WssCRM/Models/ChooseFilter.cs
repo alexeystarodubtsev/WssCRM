@@ -14,7 +14,8 @@ namespace WssCRM.Models
         public Manager manager { get; set; }
         public int pageNumber { get; set; }
         public bool onlyNotProcessed { get; set; }
-        public ChooseFilter(Company company, Stage stage, Manager manager, DateTime StartDate, DateTime EndDate, int pageNumber, bool onlyNotProcessed = true)
+        public string period { get; set; }
+        public ChooseFilter(Company company, Stage stage, Manager manager, DateTime StartDate, DateTime EndDate, int pageNumber, bool onlyNotProcessed = true, string period = "month")
         {
             this.Company = company;
             this.stage = stage;
@@ -23,6 +24,7 @@ namespace WssCRM.Models
             this.EndDate = EndDate;
             this.pageNumber = pageNumber;
             this.onlyNotProcessed = onlyNotProcessed;
+            this.period = period;
         }
     }
 }
