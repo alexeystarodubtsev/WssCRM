@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WssCRM.DBModels;
 using WssCRM.Models;
 using WssCRM.Processing;
 
@@ -15,14 +17,16 @@ namespace WssCRM.Controllers
     public class CallsController : ControllerBase
     {
         private DBModels.ApplicationContext db;
-        public CallsController(DBModels.ApplicationContext context)
+        private readonly UserManager<User> _userManager;
+        public CallsController(DBModels.ApplicationContext context, UserManager<User> userManager)
         {
+            _userManager = userManager;
             db = context;
         }
         [HttpPost]
-        public PartialCalls GetCalls(ChooseFilter f1)
+        public async Task<PartialCalls> GetCalls(ChooseFilter f1)
         {
-
+            var curUser = await _userManager.GetUserAsync(HttpContext.User);
             return new ProcessingCall(db).GetCalls(f1);
         }
 

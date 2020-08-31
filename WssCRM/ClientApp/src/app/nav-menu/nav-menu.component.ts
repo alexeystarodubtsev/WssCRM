@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { User } from '../Models/User';
 
 @Component({
   selector: 'app-nav-menu',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = true;
+  @Output() childToParent = new EventEmitter;
+  @Input() user: User;
   collapse() {
     this.isExpanded = false;
     console.log(window.innerWidth);
@@ -14,5 +17,8 @@ export class NavMenuComponent {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+  logout() {
+    this.childToParent.emit();
   }
 }

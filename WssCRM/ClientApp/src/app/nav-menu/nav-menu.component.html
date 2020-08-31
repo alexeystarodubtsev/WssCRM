@@ -47,7 +47,9 @@
       </div>
       <div class="collapse navbar-collapse" [ngClass] ="{'show': isExpanded}" id="navbody">
         <ul class='nav navbar-nav'>
-
+          <li [routerLinkActive]='["link-active"]' class="text-white">
+            {{user.firstName}}
+          </li>
           <li [routerLinkActive]='["link-active"]'>
             <a [routerLink]='["/calls"]'>
               <i class="fa fa-phone-square"></i> Звонки
@@ -80,9 +82,9 @@
             </a>
           </li>
           <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-              <span class='glyphicon glyphicon-th-list'></span> Fetch data
-            </a>
+            <button class="btn btn-sm btn-primary" (click)="logout()">
+              <span class='glyphicon glyphicon-th-list'></span> Выйти
+            </button>
           </li>
         </ul>
 

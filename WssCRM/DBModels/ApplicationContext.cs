@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WssCRM.Register;
 
 namespace WssCRM.DBModels
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext :  IdentityDbContext<User>
     {
         //dotnet ef migrations add nameMig
         //dotnet ef database update
@@ -22,11 +24,14 @@ namespace WssCRM.DBModels
             : base(options)
         {
             //Database.EnsureCreated();   // создаем базу данных при первом обращении
+            
             this.Database.SetCommandTimeout(new TimeSpan(0,3,0));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Company>()
                 .HasIndex(c => c.name)
                 .IsUnique();

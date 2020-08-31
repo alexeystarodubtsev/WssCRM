@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -12,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
+import { RolesComponent } from './ManageRoles/roles.component';
+import { UsersRolesComponent } from './ManageRoles/usersRoles.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CallsComponent } from './calls/calls.component'
@@ -29,6 +30,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { statisticsComponent } from './statistics/statisticsComponent';
+import { AuthanticationComponent } from './Authentication/Authantication.component';
+import { AlertComponent } from './_components/alert.component';
+import { AppRoutingModule } from './app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +48,11 @@ import { statisticsComponent } from './statistics/statisticsComponent';
     NgbdModalContent,
     NewCallComponent,
     missedClientComponent,
-    statisticsComponent
+    statisticsComponent,
+    AlertComponent,
+    AuthanticationComponent,
+    UsersRolesComponent,
+    RolesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -65,17 +74,8 @@ import { statisticsComponent } from './statistics/statisticsComponent';
     MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'calls', component: CallsComponent },
-      { path: 'companies', component: CompaniesComponent },
-      { path: 'call/new', component: NewCallComponent },
-      { path: 'missedcall', component: missedClientComponent },
-      { path: 'call/:Id', component: CallComponent },
-      { path: 'statistics', component: statisticsComponent }
-    ])
+    AppRoutingModule,
+    
   ],
   providers: [MatDatepickerModule,
     MatNativeDateModule,

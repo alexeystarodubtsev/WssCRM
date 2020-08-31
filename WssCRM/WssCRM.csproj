@@ -10,11 +10,14 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.4.1" />
     <PackageReference Include="ClosedXML" Version="0.95.3" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
+    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
@@ -44,13 +47,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\account\account-routing.module.ts" />
+    <None Remove="ClientApp\src\app\account\account.module.ts" />
+    <None Remove="ClientApp\src\app\account\layout.component.ts" />
+    <None Remove="ClientApp\src\app\app-routing.module.ts" />
+    <None Remove="ClientApp\src\app\Authentication\account.service.ts" />
+    <None Remove="ClientApp\src\app\Authentication\alert.service.ts" />
+    <None Remove="ClientApp\src\app\Authentication\Authantication.component.ts" />
+    <None Remove="ClientApp\src\app\Authentication\logIn.component.ts" />
+    <None Remove="ClientApp\src\app\Authentication\register.component.ts" />
     <None Remove="ClientApp\src\app\calls\calls.component.ts" />
     <None Remove="ClientApp\src\app\calls\data-service.ts" />
     <None Remove="ClientApp\src\app\call\call.component.ts" />
     <None Remove="ClientApp\src\app\call\data-service.ts" />
     <None Remove="ClientApp\src\app\companies\companies.component.ts" />
     <None Remove="ClientApp\src\app\companies\data-service.ts" />
+    <None Remove="ClientApp\src\app\ManageRoles\data.service.ts" />
+    <None Remove="ClientApp\src\app\ManageRoles\roles.component.ts" />
+    <None Remove="ClientApp\src\app\ManageRoles\usersRoles.component.ts" />
     <None Remove="ClientApp\src\app\ModalWindow\ModalWindowComponent.ts" />
+    <None Remove="ClientApp\src\app\Models\alert.ts" />
     <None Remove="ClientApp\src\app\Models\Call.ts" />
     <None Remove="ClientApp\src\app\Models\ChoseFilter.ts" />
     <None Remove="ClientApp\src\app\Models\Company.ts" />
@@ -61,17 +77,35 @@
     <None Remove="ClientApp\src\app\Models\PartialCalls.ts" />
     <None Remove="ClientApp\src\app\Models\PartialMissedCalls.ts" />
     <None Remove="ClientApp\src\app\Models\Point.ts" />
+    <None Remove="ClientApp\src\app\Models\Role.ts" />
     <None Remove="ClientApp\src\app\Models\Stage.ts" />
     <None Remove="ClientApp\src\app\Models\StatisticStage.ts" />
     <None Remove="ClientApp\src\app\Models\TableWithStatistic.ts" />
+    <None Remove="ClientApp\src\app\Models\User.ts" />
+    <None Remove="ClientApp\src\app\Models\userWithRoles.ts" />
     <None Remove="ClientApp\src\app\NewCall\data-service.ts" />
     <None Remove="ClientApp\src\app\NewCall\NewCallComponent.ts" />
     <None Remove="ClientApp\src\app\stage\stage.component.ts" />
     <None Remove="ClientApp\src\app\statistics\data-service.ts" />
     <None Remove="ClientApp\src\app\statistics\statisticsComponent.ts" />
+    <None Remove="ClientApp\src\app\_components\alert.component.ts" />
+    <None Remove="ClientApp\src\app\_components\index.ts" />
+    <None Remove="wssdb.mdf" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\account\account-routing.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\account\account.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\account\layout.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\app-routing.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Authentication\account.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Authentication\alert.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Authentication\authantication.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Authentication\logIn.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Authentication\register.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\ManageRoles\data.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\ManageRoles\roles.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\ManageRoles\usersRoles.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\missedClients\missedClient.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\missedClients\data-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\calls\calls.component.ts" />
@@ -81,6 +115,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\companies\companies.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\companies\data-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\ModalWindow\ModalWindowComponent.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\alert.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Call.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\ChoseFilter.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Company.ts" />
@@ -91,14 +126,19 @@
     <TypeScriptCompile Include="ClientApp\src\app\Models\PartialMissedCalls.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\PartialCalls.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Point.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\Role.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\User.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Stage.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\StatisticStage.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\TableWithStatistic.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\userWithRoles.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\NewCall\data-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\NewCall\NewCallComponent.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\stage\stage.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\statistics\data-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\statistics\statisticsComponent.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_components\alert.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_components\index.ts" />
   </ItemGroup>
 
   <ItemGroup>
