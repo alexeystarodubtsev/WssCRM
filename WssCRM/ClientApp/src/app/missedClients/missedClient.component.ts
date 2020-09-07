@@ -15,7 +15,7 @@ import { PartialMissedCalls } from '../Models/PartialMissedCalls';
 @Component({
   selector: 'app-missedClients',
   templateUrl: './calls.component.html',
-  styleUrls: ['./calls.component.css'],
+  styleUrls: ['./calls.component.scss'],
   providers: [DataService]
 })
 export class missedClientComponent implements OnInit{
@@ -31,17 +31,17 @@ export class missedClientComponent implements OnInit{
   ngOnInit() {
     this.loadFilter();// загрузка данных при старте компонента
 
-    
+
   }
   loadFilter() {
     this.dataService.getFilter()
       .subscribe((data: Filter) => {
         this.curFlt = new ChoseFilter();
         this.fltlist = data;
-        
+
         }
       );
-    
+
   }
   processCall(c: missedCall) {
     this.processCalls = true;
@@ -52,7 +52,7 @@ export class missedClientComponent implements OnInit{
       err => { }
         );
   }
- 
+
   getCalls() {
     this.processCalls = true;
     this.dataService.getCalls(this.curFlt)
@@ -61,16 +61,16 @@ export class missedClientComponent implements OnInit{
         this.calls = data.calls;
         this.pageSize = data.pageSize;
       });
-    
+
   }
-  
+
   OpenCall(id: number) {
     const url = this.router.serializeUrl(
       this.router.createUrlTree(["/call/" + id])
     );
 
     window.open(url, '_blank');
-  
+
   }
 
   pageChanged() {

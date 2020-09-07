@@ -11,8 +11,13 @@ $tablet-width: 768px;
 
     @media (min-width: $tablet-width) {
       height: 100%;
-      width: calc(25% - 20px);
+      min-width: 230px;
+      width: 25%;
     }
+  }
+
+  &__wrapper {
+    padding: 0;
   }
 }
 

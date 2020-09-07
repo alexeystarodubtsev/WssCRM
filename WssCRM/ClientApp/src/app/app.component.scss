@@ -1,0 +1,46 @@
+$tablet-width: 768px;
+$header-navbar-height: 45px;
+$main-content-padding: 15px;
+
+$main-content-menu-width: 25%;
+$body-content-width: 100% - $main-content-menu-width;
+
+.main-content {
+  & {
+    height: 100vh;
+
+    @media (min-width: $tablet-width) {
+      flex-wrap: initial;
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    top: 0;
+
+    flex: initial;
+    min-width: 230px;
+    width: $main-content-menu-width;
+    max-width: initial;
+
+    @media (min-width: $tablet-width) {
+      position: initial;
+    }
+  }
+}
+
+.body-content {
+  & {
+    flex: initial;
+    max-width: initial;
+    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+    padding-top: $header-navbar-height + $main-content-padding;
+    padding-bottom: $main-content-padding;
+    overflow-x: auto;
+
+    @media (min-width: $tablet-width) {
+      width: $body-content-width;
+      padding-top: initial;
+    }
+  }
+}

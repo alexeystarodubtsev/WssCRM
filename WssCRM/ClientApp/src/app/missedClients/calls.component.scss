@@ -1,0 +1,31 @@
+$tablet-width: 768px;
+
+.footer {
+  & {
+    position: fixed;
+    left: 50%;
+    bottom: 10px;
+
+    text-align: center;
+
+    transform: translateX(calc(-100% / 2));
+
+    @media (min-width: $tablet-width) {
+      left: calc(25% + (100% - 25%) / 2);
+    }
+  }
+}
+
+.fullwidth {
+  width: 40%;
+  min-width: 100px;
+  max-width: 500px;
+}
+
+.positive {
+  background-color: chartreuse;
+}
+
+.negative {
+  background-color: red;
+}

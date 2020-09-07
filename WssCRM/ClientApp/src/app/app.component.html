@@ -1,9 +1,9 @@
-<div class='container-fluid'>
-  <div class='row'>
-    <div class='col-sm-3' *ngIf="user">
+<div class="container-fluid">
+  <div class="row main-content">
+    <div class="col-sm-3 main-content__menu" *ngIf="user">
       <app-nav-menu (childToParent)="logout()" [user] ="user"></app-nav-menu>
     </div>
-    <div class='col-sm-9 body-content'>
+    <div class="col-sm-9 body-content">
       <alert></alert>
       <router-outlet></router-outlet>
     </div>
