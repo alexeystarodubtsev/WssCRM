@@ -35,59 +35,59 @@
 
 </nav>-->
 
-  <nav class="navbar main-nav bg-dark navbar-dark">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggler btn btn-group-toggle"
-                data-toggle="collapse" data-target="#navbody"
-                style="border:none" aria-expanded="true" >
-          <!--<i class="fa fa-th-list" style="color:aliceblue"></i>-->
-          <i class="navbar-icon fa fa-bars icon" style="color:aliceblue"></i>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse" [ngClass] ="{'show': isExpanded}" id="navbody">
-        <ul class='nav navbar-nav'>
-          <li [routerLinkActive]='["link-active"]' class="text-white">
-            {{user.firstName}}
-          </li>
-          <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/calls"]'>
-              <i class="fa fa-phone-square"></i> Звонки
-            </a>
-          </li>
-          <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/call/new"]'>
-              <i class="fa fa-phone-square"></i> Новый звонок
-            </a>
-          </li>
-          <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/companies"]'>
-              <i class="fa fa-briefcase"></i> Компании
-            </a>
-          </li>
-          <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/missedcall"]'>
-              <i class="fa fa-briefcase"></i> Упущенные клиенты
-            </a>
-          </li>
-          <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/statistics"]'>
-              <i class="fa fa-briefcase"></i> Статистики
-            </a>
-          </li>
-
-          <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/counter"]'>
-              <span class='glyphicon glyphicon-education'></span> Counter
-            </a>
-          </li>
-          <li [routerLinkActive]='["link-active"]'>
-            <button class="btn btn-sm btn-primary" (click)="logout()">
-              <span class='glyphicon glyphicon-th-list'></span> Выйти
-            </button>
-          </li>
-        </ul>
-
-      </div>
+<nav class="navbar main-nav bg-dark navbar-dark">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button style="border:none" class="navbar-toggler btn btn-group-toggle"
+              type="button" data-toggle="collapse"
+              data-target="#navbody" aria-expanded="true">
+        <!--<i class="fa fa-th-list" style="color:aliceblue"></i>-->
+        <i style="color:aliceblue" class="navbar-icon fa fa-bars icon"></i>
+      </button>
     </div>
-  </nav>
+    <div class="collapse navbar-collapse" [ngClass] ="{'show': isExpanded}" id="navbody">
+      <ul class='nav navbar-nav navbar__list'>
+        <li class="text-white navbar__list-item" [routerLinkActive]='["navbar__list-item_active"]'>
+          {{user.firstName}}
+        </li>
+        <li class="navbar__list-item" [routerLinkActive]='["navbar__list-item_active"]'>
+          <a class="navbar__list-item-link" [routerLink]='["/calls"]'>
+            <i class="navbar-nav__icon fa fa-phone-square"></i> Звонки
+          </a>
+        </li>
+        <li class="navbar__list-item" [routerLinkActive]='["navbar__list-item_active"]'>
+          <a class="navbar__list-item-link" [routerLink]='["/call/new"]'>
+            <i class="navbar-nav__icon fa fa-phone-square"></i> Новый звонок
+          </a>
+        </li>
+        <li class="navbar__list-item" [routerLinkActive]='["navbar__list-item_active"]'>
+          <a class="navbar__list-item-link" [routerLink]='["/companies"]'>
+            <i class="navbar-nav__icon fa fa-briefcase"></i> Компании
+          </a>
+        </li>
+        <li class="navbar__list-item" [routerLinkActive]='["navbar__list-item_active"]'>
+          <a class="navbar__list-item-link" [routerLink]='["/missedcall"]'>
+            <i class="navbar-nav__icon fa fa-briefcase"></i> Упущенные клиенты
+          </a>
+        </li>
+        <li class="navbar__list-item" [routerLinkActive]='["navbar__list-item_active"]'>
+          <a class="navbar__list-item-link" [routerLink]='["/statistics"]'>
+            <i class="navbar-nav__icon fa fa-briefcase"></i> Статистики
+          </a>
+        </li>
+
+        <li class="navbar__list-item" [routerLinkActive]='["navbar__list-item_active"]'>
+          <a class="navbar__list-item-link" [routerLink]='["/counter"]'>
+            <span class="glyphicon glyphicon-education"></span> Counter
+          </a>
+        </li>
+        <li class="navbar__list-item" [routerLinkActive]='["navbar__list-item_active"]'>
+          <button class="btn btn-sm btn-primary" (click)="logout()">
+            <span class="glyphicon glyphicon-th-list"></span> Выйти
+          </button>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
