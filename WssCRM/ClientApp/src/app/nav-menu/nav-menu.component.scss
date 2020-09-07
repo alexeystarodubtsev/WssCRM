@@ -82,11 +82,24 @@ $tablet-width: 768px;
   }
 }
 
-.navbar-collapse {
+.navbar-toggler {
   & {
     @media (min-width: $tablet-width) {
-      border-top: 1px solid #444;
+      display: none;
+    }
+  }
+}
+
+.navbar-collapse {
+  & {
+
+    border-top: 1px solid #444;
+
+    @media (min-width: $tablet-width) {
+      display: block;
       padding: 0px;
+
+      border-top: none;
     }
   }
 }

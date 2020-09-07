@@ -7,11 +7,11 @@ import { User } from '../Models/User';
   styleUrls: ['./nav-menu.component.scss']
 })
 export class NavMenuComponent {
-  isExpanded = true;
+  isExpanded = false;
   @Output() childToParent = new EventEmitter;
   @Input() user: User;
   collapse() {
-    this.isExpanded = false;
+    this.isExpanded = true;
     console.log(window.innerWidth);
   }
 
