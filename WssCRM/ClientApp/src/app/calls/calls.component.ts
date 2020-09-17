@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from './data-service';
+import { DataService } from '../_services/';
 import { Call } from '../Models/Call';
 import { Filter } from '../Models/Filter';
 import { ChoseFilter } from '../Models/ChoseFilter';
@@ -51,6 +51,7 @@ export class CallsComponent implements OnInit{
   DateBegin = new FormControl(moment());
   DateEnd = new FormControl(moment());
   pageSize: number = 0;
+  loading: boolean = true;
   //choseDate: Date; [(ngModel)]="choseDate"
   constructor(private router: Router, private dataService: DataService) { }
   ngOnInit() {
@@ -65,7 +66,7 @@ export class CallsComponent implements OnInit{
         this.fltlist = data;
         //this.curFlt.company = this.fltlist.Companies[0];
         //console.log(this.fltlist);
-        
+        this.loading = false;
         }
       );
     
@@ -83,7 +84,7 @@ export class CallsComponent implements OnInit{
     this.curFlt.StartDate = this.DateBegin;
     this.curFlt.EndDate = this.DateEnd;
 
-    this.dataService.getCalls(this.curFlt)
+    this.dataService.getAllCalls(this.curFlt)
       .subscribe((data: PartialCalls) => {
         this.calls = data.calls;
         this.pageSize = data.pageSize;

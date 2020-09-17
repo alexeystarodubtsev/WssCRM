@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserWithRoles } from '../Models/userWithRoles';
 import { User } from '../Models/User';
-import { DataService } from './data.service'
+import { DataService } from '../_services/';
 import { error } from 'protractor';
-import { AlertService } from '../Authentication/alert.service';
+import { AlertService } from '../_services';
 @Component({
   selector: 'app-usersroles',
   templateUrl: './usersRoles.component.html',

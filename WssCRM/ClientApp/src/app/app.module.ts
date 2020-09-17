@@ -33,7 +33,7 @@ import { statisticsComponent } from './statistics/statisticsComponent';
 import { AuthanticationComponent } from './Authentication/Authantication.component';
 import { AlertComponent } from './_components/alert.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { LoaderCompomnent } from './loader'
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +52,8 @@ import { AppRoutingModule } from './app-routing.module';
     AlertComponent,
     AuthanticationComponent,
     UsersRolesComponent,
-    RolesComponent
+    RolesComponent,
+    LoaderCompomnent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

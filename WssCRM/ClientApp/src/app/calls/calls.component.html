@@ -1,99 +1,99 @@
 <h1>Звонки</h1>
+<Loader *ngIf="loading"></Loader>
+<ng-container *ngIf="!loading">
+  <mat-form-field>
+    <mat-label>Выберите компанию</mat-label>
+    <mat-select [(value)]="curFlt.company">
+      <mat-option *ngFor="let c of fltlist.companies"
+                  [value]="c">
+        {{ c.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Выберите компанию</mat-label>
-  <mat-select [(value)]="curFlt.company">
-    <mat-option *ngFor="let c of fltlist.companies"
-                [value]="c">
-      {{ c.name }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Выберите этап</mat-label>
+    <mat-select [(value)]="curFlt.stage">
+      <mat-option *ngFor="let s of curFlt.company.stages"
+                  [value]="s">
+        {{ s.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Выберите этап</mat-label>
-  <mat-select [(value)]="curFlt.stage">
-    <mat-option *ngFor="let s of curFlt.company.stages"
-                [value]="s">
-      {{ s.name }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Выберите менеджера</mat-label>
+    <mat-select [(value)]="curFlt.manager">
+      <mat-option *ngFor="let m of curFlt.company.managers"
+                  [value]="m">
+        {{ m.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Выберите менеджера</mat-label>
-  <mat-select [(value)]="curFlt.manager">
-    <mat-option *ngFor="let m of curFlt.company.managers"
-                [value]="m">
-      {{ m.name }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+  <mat-form-field color="accent">
+    <input matInput [max]="DateEnd" [matDatepicker]="myDatepicker" placeholder="Выберите дату начала" [readonly]="true" [(ngModel)]="DateBegin">
+    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #myDatepicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field color="accent">
+    <input matInput [min]="DateBegin" [matDatepicker]="myDatepicker2" placeholder="Выберите дату окончания" [readonly]="true" [(ngModel)]="DateEnd">
+    <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+    <mat-datepicker #myDatepicker2></mat-datepicker>
+  </mat-form-field>
+  <button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
 
-<mat-form-field color="accent">
-  <input matInput [max] = "DateEnd" [matDatepicker]="myDatepicker" placeholder="Выберите дату начала" [readonly]="true" [(ngModel)] ="DateBegin">
-  <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-  <mat-datepicker #myDatepicker></mat-datepicker>
-</mat-form-field>
-<mat-form-field color="accent">
-  <input matInput [min]="DateBegin" [matDatepicker]="myDatepicker2" placeholder="Выберите дату окончания" [readonly]="true" [(ngModel)]="DateEnd">
-  <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
-  <mat-datepicker #myDatepicker2></mat-datepicker>
-</mat-form-field>
-<button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
+  <table class="table table-striped" *ngIf="callslist; else changecall" style="margin-bottom:30px">
 
-<table class="table table-striped" *ngIf="callslist; else changecall" style="margin-bottom:30px">
+    <thead>
+      <tr>
+        <th>№</th>
+        <th>Клиент</th>
+        <th>Этап</th>
+        <th>Менеджер</th>
+        <th>Дата</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
 
-  <thead>
-    <tr>
-      <th>№</th>
-      <th>Клиент</th>
-      <th>Этап</th>
-      <th>Менеджер</th>
-      <th>Дата</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    
-    <tr *ngFor="let c of calls; let i = index">
-      <td>
-        {{i+1 + (curFlt.pageNumber - 1) * 20}}
-      </td>
-      <td>{{c.clientName}}</td>
-      <td>
-        <div *ngFor="let s of c.stages">
-          {{s.name}}
-        </div>
-      </td>
-      <td>{{c.manager.name}}</td>
-      <td>
-        <mat-form-field class="fullwidth">
-          <input matInput [matDatepicker]="mymatdate" placeholder="Дата звонка" [readonly]="true" [(ngModel)]="c.date">
-          <mat-datepicker #mymatdate></mat-datepicker>
-        </mat-form-field>
-      </td>
-      <td>
-        <!--<button class="btn btn-sm btn-primary" [routerLink]="['/call', c.id]" >Перейти к звонку</button>-->
-        <button class="btn btn-sm btn-primary" (click)="OpenCall(c.id)">Перейти к звонку</button>
-      </td>
-    </tr>
-  </tbody>
+      <tr *ngFor="let c of calls; let i = index">
+        <td>
+          {{i+1 + (curFlt.pageNumber - 1) * 20}}
+        </td>
+        <td>{{c.clientName}}</td>
+        <td>
+          <div *ngFor="let s of c.stages">
+            {{s.name}}
+          </div>
+        </td>
+        <td>{{c.manager.name}}</td>
+        <td>
+          <mat-form-field class="fullwidth">
+            <input matInput [matDatepicker]="mymatdate" placeholder="Дата звонка" [readonly]="true" [(ngModel)]="c.date">
+            <mat-datepicker #mymatdate></mat-datepicker>
+          </mat-form-field>
+        </td>
+        <td>
+          <!--<button class="btn btn-sm btn-primary" [routerLink]="['/call', c.id]" >Перейти к звонку</button>-->
+          <button class="btn btn-sm btn-primary" (click)="OpenCall(c.id)">Перейти к звонку</button>
+        </td>
+      </tr>
+    </tbody>
 
-</table>
-<div class="footer" >
-  <ngb-pagination [(page)]="curFlt.pageNumber"
-                  [pageSize]="20"
-                  [collectionSize]="pageSize * 20"
-                  (pageChange)="pageChanged()"
-                  [maxSize]="3"
-                  [rotate]="true"
-                  >
-                  
-  </ngb-pagination>
-</div>
+  </table>
+  <div class="footer">
+    <ngb-pagination [(page)]="curFlt.pageNumber"
+                    [pageSize]="20"
+                    [collectionSize]="pageSize * 20"
+                    (pageChange)="pageChanged()"
+                    [maxSize]="3"
+                    [rotate]="true">
+
+    </ngb-pagination>
+  </div>
   <ng-template #changecall>
     <button class="btn btn-sm btn-primary" (click)="returnCalls()">Вернуться ко всем звонкам</button>
     <app-call [call]="call"></app-call>
   </ng-template>
-
+</ng-container>

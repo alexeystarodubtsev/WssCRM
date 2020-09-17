@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataService } from './data-service';
+import { DataService } from '../_services/';
 import { Call } from '../Models/Call';
 import { ActivatedRoute } from '@angular/router';
 import { Filter } from '../Models/Filter';

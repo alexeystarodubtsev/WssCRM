@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
-import { DataService } from './data-service';
+import { DataService } from '../_services/';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MY_FORMATS } from '../calls/calls.component'
@@ -55,7 +55,7 @@ export class statisticsComponent implements OnInit {
     this.curFlt.StartDate = this.DateBegin;
     this.curFlt.EndDate = this.DateEnd;
 
-    this.dataService.getCalls(this.curFlt)
+    this.dataService.getCallsForStatistic(this.curFlt)
       .subscribe((data: StatisticStage[]) => {
         this.StatisticsStages = data;
         this.curStage = data[0].stageName;

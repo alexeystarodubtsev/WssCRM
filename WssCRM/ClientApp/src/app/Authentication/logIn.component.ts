@@ -3,11 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AccountService } from './account.service';
+import { DataService } from '../_services/';
 
-import { AlertService } from './alert.service';
+import { AlertService } from '../_services';
 
-@Component({ templateUrl: 'login.component.html' })
+@Component({
+  templateUrl: 'login.component.html',
+  providers: [DataService] })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
@@ -18,7 +20,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: AccountService,
+    private accountService: DataService,
     private alertService: AlertService
   ) {
     // redirect to home if already logged in
@@ -59,7 +61,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
       error => {
-        console.log("error111");
+        console.log("something went wrong...");
         this.alertService.error(JSON.stringify(error));
           this.loading = false;
         });

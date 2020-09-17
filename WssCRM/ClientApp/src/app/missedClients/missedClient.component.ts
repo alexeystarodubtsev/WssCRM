@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from './data-service';
+import { DataService } from '../_services/';
 import { Call } from '../Models/Call';
 import { Filter } from '../Models/Filter';
 import { ChoseFilter } from '../Models/ChoseFilter';
@@ -55,7 +55,7 @@ export class missedClientComponent implements OnInit{
 
   getCalls() {
     this.processCalls = true;
-    this.dataService.getCalls(this.curFlt)
+    this.dataService.getMissedCalls(this.curFlt)
       .subscribe((data: PartialMissedCalls) => {
         this.processCalls = false;
         this.calls = data.calls;

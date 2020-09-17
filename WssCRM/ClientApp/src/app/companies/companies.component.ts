@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from './data-service';
+import { DataService } from '../_services/';
 import { Company } from '../Models/Company';
 import { Stage } from '../Models/Stage';
 import { error } from '@angular/compiler/src/util';
@@ -117,7 +117,7 @@ export class CompaniesComponent implements OnInit {
     modalRef.componentInstance.question = 'Вы уверены, что хотите безвозвратно удалить компанию со всеми звонками?';
     modalRef.result.then((result) => {
       if (result && result == 'Ok click') {
-        this.dataService.delete(this.curCompany.id).subscribe(data => {
+        this.dataService.deleteCompany(this.curCompany.id).subscribe(data => {
           console.log(data);
           this.loadCompanies();
           this.tableMode = true;

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataService } from './data-service';
+import { DataService } from '../_services/';
 import { Call } from '../Models/Call';
 import { ActivatedRoute } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
@@ -110,7 +110,7 @@ export class  CallComponent implements OnInit {
     modalRef.componentInstance.question = 'Вы уверены, что хотите безвозвратно удалить звонок?';
     modalRef.result.then((result) => {
       if (result && result == 'Ok click') {
-        this.dataService.delete(this.call.id).subscribe(data => {
+        this.dataService.deleteCall(this.call.id).subscribe(data => {
           window.close();
         },
           err => {
