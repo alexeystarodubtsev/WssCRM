@@ -1,46 +1,8 @@
 <h1>Звонки</h1>
-<Loader *ngIf="loading"></Loader>
+<Search-Panel [(curFlt)] ="curFlt"></Search-Panel>
+<div>{{name}}</div>
 <ng-container *ngIf="!loading">
-  <mat-form-field>
-    <mat-label>Выберите компанию</mat-label>
-    <mat-select [(value)]="curFlt.company">
-      <mat-option *ngFor="let c of fltlist.companies"
-                  [value]="c">
-        {{ c.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Выберите этап</mat-label>
-    <mat-select [(value)]="curFlt.stage">
-      <mat-option *ngFor="let s of curFlt.company.stages"
-                  [value]="s">
-        {{ s.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Выберите менеджера</mat-label>
-    <mat-select [(value)]="curFlt.manager">
-      <mat-option *ngFor="let m of curFlt.company.managers"
-                  [value]="m">
-        {{ m.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field color="accent">
-    <input matInput [max]="DateEnd" [matDatepicker]="myDatepicker" placeholder="Выберите дату начала" [readonly]="true" [(ngModel)]="DateBegin">
-    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-    <mat-datepicker #myDatepicker></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field color="accent">
-    <input matInput [min]="DateBegin" [matDatepicker]="myDatepicker2" placeholder="Выберите дату окончания" [readonly]="true" [(ngModel)]="DateEnd">
-    <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
-    <mat-datepicker #myDatepicker2></mat-datepicker>
-  </mat-form-field>
   <button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
 
   <table class="table table-striped" *ngIf="callslist; else changecall" style="margin-bottom:30px">

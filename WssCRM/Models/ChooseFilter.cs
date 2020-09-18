@@ -26,5 +26,9 @@ namespace WssCRM.Models
             this.onlyNotProcessed = onlyNotProcessed;
             this.period = period;
         }
+        public ChooseFilter()
+        {
+
+        }
     }
 }

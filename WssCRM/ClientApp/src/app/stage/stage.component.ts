@@ -12,7 +12,7 @@ export class StageComponent implements OnInit {
   MaxPoint: number = 0;
   curPoint: Point = new Point();
 
-  constructor() {  }
+  constructor() { }
   ngOnInit() {
     this.updateTotalData();
   }

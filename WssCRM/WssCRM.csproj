@@ -81,11 +81,14 @@
     <None Remove="ClientApp\src\app\Models\User.ts" />
     <None Remove="ClientApp\src\app\Models\userWithRoles.ts" />
     <None Remove="ClientApp\src\app\NewCall\NewCallComponent.ts" />
+    <None Remove="ClientApp\src\app\SearchPanel\index.ts" />
+    <None Remove="ClientApp\src\app\SearchPanel\search.component.ts" />
     <None Remove="ClientApp\src\app\stage\stage.component.ts" />
     <None Remove="ClientApp\src\app\statistics\statisticsComponent.ts" />
     <None Remove="ClientApp\src\app\_components\alert.component.ts" />
     <None Remove="ClientApp\src\app\_components\index.ts" />
     <None Remove="ClientApp\src\app\_services\data.service.ts" />
+    <None Remove="ClientApp\src\app\_services\date.format.service.ts" />
     <None Remove="ClientApp\src\app\_services\index.ts" />
     <None Remove="wssdb.mdf" />
   </ItemGroup>
@@ -97,6 +100,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\app-routing.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\loader\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\loader\loader.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\SearchPanel\search.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\SearchPanel\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_services\alert.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Authentication\authantication.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Authentication\logIn.component.ts" />
@@ -130,6 +135,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\statistics\statisticsComponent.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_components\alert.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_components\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_services\date.format.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_services\data.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_services\index.ts" />
   </ItemGroup>

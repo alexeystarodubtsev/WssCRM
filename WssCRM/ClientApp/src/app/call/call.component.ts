@@ -4,7 +4,7 @@ import { Call } from '../Models/Call';
 import { ActivatedRoute } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { MY_FORMATS } from '../calls/calls.component';
+import { DateFormat } from '../_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalContent } from '../ModalWindow/ModalWindowComponent';
 import { FormControl } from '@angular/forms';
@@ -13,15 +13,7 @@ import { FormControl } from '@angular/forms';
   selector: 'app-call',
   templateUrl: './call.component.html',
   styleUrls: ['../NewCall/NewCallStyles.css'],
-  providers: [DataService,
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }]
+  providers: [DataService, ...DateFormat]
 })
 export class  CallComponent implements OnInit {
 

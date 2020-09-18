@@ -34,6 +34,7 @@ import { AuthanticationComponent } from './Authentication/Authantication.compone
 import { AlertComponent } from './_components/alert.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoaderCompomnent } from './loader'
+import { SearchComponent } from './SearchPanel'
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +54,8 @@ import { LoaderCompomnent } from './loader'
     AuthanticationComponent,
     UsersRolesComponent,
     RolesComponent,
-    LoaderCompomnent
+    LoaderCompomnent,
+    SearchComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

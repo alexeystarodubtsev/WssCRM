@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
-import { DataService } from '../_services/';
+import { DataService, DateFormat } from '../_services/';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MY_FORMATS } from '../calls/calls.component'
 import { Filter } from '../Models/Filter';
 import { ChoseFilter } from '../Models/ChoseFilter';
 import { StatisticStage } from '../Models/StatisticStage';
@@ -12,16 +11,7 @@ import { TableWithStatistic } from '../Models/TableWithStatistic';
 @Component({
   selector: 'app-statistics',
   templateUrl: './statisticsComponent.html',
-  providers: [DataService,
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
-  ]
+  providers: [DataService, ...DateFormat]
 })
 export class statisticsComponent implements OnInit {
     curFlt: ChoseFilter;

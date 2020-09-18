@@ -1,11 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataService } from '../_services/';
+import { DataService, DateFormat } from '../_services/';
 import { Call } from '../Models/Call';
 import { ActivatedRoute } from '@angular/router';
 import { Filter } from '../Models/Filter';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS, ErrorStateMatcher } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { MY_FORMATS } from '../calls/calls.component';
 import { isNullOrUndefined } from 'util';
 import { FormControl, Validators, NgForm, FormGroupDirective } from '@angular/forms';
 import { Stage } from '../Models/Stage';
@@ -22,16 +21,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-NewCall',
   templateUrl: './NewCallComponent.html',
   styleUrls: ['./NewCallStyles.css'],
-  providers: [DataService,
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
-  ]
+  providers: [DataService, ...DateFormat]
 })
 export class NewCallComponent implements OnInit {
 

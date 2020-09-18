@@ -1,3 +1,4 @@
 import DataService from "./data.service";
 import { AlertService } from "./alert.service";
-export {DataService, AlertService}
+import { DateFormat } from './date.format.service'
+export {DataService, AlertService, DateFormat}

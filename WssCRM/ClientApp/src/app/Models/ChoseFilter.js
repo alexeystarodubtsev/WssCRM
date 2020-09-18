@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Company_1 = require("./Company");
+var forms_1 = require("@angular/forms");
+var _moment = require("moment");
+var moment = _moment;
 var ChoseFilter = /** @class */ (function () {
     function ChoseFilter(company, stage, manager, StartDate, //Date,
     EndDate, //Date
@@ -16,6 +19,8 @@ var ChoseFilter = /** @class */ (function () {
         this.company = new Company_1.Company();
         this.pageNumber = 1;
         this.onlyNotProcessed = true;
+        this.StartDate = new forms_1.FormControl(moment());
+        this.EndDate = new forms_1.FormControl(moment());
     }
     return ChoseFilter;
 }());
