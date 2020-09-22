@@ -57,6 +57,14 @@ namespace WssCRM.Controllers
             }
             return Ok();
         }
+
+        [HttpGet("getallroles")]
+        public  IActionResult GetAllRoles()
+        {
+            var allRoles = _roleManager.Roles.ToList();
+            return Ok(allRoles);
+        }
+
         [HttpGet("edit/{userId}")]
         public async Task<IActionResult> Edit(string userId)
         {

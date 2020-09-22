@@ -28,6 +28,7 @@ export class CompaniesComponent implements OnInit {
   hasErrors: boolean = false;
   processFile: boolean = false;
   processCompany: boolean = false;
+  loading: boolean = true;
   constructor(private dataService: DataService, private modalService: NgbModal) { }
   ngOnInit() {
     this.curCompany.name = "";
@@ -37,6 +38,7 @@ export class CompaniesComponent implements OnInit {
     this.dataService.getCompanies()
       .subscribe((data: Company[]) => {
         this.companies = data;
+        this.loading = false;
       });
   }
   newCompany() {

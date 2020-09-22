@@ -1,10 +1,21 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+<h1>Роли в системе</h1>
 
-</body>
-</html>
+<Loader *ngIf="loading"></Loader>
+<table class="table table-striped" *ngIf="!loading">
+  <tr>
+    <th>
+      Роль
+    </th>
+    <th>
+      Имя роли
+    </th>
+    <th>
+      Описание роли
+    </th>
+  </tr> 
+  <tr *ngFor="let r of roles">
+    <td>{{r.name}}</td>
+    <td>{{r.normalizedName}}</td>
+    <td>Тут должно быть описание</td>
+  </tr>
+</table>

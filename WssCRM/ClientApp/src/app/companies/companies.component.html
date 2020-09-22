@@ -1,3 +1,4 @@
+<Loader *ngIf="loading"></Loader>
 <ng-container *ngIf="tableMode; else changecompany">
   <h1>Компании</h1> <button type="button" class="btn btn-sm btn-success" (click)="newCompany()">Добавить</button>
 
@@ -118,7 +119,7 @@
     </div>
     <div style="margin-top:20px; width : 50%">
 
-      <table class="table table-striped" style="margin-top:20px">
+      <table class="table table-striped" style="margin-top:20px" >
         <thead>
           <tr>
             <th>Порядок этапа</th>

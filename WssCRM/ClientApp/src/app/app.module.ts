@@ -11,8 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { RolesComponent } from './ManageRoles/roles.component';
-import { UsersRolesComponent } from './ManageRoles/usersRoles.component';
+import { RolesComponent, UsersRolesComponent } from "./ManageRoles"
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CallsComponent } from './calls/calls.component'
@@ -34,7 +33,7 @@ import { AuthanticationComponent } from './Authentication/Authantication.compone
 import { AlertComponent } from './_components/alert.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoaderCompomnent } from './loader'
-import { SearchComponent } from './SearchPanel'
+import { SearchComponent } from './SearchPanel';
 @NgModule({
   declarations: [
     AppComponent,

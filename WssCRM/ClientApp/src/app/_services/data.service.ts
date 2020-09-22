@@ -10,6 +10,7 @@ import { UserWithRoles } from '../Models/userWithRoles';
 import { missedCall } from '../Models/missedCall';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { Role } from "../Models/Role";
 
 @Injectable({ providedIn: 'root' })
 export default class DataService {
@@ -103,9 +104,10 @@ export default class DataService {
   public get userValue(): User {
     return this.userSubject.value;
   }
+  
 
   login(username, password) {
-    console.log(username, password);
+    
     return this.http.post<User>(`${this.urlAccount}/login`, { username, password })
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -113,6 +115,12 @@ export default class DataService {
         this.userSubject.next(user);
         return user;
       }));
+  }
+  getRoles() {
+    return this.http.get<Role[]>(`${this.urlRoles}/getallroles`);
+  }
+  createRole(role: Role) {
+    return this.http.post(`${this.urlRoles}/create`, role);
   }
 
   logout() {

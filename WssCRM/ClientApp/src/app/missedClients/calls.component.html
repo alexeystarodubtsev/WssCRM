@@ -1,18 +1,5 @@
 <h1>Звонки</h1>
-
-<mat-form-field>
-  <mat-label>Выберите компанию</mat-label>
-  <mat-select [(value)]="curFlt.company">
-    <mat-option *ngFor="let c of fltlist.companies"
-                [value]="c">
-      {{ c.name }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-<div>
-  <mat-checkbox [(ngModel)]="curFlt.onlyNotProcessed">Только не разобранные с заказчиком</mat-checkbox>
-</div>
-
+<Search-Panel [curFlt]="curFlt" [forLostCustomers]="true"></Search-Panel>
 
 <button type="button" class="btn btn-sm btn-success" (click)="getCalls()">Получить звонки</button>
 <div class="spinner-border" role="status" [style.visibility]="processCalls ? 'visible' : 'hidden'">

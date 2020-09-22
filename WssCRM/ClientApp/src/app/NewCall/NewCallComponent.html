@@ -3,20 +3,21 @@
     Новый звонок
   </h3>
 </div>
-<table class="table table-striped" style="margin-bottom:20px">
+<Loader *ngIf="loading"></Loader>
+<table class="table table-striped" style="margin-bottom:20px" *ngIf="!loading">
   <tbody>
     <tr>
       <td>
-          <mat-form-field class="fullwidth" >
-            <mat-label>Выберите компанию</mat-label>
-            <mat-select [(value)]="call.company" (selectionChange)="Addstage()">
-              <mat-option *ngFor="let c of fltlist.companies"
-                          [value]="c">
-                {{ c.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        
+        <mat-form-field class="fullwidth">
+          <mat-label>Выберите компанию</mat-label>
+          <mat-select [(value)]="call.company" (selectionChange)="Addstage()">
+            <mat-option *ngFor="let c of fltlist.companies"
+                        [value]="c">
+              {{ c.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
       </td>
     </tr>
     <tr>
@@ -29,14 +30,14 @@
     </tr>
     <tr *ngFor="let s of call.stages; let i = index">
       <td>
-        
-          {{s.name}}
-        
-          <button mat-mini-fab color="warn" (click)="deletestage(s)" style="margin-left : 10px">-</button> 
-          <ng-container *ngIf="call.stages.length == i + 1 && stage==null && fltStages.length > 0">
-            <button mat-mini-fab color="accent" style="margin-left : 10px" (click)="Addstage()">+</button>
-          </ng-container>
-     </td>
+
+        {{s.name}}
+
+        <button mat-mini-fab color="warn" (click)="deletestage(s)" style="margin-left : 10px">-</button>
+        <ng-container *ngIf="call.stages.length == i + 1 && stage==null && fltStages.length > 0">
+          <button mat-mini-fab color="accent" style="margin-left : 10px" (click)="Addstage()">+</button>
+        </ng-container>
+      </td>
     </tr>
     <tr *ngIf="stage!=null && call.company.id != undefined">
       <td>
@@ -58,46 +59,46 @@
     </tr>
     <tr>
       <td>
-          <mat-form-field class="fullwidth">
-            <mat-label>Выберите менеджера</mat-label>
-            <mat-select [(value)]="call.manager" [formControl]="ManagerFormControl" [errorStateMatcher]="matcher">
-              <mat-option *ngFor="let m of call.company.managers"
-                          [value]="m">
-                {{ m.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="ManagerFormControl.hasError('required')">
-              Необходимо выбрать менеджера
-            </mat-error>
-          </mat-form-field>
+        <mat-form-field class="fullwidth">
+          <mat-label>Выберите менеджера</mat-label>
+          <mat-select [(value)]="call.manager" [formControl]="ManagerFormControl" [errorStateMatcher]="matcher">
+            <mat-option *ngFor="let m of call.company.managers"
+                        [value]="m">
+              {{ m.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="ManagerFormControl.hasError('required')">
+            Необходимо выбрать менеджера
+          </mat-error>
+        </mat-form-field>
       </td>
     </tr>
     <tr>
       <td>
         <mat-form-field class="fullwidth">
-            <input matInput [matDatepicker]="myDatepicker" [max]="maxDate" placeholder="Выберите дату звонка" [readonly]="true" [(ngModel)]="call.date">
-            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker></mat-datepicker>
-       </mat-form-field>
+          <input matInput [matDatepicker]="myDatepicker" [max]="maxDate" placeholder="Выберите дату звонка" [readonly]="true" [(ngModel)]="call.date">
+          <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #myDatepicker></mat-datepicker>
+        </mat-form-field>
       </td>
     </tr>
     <tr>
       <td>
-          <mat-form-field class="fullwidth">
-            <mat-label>Введите имя клиента</mat-label>
-            <input matInput [formControl]="NameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="call.clientName">
-            <mat-error *ngIf="NameFormControl.hasError('required')">
-              Требуется имя клиента
-            </mat-error>
-          </mat-form-field>
+        <mat-form-field class="fullwidth">
+          <mat-label>Введите имя клиента</mat-label>
+          <input matInput [formControl]="NameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="call.clientName">
+          <mat-error *ngIf="NameFormControl.hasError('required')">
+            Требуется имя клиента
+          </mat-error>
+        </mat-form-field>
       </td>
     </tr>
     <tr>
       <td>
-          <mat-form-field class="fullwidth">
-            <mat-label>Вставьте ссылку на CRM</mat-label>
-            <input matInput type="url" [(ngModel)]="call.clientLink">
-          </mat-form-field>
+        <mat-form-field class="fullwidth">
+          <mat-label>Вставьте ссылку на CRM</mat-label>
+          <input matInput type="url" [(ngModel)]="call.clientLink">
+        </mat-form-field>
       </td>
     </tr>
     <tr>
@@ -106,18 +107,18 @@
       </td>
     </tr>
     <tr>
-    <td>
+      <td>
         <mat-form-field class="fullwidth">
           <mat-label>Длительность</mat-label>
           <input matInput type="time" step="1" [(ngModel)]="call.duration">
           <mat-hint>Введите в формате чч:мм:сс</mat-hint>
         </mat-form-field>
-    </td>
-  </tr>
+      </td>
+    </tr>
   </tbody>
 </table>
-
-<table class="table table-striped" >
+<Loader *ngIf="loadingData"></Loader> 
+<table class="table table-striped" *ngIf="!loadingData && call.stages.length > 0">
   <thead>
     <tr>
       <th>Этап</th>
@@ -156,7 +157,7 @@
   </tbody>
 
 </table>
-<table class="table table-striped" style="margin-bottom:20px">
+<table class="table table-striped" style="margin-bottom:20px" *ngIf="!loadingData && call.stages.length > 0">
   <tbody>
     <tr>
       <td>

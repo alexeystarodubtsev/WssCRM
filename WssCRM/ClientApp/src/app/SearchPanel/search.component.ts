@@ -13,6 +13,8 @@ import { ChoseFilter } from "../Models/ChoseFilter";
 export class SearchComponent implements OnInit {
 
   @Input() curFlt: ChoseFilter;
+  @Input() forStatistic: boolean = false;
+  @Input() forLostCustomers: boolean = false;
   
   loading: boolean = true;
 

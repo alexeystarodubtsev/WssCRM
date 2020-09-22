@@ -13,6 +13,7 @@ export class UsersRolesComponent implements OnInit {
 
   curuser: UserWithRoles;
   users: User[];
+  loading: boolean = true;
   constructor(private dataservice: DataService, private alertService: AlertService) {
   }
   ngOnInit() {
@@ -21,9 +22,11 @@ export class UsersRolesComponent implements OnInit {
   load() {
     this.dataservice.getUsers().subscribe((data: User[]) => {
       this.users = data;
+      this.loading = false;
     },
       error => {
         this.alertService.error(JSON.stringify(error));
+        this.loading = false;
       });
   }
   getUsersRoles(user: User) {

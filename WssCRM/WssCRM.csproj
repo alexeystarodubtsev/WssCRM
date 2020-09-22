@@ -60,6 +60,7 @@
     <None Remove="ClientApp\src\app\companies\companies.component.ts" />
     <None Remove="ClientApp\src\app\loader\index.ts" />
     <None Remove="ClientApp\src\app\loader\loader.component.ts" />
+    <None Remove="ClientApp\src\app\ManageRoles\index.ts" />
     <None Remove="ClientApp\src\app\ManageRoles\roles.component.ts" />
     <None Remove="ClientApp\src\app\ManageRoles\usersRoles.component.ts" />
     <None Remove="ClientApp\src\app\ModalWindow\ModalWindowComponent.ts" />
@@ -100,6 +101,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\app-routing.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\loader\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\loader\loader.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\ManageRoles\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\SearchPanel\search.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\SearchPanel\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_services\alert.service.ts" />

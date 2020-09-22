@@ -31,6 +31,8 @@ export class NewCallComponent implements OnInit {
   fltlist: Filter = new Filter();
   stage: Stage = new Stage();
   fltStages: Stage[] = [];
+  loading: boolean = true;
+  loadingData: boolean = false;
   NameFormControl = new FormControl('',
     [Validators.required]
   );
@@ -53,11 +55,11 @@ export class NewCallComponent implements OnInit {
   }
 
   getNewCall() {
-    
-     
+
+    this.loadingData = true;
       this.dataService.gettemplpoints(this.call)
         .subscribe((data: Call) => {
-          
+          this.loadingData = false;
           this.call.stages = data.stages;
           this.call.correctioncolor = data.correctioncolor;
           if (isNullOrUndefined(this.call.date)) {
@@ -102,6 +104,7 @@ export class NewCallComponent implements OnInit {
     this.dataService.getMeta()
       .subscribe((data: Filter) => {
         this.fltlist = data;
+        this.loading = false;
       });
 
   }

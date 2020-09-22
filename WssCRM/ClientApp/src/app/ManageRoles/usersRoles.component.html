@@ -1,4 +1,5 @@
-<table class="table table-striped">
+<Loader *ngIf="loading"></Loader>
+<table class="table table-striped" *ngIf="!loading">
   <tr>
     <th>
       Пользователь
@@ -18,7 +19,7 @@
       </td>
       <td>
         <button class="btn btn-danger">Удалить</button>
-        <button class="btn btn-primary" (click) ="getUsersRoles(user)">Открыть список ролей</button>
+        <button class="btn btn-primary" (click)="getUsersRoles(user)">Открыть список ролей</button>
       </td>
     </tr>
     <ng-container *ngIf="curuser && user.id == curuser.userId">
